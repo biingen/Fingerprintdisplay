@@ -1,0 +1,806 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SerialCom</name>
+    </assembly>
+    <members>
+        <member name="T:GeneralProtocol.BasicCommand">
+            <summary> 裝置應有的基本通訊命令 </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.cmd_CheckConnect">
+            <summary> 檢測連線狀態 </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.cmd_GetDeviceDescription">
+            <summary> 查詢裝置的內部資訊 </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.cmd_GetDeviceDescription_ACK">
+            <summary> 查詢裝置的內部資訊的ACK </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.idx_GetDeviceDescription_BcdUSB">
+            <summary> 內部資訊中，USB BCD 的位置，L:2Byte </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.idx_GetDeviceDescription_UsbVID">
+            <summary> 內部資訊中，USB VID 的位置，L:2Byte </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.idx_GetDeviceDescription_UsbPID">
+            <summary> 內部資訊中，USB PID 的位置，L:2Byte </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.idx_GetDeviceDescription_FWver">
+            <summary> 內部資訊中，版本號的位置，L:6Byte </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.idx_GetDeviceDescription_SN">
+            <summary> 內部資訊中，裝置序號的位置，L:16Byte </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.idx_GetDeviceDescription_PN">
+            <summary> 內部資訊中，裝置部件號的位置，L:16Byte </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.idx_GetDeviceDescription_Width">
+            <summary> 內部資訊中，Sensor 水平解析度的位置，L:2Byte </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.idx_GetDeviceDescription_Height">
+            <summary> 內部資訊中，Sensor 垂直解析度的位置，L:2Byte </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.len_GetDeviceDescription">
+            <summary> 內部資訊中的資料總長度 </summary>
+        </member>
+        <member name="T:GeneralProtocol.BasicCommand.DeviceDescription">
+            <summary> 裝置資訊清單 </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.DeviceDescription.USB_BCD">
+            <summary> USB BCD code </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.DeviceDescription.USB_VID">
+            <summary> USB Vender ID </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.DeviceDescription.USB_PID">
+            <summary> USB Product ID </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.DeviceDescription.FW_Ver">
+            <summary> Device firmware version </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.DeviceDescription.SN">
+            <summary> Device serial number </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.DeviceDescription.PN">
+            <summary> Device part number </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.DeviceDescription.Width">
+            <summary> Sensor horizontal resolution </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.DeviceDescription.Height">
+            <summary> Sensor vertical resolution </summary>
+        </member>
+        <member name="M:GeneralProtocol.BasicCommand.DeviceDescription.ToString">
+            <summary> 將讀取的裝置資訊轉成字串 </summary>
+        </member>
+        <member name="F:GeneralProtocol.BasicCommand.Mask_ACK">
+            <summary> 表示 ACK 的 bit 所在位置 </summary>
+        </member>
+        <member name="M:GeneralProtocol.BasicCommand.ACK(System.UInt32)">
+            <summary> 檢查一個回應的狀態位元是否是 ACK </summary>
+            <param name="Response">要檢查的回應</param>
+            <returns>ACK ? NAK</returns>
+        </member>
+        <member name="M:GeneralProtocol.BasicCommand.setACK(System.UInt32)">
+            <summary> 將一個命令碼的 ACK 欄位設為 true </summary>
+            <param name="Command">命令碼</param>
+            <returns> 設為 ACK 後的命令碼</returns>
+        </member>
+        <member name="M:GeneralProtocol.BasicCommand.Compare(System.UInt32,System.UInt32)">
+            <summary> 檢查一個回應是否是屬於特定命令碼 </summary>
+            <param name="Response">要檢查的回應</param>
+            <param name="CommandCode">要比對的命令碼</param>
+            <returns>該回應是否屬於該命令</returns>
+        </member>
+        <member name="T:GeneralProtocol.ComportHandle">
+            <summary> 託管 Comport 事件的類別 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.SP">
+            <summary> 系統的 Comport 物件 </summary>
+        </member>
+        <member name="P:GeneralProtocol.ComportHandle.Destination">
+            <summary> 封包識別碼中帶的目標識別訊號 </summary>
+        </member>
+        <member name="P:GeneralProtocol.ComportHandle.Source">
+            <summary> 封包識別碼中帶的來源識別訊號 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.CDC_Buffer">
+            <summary> Comport 的接收緩衝區 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.CDC_Buffer_FS">
+            <summary> Comport 的接收緩衝區 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.CDC_Queue">
+            <summary> 第一步從 SP_Buffer 獲取資料的暫存 Queue，不管 Data 量多大先放在此 Queue 等待處理</summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ListPkgs">
+            <summary> 從 CDC_Buffer_FS 處理完的封包 List </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle._PackageResult">
+            <summary> 從序列找到的當前最後一組收到的有效封包 </summary>
+        </member>
+        <member name="P:GeneralProtocol.ComportHandle.PackageResult">
+            <summary> 從序列找到的當前最後一組收到的有效封包 </summary>
+        </member>
+        <member name="P:GeneralProtocol.ComportHandle.f_bFullSpeed">
+            <summary> 是否進行全速 mode 加快讀取封包 </summary>
+        </member>
+        <member name="P:GeneralProtocol.ComportHandle.Comport_AutoConnect">
+            <summary> 設定計時器時間到以後是否要自動重新連線 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.USB_VCP">
+            <summary> 要過濾 VCP 的管理器
+            <para> 子成員 "VidPid_List" 為要過濾的 VID &amp; PID 清單 </para></summary>
+        </member>
+        <member name="P:GeneralProtocol.ComportHandle.FilterVCP">
+            <summary> 是否要依照設定的 VID &amp; PID 過濾 VCP 清單 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.f_FilterVCP">
+            <summary> 是否要依照設定的 VID &amp; PID 過濾 VCP 清單 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle._nConstWaitMs">
+            <summary> 預設要等待晶片回應的時間，單位 ms </summary>
+        </member>
+        <member name="P:GeneralProtocol.ComportHandle.nConstWaitMs">
+            <summary> 預設要等待晶片回應的時間，單位 ms </summary>
+        </member>
+        <member name="P:GeneralProtocol.ComportHandle.Comport_AutoConnect_Interval">
+            <summary> 計時器的時間間隔, 單位 ms </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.f_AutoConnect_Busy">
+            <summary> 全域狀態旗號，目前 Comport 是否忙碌 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.f_IsConected">
+            <summary> 全域狀態旗號，目前是否已經連結 </summary>
+        </member>
+        <member name="P:GeneralProtocol.ComportHandle.IsConnected">
+            <summary> 目前是否已經連結到一個裝置 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.f_DataRecived">
+            <summary> 全域旗號: comport 接收旗號 
+            <para> 如果 Comport 有收到物件，會將這個旗號立起</para>
+            <para> 需要在處理接收資訊的時候手動清除</para></summary>
+        </member>
+        <member name="P:GeneralProtocol.ComportHandle.AutoDePackage">
+            <summary> 全域設定，表示是否要在 Comport 為非主動狀態下接收到資訊的時候自動解封包並觸發事件 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.f_ActiveSend">
+            <summary> 全域狀態旗號，當主動傳送封包的時候會立起，表示目前有送出動作正在進行，等傳送流程結束後會清除
+            <para>(由發起傳送的人清除)</para></summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.f_Timeout">
+            <summary> 全域狀態旗號，判定是否超時 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.timerAutoConnect">
+            <summary> 自動傳新連線倒數的計時器，預設間隔5秒 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.TimeSpanSW">
+            <summary> 用來計算時間間隔的碼表 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.SerialPortMonitor">
+            <summary> 常駐監聽有無收到資料的迴圈 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.DealData">
+            <summary> 常駐處理 CDC_Queue Data 的 Thread </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.GUI_tsslConnect">
+            <summary> 用來顯示連線狀態的物件 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.GUI_rtbLogWindow">
+            <summary> 用來紀錄 Log 的 RichTextBox </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.GUI_tsmiLink_FilterVCP">
+            <summary> 用來選擇是否使用 VID &amp; PID 過濾出 VCP 的 ToolStripMenuItem </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.GUI_tsmiLink_AutoConnect">
+            <summary> 用來選擇是否自動連線的 ToolStripMenuItem </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.GUI_tsmiLink_Select">
+            <summary> 用來手動選擇連線對象或手動解除連線的 ToolStripMenuItem </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.GUI_mst_Link">
+            <summary> 選擇連線用的兩個 ToolStripMenuItem 所在的 MenuStrip </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.GUI_MainForm">
+            <summary> 外部 GUI 所在的表單 </summary>
+        </member>
+        <member name="T:GeneralProtocol.ComportHandle.PackageReceiveEventHandle">
+            <summary> 結果完成的委派事件，參數傳遞一個結果 </summary>
+        </member>
+        <member name="E:GeneralProtocol.ComportHandle.PackageReceived">
+            <summary> 在開啟自動解封包的情況下收到完整封包時會對外發出的事件訊號
+            <para>同時會帶有解完的封包</para> </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle._nDebugLevel">
+            <summary> Log 目前要顯示的 DebugLevel，會印出大於等於此 Level 的 Log
+            <para>若 nDebugLevel=2, 則等級為 2 或以上的 Log 都會生效</para> </summary>
+        </member>
+        <member name="P:GeneralProtocol.ComportHandle.nDebugLevel">
+            <summary> Log 目前要顯示的 DebugLevel，會印出大於等於此 Level 的 Log
+            <para>若 nDebugLevel=2, 則等級為 2 或以上的 Log 都會生效</para> </summary>
+        </member>
+        <member name="T:GeneralProtocol.ComportHandle.LogReceivedEventHandle">
+            <summary> 結果完成的委派事件，參數傳遞兩個結果 </summary>
+            <param name="type">Log 的種類</param>
+            <param name="Log">Log 的文字</param>
+        </member>
+        <member name="E:GeneralProtocol.ComportHandle.LogReceived">
+            <summary> 產生 Log 後的對外發出的事件訊號 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.GuiString.String_Checked">
+            <summary> 物件選取時的核取勾勾 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.GuiString.String_ComportFilter">
+            <summary> 是否要過濾 VCP 的選單文字 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.GuiString.String_AutoConnect">
+            <summary> 是否要自動連線的選單文字 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.GuiString.String_Connect">
+            <summary> 連線成功時顯示的字串 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.GuiString.String_Unconnect">
+            <summary> 未連線時顯示的字串 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.GuiString.String_Disconnect">
+            <summary> 斷線時顯示的字串 </summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.#ctor">
+            <summary> 初始化託管 Comport 事件的類別 </summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.#ctor(System.Byte,System.Byte)">
+            <summary> 初始化託管 Comport 事件的類別，並指定封包中夾帶的識別訊號 </summary>
+            <param name="Destination_ID"> 傳送封包的時候，要夾帶的"目標裝置識別號" </param>
+            <param name="Source_ID"> 傳送封包的時候，要夾帶的"本機裝置識別號" </param>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.Finalize">
+            <summary> 解構子 </summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.Dispose">
+            <summary> 解構物件 </summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.ComportInitial">
+            <summary> 初始化Comport <para>建立 Comport 物件並註冊接收事件 </para> 
+            <para> 如果 Comport 已經存在，會先把它關閉並釋放 </para></summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.Set_GUI(System.Windows.Forms.Form,System.Windows.Forms.RichTextBox,System.Object,System.Windows.Forms.ToolStripMenuItem,System.Windows.Forms.ToolStripMenuItem,System.Windows.Forms.ToolStripMenuItem,System.Windows.Forms.MenuStrip)">
+            <summary> 設定 GUI 助手要協助處理的 GUI，同時會依據目前的環境參數更新這些 GUI </summary>
+            <param name="MainForm">外部 GUI 所在的表單，可以是 null</param>
+            <param name="LogWindow">用來紀錄 Log 的 RichTextBox，可以是 null</param>
+            <param name="ConnectStatus">用來顯示連線狀態的物件，需具有名為 "Text" 的成員<para>可以是 null</para></param>
+            <param name="Link_FilterVCP">用來選擇是否使用 VID &amp; PID 過濾出 VCP 的 ToolStripMenuItem，可以是 null</param>
+            <param name="Link_AutoConnect">用來選擇是否自動連線的 ToolStripMenuItem，可以是 null</param>
+            <param name="Link_Select">用來手動選擇連線對象或手動解除連線的 ToolStripMenuItem，可以是 null</param>
+            <param name="Link">選擇連線用的兩個 ToolStripMenuItem 所在的 MenuStrip，可以是 null</param>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.ComportUiUpdate(System.Boolean)">
+            <summary> 依照傳入的布林值決定是否啟動自動重新連線的計時器，並更新下拉式選單的 GUI </summary>
+            <param name="EnableAutoConnect"> 是否啟動自動重新連線 </param>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.VcpComportUiUpdate(System.Boolean)">
+            <summary> 依照傳入的布林值更新是否使用 VID &amp; PID 過濾出 VCP 的 GUI </summary>
+            <param name="EnableVcpFilter"> 是否使用 VID &amp; PID 過濾出 VCP </param>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.tsmiLink_FilterVCP_Click(System.Object,System.EventArgs)">
+            <summary> 使用者按下 GUI 的 "VCP Filter"選項
+            <para>會將 FilterVCP 的設定做反向的動作並更新 GUI 顯示</para> </summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.tsmiLink_AutoConnect_Click(System.Object,System.EventArgs)">
+            <summary> 使用者按下 GUI 的 "AutoConnect"選項
+            <para>會將 ComPort_AutoConnect 的設定做反向的動作並更新 GUI 顯示</para>
+            <para>如果更新後的值是 true，會立即觸發一次偵測</para></summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.tsmiLink_Select_Paint(System.Object,System.Windows.Forms.PaintEventArgs)">
+            <summary> "手動選擇 Comport" 的選單被系統呼叫的時候，要將目前系統上所有的 Comport 全部列出在 GUI 選單的子清單中
+            <para>同時將目前使用的 Comport 標記為不同顏色</para> </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ComportBackup_List">
+            <summary> 備份目前系統 Comport 環境的 "可用 Comport 清單" </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ComportBackup_Linked">
+            <summary> 備份目前系統 Comport 使用狀態的 "當前是否連結正常?" </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ComportBackup_Name">
+            <summary> 備份目前系統 Comport 使用狀態的 "當前使用的 Comport" </summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.ComPortList_Refresh">
+            <summary> 將下拉選單中的 Comport 清單更新為目前系統中所有的 Comport 的清單 </summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.Log_Print(LogMessage.Type,System.String)">
+            <summary> 將傳入的字串加上時間和種類顯示於訊息紀錄上，透過 LogReceived Event 發出 </summary>
+            <param name="type"> 要顯示的訊息種類 </param>
+            <param name="Message"> 要被顯著標示的訊息字串 </param>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.timerAutoConnect_Tick(System.Object,System.EventArgs)">
+            <summary> 自動重新連線的計時器溢位事件
+            <para>會呼叫 ManualConnect 函式，逐一對系統上的所有 Comport 偵測裝置所在地</para> </summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.AutoDetectionConnect">
+            <summary> 以 ManualConnect 方法從目前的可用 Comport 清單中尋找裝置所在位置
+            <para> 如果有找到，直接建立連線並返回 true </para>
+            <para> 如果不存在，重新初始化 Comport 物件 </para> </summary>
+            <returns> 是否有找到裝置並建立連線 </returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.ManualConnect(System.String,System.String@)">
+            <summary> 使用指定的 PortName 發出 "Check connect" 的命令，測試連線是否還正常 
+            <para>如果連線正常，就使用 "Read DeviceDescription" 命令讀回 DeviceDescription 版本並回傳 </para></summary>
+            <param name="PortName"> 要測試的 Comport 名稱 </param>
+            <param name="Information"> 讀回的 DeviceDescription<para>如果沒讀到，則會回傳空字串</para>
+            <para>如果讀取過程發生任何問題，這個字串會變成問題回報的資訊字串</para> </param>
+            <returns> 連線是否存在 </returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.ManualConnect(System.String)">
+            <summary> 使用指定的 PortName 發出 "Check connect" 的命令，測試連線是否還正常 
+            <para>如果連線正常，就使用 "Read DeviceDescription" 命令讀回 DeviceDescription 版本，並加入到 Log 中 </para>
+            <para>如果發生問題，則顯示問題回報視窗</para></summary>
+            <param name="PortName"> 要測試的 comport 名稱 </param>
+            <returns> 連線是否存在 </returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.ForceConnect">
+            <summary> 跳過通訊測試，強制開啟目前清單中第一個可用的通訊埠 </summary>
+            <returns> 若沒有任何通訊埠可開啟，回傳 false </returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.ForceConnect(System.String)">
+            <summary> 跳過通訊測試，強制開啟指定的的通訊埠 </summary>
+            <param name="ComportName">指定開啟的 comport 名稱</param>
+            <returns> 若沒有任何通訊埠可開啟，回傳 false </returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.SendBytes(System.Byte[])">
+            <summary> 將指定的 byte 陣列直接送出，並回傳是否傳送成功 </summary>
+            <param name="Package"> 要送出的 byte 陣列</param>
+            <returns> 是否傳送成功 </returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.SendPackage_and_Log(System.UInt32,System.Collections.Generic.List{System.Byte[]},System.String,System.String,System.Int32)">
+            <summary> 依照傳入的等待時間等待回應，呼叫 SendPackage 將封包送出去，並在 Log 視窗顯示傳送的過程 </summary>
+            <param name="PackageCommandCode"> 要傳送的命令 </param>
+            <param name="Data"> 要帶的資料，可以為 null </param>
+            <param name="CommandName"> 在 Log 視窗顯示的命令名稱 </param>
+            <param name="SuccessfulInformation"> 傳送成功後要顯示在 Log 視窗的資訊<para>如果是空字串，就不顯示完成的資訊</para></param>
+            <param name="WaitTime"> 等待回應的時間，單位 ms ，如果為小於 0，則只發送不等待回應</param>
+            <returns> 是否傳送成功且收到 ACK 封包 </returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.SendPackage_and_Log(System.UInt32,System.Collections.Generic.List{System.Byte[]},System.String,System.String)">
+            <summary> 呼叫 SendPackage 將封包送出去，並在 Log 視窗顯示傳送的過程
+            <para> 等待回應的時間則由 _nConstWaitMs 參數預設 </para> </summary>
+            <param name="PackageCommandCode"> 要傳送的命令 </param>
+            <param name="Data"> 要帶的資料，可以為 null </param>
+            <param name="CommandName"> 在 Log 視窗顯示的命令名稱 </param>
+            <param name="SuccessfulInformation"> 傳送成功後要顯示在 Log 視窗的資訊<para>如果是空字串，就不顯示完成的資訊</para></param>
+            <returns> 是否傳送成功且收到 ACK 封包 </returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.SendAckPackage_and_Log(System.UInt32,System.Collections.Generic.List{System.Byte[]},System.String)">
+            <summary> 呼叫 SendPackage 將 ACK 封包送出去且不等待回應
+            <para> 同時在 Log 視窗顯示傳送的過程</para> </summary>
+            <param name="PackageCommandCode">要回應 ACK 的命令</param>
+            <param name="Data"> 要帶的資料，可以為 null</param>
+            <param name="CommandName"> 在 Log 視窗顯示的命令名稱</param>
+            <returns>是否傳送成功</returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.CheckConnect">
+            <summary> 直接朝目前的 Comport 送出 "check connect" 的命令，確認連結是否還存在 </summary>
+            <returns> 晶片是否還有回應 </returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.ReadDeviceDescription(GeneralProtocol.BasicCommand.DeviceDescription@)">
+            <summary> 如果連線存在，向 device 要求並取得裝置資訊 
+            <para> 如果回傳 null，表示裝置沒有回應 </para></summary>
+            <returns>裝置資訊清單</returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.Disconnect">
+            <summary> 手動解除連線，會將 Comport 關閉並設定全域旗號 </summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.Disconnect_Click(System.Object,System.EventArgs)">
+            <summary> 手動解除連線，會將 Comport 關閉並設定全域旗號
+            <para>將這個事件跟全域的 GUI 連結</para> </summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.ComPortSelect_Click(System.Object,System.EventArgs)">
+            <summary> 使用者從下拉選單按下一個 Comport 物件後要執行的事情
+            <para> 會關閉當前連線，然後重新連向新的(使用者新指定的) Comport  </para> </summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.SP_DataReceived(System.Object,System.IO.Ports.SerialDataReceivedEventArgs)">
+            <summary> 系統的 Comport 事件，接收到資料的時候會觸發
+            <para> 直接將新收到的資料讀取到全域資料欄位"CDC_Buffer: FIFO"中 </para>
+            <para> 如果有開啟自動解封包，在收到資料後就會嘗試藉封包，並在成功解出封包的時候觸發事件 </para> </summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.SerialPortMonitorThread">
+            <summary> 監聽 Comport 有無收到資料的事件，會永遠執行 </summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.DealDataThread">
+            <summary> 監聽 CDC_Queue 有無收到資料的事件，會永遠執行 </summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.WaitCdcData(System.Int32)">
+            <summary> 依照傳入的時間參數等待幾個 ms
+            <para>期間如果收到晶片回應，就直接返回 true</para>
+            <para>如果沒收到回應，表示晶片超時沒有回應，回傳 false</para> </summary>
+            <param name="WaitMS"> 要等但多少 ms </param>
+            <returns> 晶片是否有回應 </returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.WaitComPortRecived">
+            <summary> 依照全域旗號 f_Timeout 以及 f_DataRecived 無限等待的迴圈
+            <para>只要 Comport 還沒收到資料，或還沒發生 Timeout，這個 Task 就會停留在這裡 </para></summary>
+            <returns></returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.WaitComPortPackageRecived">
+            <summary> 依照全域旗號 f_Timeout 以及 f_DataRecived 無限等待的迴圈
+            <para>只要 Comport 還沒收到資料，或還沒發生 Timeout，這個 Task 就會停留在這裡 </para></summary>
+            <returns></returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportHandle.RunTaskWithTimeout``1(System.Func{``0},System.Int32)">
+            <summary>
+            Generic method to run a task on a background thread with a specific timeout, if the task fails,
+            notifies a user
+            </summary>
+            <typeparam name="T">Return type of function</typeparam>
+            <param name="TaskAction">Function delegate for task to perform</param>
+            <param name="TimeoutMSeconds">Time to allow before task times out, unit is milliseconds</param>
+            <returns></returns>
+        </member>
+        <member name="T:GeneralProtocol.ComportHandle.ErrorCode">
+            <summary> API 定義的 Error Code List </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_STATUS_OK">
+            <summary> Function completed successfully. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_FLASH_INITIAL">
+            <summary> Flash initial success. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_FLASH_START">
+            <summary> Flash start success. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_FLASH_ERASING">
+            <summary> Flash erasing success. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_FLASH_WRITING">
+            <summary> Flash writing success. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_FLASH_READING">
+            <summary> Flash reading success. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_FLASH_POLLING_ERASE">
+            <summary> Flash polling erase success. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_FLASH_POLLING_WRITE">
+            <summary> Flash polling write success. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_FLASH_COMPLETED">
+            <summary> Flash completed. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_INVALID_PARAM_VALUE">
+            <summary> Invalid parameter value. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_MEM_ALLOC">
+            <summary> Insufficient memory. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_NOT_SUPPORTED">
+            <summary> Requested functionality isn't supported. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_FILE_OPEN">
+            <summary> File (USB handle, pipe, or image file) open failed. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_FILE_READ">
+            <summary> File (USB handle, pipe, or image file) read failed. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_RESOURCE_LOCKED">
+            <summary> Failure due to a locked resource. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_MISSING_RESOURCE">
+            <summary> Failure due to a missing resource (e.g. DLL file). </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_INVALID_ACCESS_POINTER">
+            <summary> Invalid access pointer address. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_THREAD_CREATE">
+            <summary> Thread creation failed. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_COMMAND_FAILED">
+            <summary> Generic command execution failed. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_LIBRARY_UNLOAD_FAILED">
+            <summary> The library unload failed. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_TIMEOUT">
+            <summary> Send command success but waiting FW timeout. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_ROIC_SET_GET_NOT_MATCH">
+            <summary> Send command success, ROIC stream set on but get off. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_ROIC_ALREADY_ON">
+            <summary> ROIC stream ALREADY on. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_CHANNEL_IO_COMMAND_FAILED">
+            <summary> Command execution failed. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_CHANNEL_IO_READ_FAILED">
+            <summary> Input communication failed. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_CHANNEL_IO_WRITE_FAILED">
+            <summary> Output communication failed. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_CHANNEL_IO_READ_TIMEOUT">
+            <summary> Input command execution timed out, but device communication is alive. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_CHANNEL_IO_WRITE_TIMEOUT">
+            <summary> Output command execution timed out, but device communication is alive. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_CHANNEL_IO_UNEXPECTED_FAILED">
+            <summary> Unexpected communication failed. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_CHANNEL_IO_INVALID_HANDLE">
+            <summary> I/O handle state is invalid; reinitialization (close then open) required. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_CHANNEL_IO_WRONG_PIPE_INDEX">
+            <summary> I/O pipe index is invalid; reinitialization (close then open) required. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_CHANNEL_IO_NAK">
+            <summary> Send command success but NAK return. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_CHANNEL_IO_SET_VALUE_NOT_MATCH">
+            <summary> Send command success and got ACK, but ACK value not match with set value. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_DEVICE_IO">
+            <summary> Device communication failed; Confirm the connection status and re-execute the function </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_DEVICE_NOT_FOUND">
+            <summary> No device is detected/active. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_DEVICE_NOT_MATCHED">
+            <summary> No matching device is detected. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_DEVICE_NOT_ISOC_ENDPT">
+            <summary> Device isochronal endpoint is invalid. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_DEVICE_ACTIVE">
+            <summary> Initialization failed because it is in use by another thread/process. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_DEVICE_NOT_INITIALIZED">
+            <summary> Device needs to be initialized. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_DEVICE_INVALID_STATE">
+            <summary> Device state is invalid; reinitialization (exit then initialization) required. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_DEVICE_BUSY">
+            <summary> Another thread is currently using device functions; Stop other function and re-execute the function. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_DEVICE_NOT_SUPPORTED_FEATURE">
+            <summary> No hardware support for requested function. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_INVALID_LICENSE">
+            <summary> The license is invalid or does not match to the device. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_DEVICE_ENABLED_POWER_SAVE_MODE">
+            <summary> Device is enabled the power save mode. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_ERR_DEVICE_NEED_UPDATE_FIRMWARE">
+            <summary> Need to update firmware. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_FRAME_READY">
+            <summary> Frame ready to show. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_FRAME_PROCESSING">
+            <summary> Frame is processing. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_FRAME_STOP_CAPTURE">
+            <summary> Capture frame thread is stoped. </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportHandle.ErrorCode.FP_FRAME_SECTION_ERROR">
+            <summary> Frame section error, check response of data length, section number, colordepth not match. </summary>
+        </member>
+        <member name="T:GeneralProtocol.ComportProtocol">
+            <summary> 依照定義打包封包以及解封包的函式庫 </summary>
+        </member>
+        <member name="T:GeneralProtocol.ComportProtocol.Const">
+            <summary> 傳輸協定的固定參數 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportProtocol.Const.Command_Package_MinLength">
+            <summary> 協定中，封包的 header、tail、Command Code、CRC and size 等欄位的大小總和，也就是一個封包至少會有的大小 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportProtocol.Const.Command_Package_Headers_MinLength">
+            <summary> 協定中，封包的 SOH、header、destination、source、msg Length 欄位的大小總和，也就是 SOH 至 msg Length 至少會有的大小 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportProtocol.Const.pkg_SohHeader">
+            <summary> 協定中，封包的 SOH + header </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportProtocol.Const.pkg_SohHeaders">
+            <summary> 協定中，封包的 SOH + header </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportProtocol.Const.pkg_Len_idx">
+            <summary> 協定中，封包的 length 欄位的位置 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportProtocol.Const.pkg_Tail">
+            <summary> 協定中，封包的結尾 (CR) </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportProtocol.Const.pkg_STX">
+            <summary> 協定中，封包的 STX </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportProtocol.Const.pkg_STX_idx">
+            <summary> 協定中，封包的 STX 位置 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportProtocol.Const.pkg_ETX">
+            <summary> 協定中，封包的 tail </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportProtocol.Const.pkg_Destination_idx">
+            <summary> 協定中，封包的 Destination 欄位的位置 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportProtocol.Const.pkg_Source_idx">
+            <summary> 協定中，封包的 Source 欄位的位置 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportProtocol.Const.pkg_Command_idx">
+            <summary> 協定中，封包的 Command 欄位的起始位置 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportProtocol.Const.pkg_Data_idx">
+            <summary> 協定中，封包的 Data 欄位的起始位置 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportProtocol.Const.MaxDataLength">
+            <summary> 協定中，封包的資料長度上限 </summary>
+        </member>
+        <member name="F:GeneralProtocol.ComportProtocol.Const.pkg_CrcStart">
+            <summary> 協定中，要開始計算 CRC 的第一個位置 </summary>
+        </member>
+        <member name="M:GeneralProtocol.ComportProtocol.DePackage(GeneralProtocol.FIFO,GeneralProtocol.Package@)">
+            <summary> 依照傳輸協議的封包格式嘗試解封包
+            <para>會從傳入的資料依序尋找有效封包，如果有找到，就把該封包以前的資料全部清空，但保留該封包以後的資料</para>
+            <para>解出的有效封包會放在參考變數 PackageResult 中 </para> </summary>
+            <param name="DataArray"> 要嘗試解封包的資料 </param>
+            <param name="PackageResult"> 如果有解包成功，會將解出來的封包資訊存放在這 </param>
+            <returns>是否有找到有效封包</returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportProtocol.Package(System.UInt32,System.Collections.Generic.List{System.Byte[]},System.Byte,System.Byte)">
+            <summary> 將傳入的 CommandCode 以及資料清單依照傳輸協議打包成封包
+            <para> header、tail、CRC and size 等欄位會自動填入 </para> </summary>
+            <param name="CommandCode">要送出的命令碼</param>
+            <param name="Data"> 要傳送的資料清單，清單內每一筆都是 byte 陣列<para>可以是 null</para></param>
+            <param name="Destination">接收者</param>
+            <param name="Source">發送者</param>
+            <returns> 打包好的封包 </returns>
+        </member>
+        <member name="M:GeneralProtocol.ComportProtocol.DePackageToList(GeneralProtocol.FIFO,System.Collections.Generic.List{GeneralProtocol.Package}@)">
+            <summary> 依照傳輸協議的封包格式嘗試解封包
+            <para>會從傳入的資料依序尋找有效封包，如果有找到，就把該封包以前的資料全部清空，但保留該封包以後的資料</para>
+            <para>解出的有效封包會放在參考變數 PackageResult 中 </para> </summary>
+            <param name="DataArray"> 要嘗試解封包的資料 </param>
+            <param name="PackageResultList"> 如果有解包成功，會將解出來的全部封包資訊存放在這個 List 中 </param>
+            <returns>是否有找到有效封包</returns>
+        </member>
+        <member name="T:GeneralProtocol.Package">
+            <summary> 封包資訊 </summary>
+        </member>
+        <member name="P:GeneralProtocol.Package.CommandCode">
+            <summary> 目前封包的 command code </summary>
+        </member>
+        <member name="P:GeneralProtocol.Package.DataLength">
+            <summary> 目前封包的資料欄位的大小 </summary>
+        </member>
+        <member name="P:GeneralProtocol.Package.Data">
+            <summary> 目前封包的資料 </summary>
+        </member>
+        <member name="P:GeneralProtocol.Package.Source">
+            <summary> 目前封包的發送者 </summary>
+        </member>
+        <member name="P:GeneralProtocol.Package.Destination">
+            <summary> 目前封包的收信人 </summary>
+        </member>
+        <member name="T:GeneralProtocol.FIFO">
+            <summary> 環形接收緩衝區 </summary>
+        </member>
+        <member name="F:GeneralProtocol.FIFO.MaxSize">
+            <summary> 緩衝區的大小 </summary>
+        </member>
+        <member name="P:GeneralProtocol.FIFO.Start">
+            <summary> 目前緩衝區還沒被讀取的資料起點 </summary>
+        </member>
+        <member name="P:GeneralProtocol.FIFO.End">
+            <summary> 目前緩衝區有效資料的結尾 </summary>
+        </member>
+        <member name="P:GeneralProtocol.FIFO.Data">
+            <summary> 緩衝區資料 </summary>
+        </member>
+        <member name="M:GeneralProtocol.FIFO.Clear">
+            <summary> 將緩衝區所有資料清空為 0，並將兩個指標重設回起點 </summary>
+        </member>
+        <member name="M:GeneralProtocol.FIFO.Dispose">
+            <summary> 解構物件 </summary>
+        </member>
+        <member name="M:GeneralProtocol.FIFO.Finalize">
+            <summary> 解構子 </summary>
+        </member>
+        <member name="T:CRC.CRC32">
+            <summary> CRC32 的定義 </summary>
+        </member>
+        <member name="F:CRC.CRC32.Key">
+            <summary> 計算 CRC 的 Key </summary>
+        </member>
+        <member name="P:CRC.CRC32.Start">
+            <summary> 預設的 CRC 計算起點 </summary>
+        </member>
+        <member name="F:CRC.CRC32.CRC32_Table">
+            <summary> 查表法計算 CRC-32/MPEG-2 的表 </summary>
+        </member>
+        <member name="M:CRC.CRC32.#ctor">
+            <summary> 動態建立查表法計算 CRC 的表，目前配合硬體使用 256 的長度，因此算出的CRC有效位只有 CRC8 </summary>
+        </member>
+        <member name="M:CRC.CRC32.GetCRC32(System.UInt32,System.Byte[],System.Int32,System.Int32)">
+            <summary> 查表法計算 CRC32，目前配合硬體使用 256 的長度，因此算出的CRC有效位只有 CRC8，其餘欄位會是 0 </summary> 
+            <param name="Start">CRC 計算的起點</param>
+            <param name="Input">要計算 CRC 的資料</param>
+            <param name="StartIndex">要從資料的哪裡開始計算</param>
+            <param name="Size">要計算的長度</param>
+            <returns> CRC-32/MPEG-2，驗證可到 https://crccalc.com/ </returns>
+        </member>
+        <member name="T:SerialCom.USB_VCP">
+            <summary> 使用 VID 及 PID 管理 USB VCP 的類別 </summary>
+        </member>
+        <member name="P:SerialCom.USB_VCP.VidPid_List">
+            <summary> 要過濾 VCP 的 USB PID &amp; VID 清單, 必須是 hex string </summary>
+        </member>
+        <member name="M:SerialCom.USB_VCP.#ctor">
+            <summary> 使用 VID 及 PID 管理 USB VCP 的類別 </summary>
+        </member>
+        <member name="M:SerialCom.USB_VCP.Finalize">
+            <summary> 解構子 </summary>
+        </member>
+        <member name="M:SerialCom.USB_VCP.Dispose">
+            <summary> 解構物件 </summary>
+        </member>
+        <member name="M:SerialCom.USB_VCP.GetVCPbyVidPid">
+            <summary> 透過 windows 的註冊表，依照目前的實體 VID 及 PID 清單找出目前系統上的所有 USB comport 清單 </summary>
+            <returns>所找到的符合 VID PID 的 comport 清單</returns>
+        </member>
+        <member name="M:SerialCom.USB_VCP.GetVCPbyVidPid(System.String,System.String)">
+            <summary> 透過 windows 的註冊表，依照指定的 VID 及 PID 找出目前系統上的所有 USB comport 清單 </summary>
+            <param name="VID">vendor id, 格式需為四位滿數字的 Hex string </param>
+            <param name="PID">product id, 格式需為四位滿數字的 Hex string </param>
+            <returns>所找到的符合 VID PID 的 comport 清單</returns>
+        </member>
+        <member name="M:SerialCom.USB_VCP.VidPid_List_Add(SerialCom.USB_VidPid)">
+            <summary> 將一個 VID &amp; PID 組合加入到過濾清單
+            <para>如果清單內已經有了，則不會執行</para></summary>
+            <param name="item"> 要加入的 VID &amp; PID 組合</param>
+        </member>
+        <member name="M:SerialCom.USB_VCP.VidPid_List_Remove(SerialCom.USB_VidPid)">
+            <summary> 將一個 VID &amp; PID 組合從過濾清單刪除</summary>
+            <param name="item"> 要刪除的 VID &amp; PID 組合</param>
+        </member>
+        <member name="M:SerialCom.USB_VCP.GetUSBDevices">
+            <summary> 取得目前系統上 USB 裝置清單 </summary>
+            <returns> 目前系統上 USB 裝置清單 </returns>
+        </member>
+        <member name="T:SerialCom.USBDeviceInfo">
+            <summary> USB 裝置的描述 </summary>
+        </member>
+        <member name="P:SerialCom.USBDeviceInfo.DeviceID">
+            <summary> USB Device ID </summary>
+        </member>
+        <member name="P:SerialCom.USBDeviceInfo.PnpDeviceID">
+            <summary> UPNP ID </summary>
+        </member>
+        <member name="P:SerialCom.USBDeviceInfo.Description">
+            <summary> USB 裝置的描述 </summary>
+        </member>
+        <member name="T:SerialCom.USB_VidPid">
+            <summary> USB 的 PID &amp; VID 組合, 必須是 hex string </summary>
+        </member>
+        <member name="P:SerialCom.USB_VidPid.VID">
+            <summary> USB Vender ID </summary>
+        </member>
+        <member name="P:SerialCom.USB_VidPid.PID">
+            <summary> USB Product ID </summary>
+        </member>
+        <member name="M:SerialCom.USB_VidPid.Equals(System.Object)">
+            <summary> 比較兩者是否相等 </summary>
+        </member>
+        <member name="M:SerialCom.USB_VidPid.Equals(SerialCom.USB_VidPid,SerialCom.USB_VidPid)">
+            <summary> 比較兩者是否相等 </summary>
+        </member>
+        <member name="M:SerialCom.USB_VidPid.op_Equality(SerialCom.USB_VidPid,SerialCom.USB_VidPid)">
+            <summary> 比較兩者是否相等 </summary>
+        </member>
+        <member name="M:SerialCom.USB_VidPid.op_Inequality(SerialCom.USB_VidPid,SerialCom.USB_VidPid)">
+            <summary> 比較兩者是否不相等 </summary>
+        </member>
+        <member name="M:SerialCom.USB_VidPid.GetHashCode">
+            <summary> 取得目前物件的雜湊值 </summary>
+        </member>
+        <member name="M:SerialCom.USB_VidPid.GetHashCode(SerialCom.USB_VidPid)">
+            <summary> 取得目前物件的雜湊值 </summary>
+        </member>
+    </members>
+</doc>

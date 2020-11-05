@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LogMessage</name>
+    </assembly>
+    <members>
+        <member name="T:LogMessage.Type">
+            <summary> 訊息的種類 </summary>
+        </member>
+        <member name="F:LogMessage.Type.Normal">
+            <summary> 一般訊息 </summary>
+        </member>
+        <member name="F:LogMessage.Type.Infomation">
+            <summary><para> 醒目訊息</para> <para>在方法 ShowLog 中會以藍色顯示</para> </summary>
+        </member>
+        <member name="F:LogMessage.Type.Successful">
+            <summary><para> 醒目訊息</para> <para>在方法 ShowLog 中會以綠色顯示</para> </summary>
+        </member>
+        <member name="F:LogMessage.Type.Warning">
+            <summary><para> 警告訊息</para> <para>在方法 ShowLog 中會以黃色顯示</para> </summary>
+        </member>
+        <member name="F:LogMessage.Type.Error">
+            <summary><para> 錯誤訊息</para> <para>在方法 ShowLog 中會以紅色顯示</para> </summary>
+        </member>
+        <member name="T:LogMessage.LogMessage">
+            <summary> 包含記錄訊息即顯示的相關集合 </summary>
+        </member>
+        <member name="T:LogMessage.LogMessage.Log">
+            <summary> 定義訊息的類別，包含訊息的種類及描述 </summary>
+        </member>
+        <member name="P:LogMessage.LogMessage.Log.Type">
+            <summary> 紀錄訊息的種類 </summary>
+        </member>
+        <member name="P:LogMessage.LogMessage.Log.Message">
+            <summary> 訊息的內容  </summary>
+        </member>
+        <member name="M:LogMessage.LogMessage.Log.#ctor">
+            <summary> 使用預設種類建立一則空訊息 </summary>
+        </member>
+        <member name="M:LogMessage.LogMessage.Log.#ctor(LogMessage.Type,System.String)">
+            <summary> 依照傳入的種類設定及字串建立一則完整的訊息 </summary>
+        </member>
+        <member name="T:LogMessage.LogMessage.LogClassCount">
+            <summary> 紀錄各類訊息數量的集合 </summary>
+        </member>
+        <member name="F:LogMessage.LogMessage.LogClassCount.Warring">
+            <summary> 標記為 Warring 的數量 </summary>
+        </member>
+        <member name="F:LogMessage.LogMessage.LogClassCount.Error">
+            <summary> 標記為 Error 的訊息的數量 </summary>
+        </member>
+        <member name="F:LogMessage.LogMessage.LogClassCount.Normal">
+            <summary> 標記為 Normal 的訊息的數量 </summary>
+        </member>
+        <member name="F:LogMessage.LogMessage.LogClassCount.Infomation">
+            <summary> 標記為 Infomation 的訊息的數量 </summary>
+        </member>
+        <member name="F:LogMessage.LogMessage.LogClassCount.Successful">
+            <summary> 標記為 Successful 的訊息的數量 </summary>
+        </member>
+        <member name="M:LogMessage.LogMessage.LogClassCount.#ctor(System.Collections.Generic.List{LogMessage.LogMessage.Log})">
+            <summary> 建立並計算一個 Log 中各類訊息的總數 </summary>
+            <param name="Source">要計算的 log</param>
+        </member>
+        <member name="M:LogMessage.LogMessage.LogClassCount.op_Addition(LogMessage.LogMessage.LogClassCount,LogMessage.LogMessage.LogClassCount)">
+            <summary> 將兩個 Log 的計數結果相加 </summary>
+            <param name="lhs">加數</param>
+            <param name="rhs">加數</param>
+            <returns>加完以後的結果</returns>
+        </member>
+        <member name="M:LogMessage.LogMessage.ShowLog(System.Windows.Forms.RichTextBox,LogMessage.Type,System.String)">
+            <summary> 以指定的訊息種類及字串，將訊息顯示在指定的 GUI 上  </summary>
+            <param name="GUI">要顯示訊息的 RichTextBox </param>
+            <param name="LogType"> 要顯示的訊息種類 </param>
+            <param name="Log">要顯示的訊息字串</param>
+        </member>
+        <member name="M:LogMessage.LogMessage.ShowLog(System.Windows.Forms.RichTextBox,LogMessage.LogMessage.Log)">
+            <summary><para> 依照訊息的種類，以不同顏色顯示在指定的 RichTextBox 中 </para>
+            <para> 輸出內容會加註時間戳記，並自動卷動到最下方 </para>
+            </summary>
+            <param name="GUI">要顯示訊息的 RichTextBox ，如果為 null 就不做事</param>
+            <param name="Log">指定的訊息</param>
+        </member>
+        <member name="M:LogMessage.LogMessage.ShowLog(System.Windows.Forms.RichTextBox,System.Collections.Generic.List{LogMessage.LogMessage.Log})">
+            <summary><para> 將全部訊息依照訊息的種類，以不同顏色顯示在指定的 RichTextBox 中 </para>
+            <para> 輸出內容會加註時間戳記，並自動卷動到最下方 </para>
+            </summary>
+            <param name="GUI">要顯示訊息的 RichTextBox </param>
+            <param name="LogList">指定的訊息清單</param>
+        </member>
+        <member name="M:LogMessage.LogMessage.ShowLog(System.Windows.Forms.RichTextBox,System.Collections.Generic.List{LogMessage.LogMessage.Log},System.String)">
+            <summary><para> 將全部訊息依照訊息的種類，以不同顏色顯示在指定的 RichTextBox 中，最後再統計各類訊息的數量並顯示出來 </para>
+            <para> 輸出內容會加註時間戳記，並自動卷動到最下方 </para>
+            </summary>
+            <param name="GUI">要顯示訊息的 RichTextBox </param>
+            <param name="LogList">指定的訊息清單</param>
+            <param name="Statistical">要顯示在統計字串前的訊息 </param>
+        </member>
+    </members>
+</doc>

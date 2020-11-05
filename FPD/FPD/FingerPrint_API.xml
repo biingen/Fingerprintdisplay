@@ -1,0 +1,447 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FingerPrint_API</name>
+    </assembly>
+    <members>
+        <member name="T:FingerPrint_API.Parameter">
+            <summary> Command 用到的參數 </summary>
+        </member>
+        <member name="T:FingerPrint_API.Parameter.PatternColorDepth">
+            <summary> 色彩深度, 分 8bit 和 10bit </summary>
+        </member>
+        <member name="F:FingerPrint_API.Parameter.PatternColorDepth._8bit">
+            <summary> 8 bit 定義為 0x00 </summary>
+        </member>
+        <member name="F:FingerPrint_API.Parameter.PatternColorDepth._10bit">
+            <summary> 10 bit 定義為 0x01 </summary>
+        </member>
+        <member name="T:FingerPrint_API.Parameter.FileID">
+            <summary> File ID of Calibration Data, 分 Black(0x00) 和 White(0x01) </summary>
+        </member>
+        <member name="F:FingerPrint_API.Parameter.FileID.Black">
+            <summary> Black 定義為 0x00 </summary>
+        </member>
+        <member name="F:FingerPrint_API.Parameter.FileID.White">
+            <summary> White 定義為 0x01 </summary>
+        </member>
+        <member name="T:FingerPrint_API.Parameter.DebugLevel">
+            <summary> Log 的 DebugLevel </summary>
+        </member>
+        <member name="F:FingerPrint_API.Parameter.DebugLevel.NORMAL">
+            <summary> 一般訊息，黑色 </summary>
+        </member>
+        <member name="F:FingerPrint_API.Parameter.DebugLevel.INFORMATION">
+            <summary> 醒目訊息，藍色 </summary>
+        </member>
+        <member name="F:FingerPrint_API.Parameter.DebugLevel.SUCCESSFUL">
+            <summary> 醒目訊息，綠色 </summary>
+        </member>
+        <member name="F:FingerPrint_API.Parameter.DebugLevel.WARNING">
+            <summary> 警告訊息，黃色 </summary>
+        </member>
+        <member name="F:FingerPrint_API.Parameter.DebugLevel.ERROR">
+            <summary> 錯誤訊息，紅色 </summary>
+        </member>
+        <member name="F:FingerPrint_API.Parameter.DebugLevel.NOLOG">
+            <summary> 不顯示訊息 </summary>
+        </member>
+        <member name="T:FingerPrint_API.FingerPrint">
+            <summary> Finger Print 的類別 </summary>
+        </member>
+        <member name="T:FingerPrint_API.FingerPrint.Const">
+            <summary> 一個 Frame 的固定值 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.Const.FrameWidth">
+            <summary> 一個 Frame 的寬度 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.Const.FrameHeight">
+            <summary> 一個 Frame 的高度 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.Const.SectionHeight_10bit">
+            <summary> 10bit 模式下的一個 Section 的行數 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.Const.SectionHeight_8bit">
+            <summary> 8bit 模式下的一個 Section 的行數 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.Const.EachLintBytes_10bit">
+            <summary> 10bit 模式下的一行的 Byte 數目 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.Const.EachLintBytes_8bit">
+            <summary> 8bit 模式下的一行的 Byte 數目 </summary>
+        </member>
+        <member name="P:FingerPrint_API.FingerPrint.Communication">
+            <summary> 操作 Comport 對晶片進行通訊的物件 </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.#ctor">
+            <summary> FingerPrint 建構子 </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.Finalize">
+            <summary> FingerPrint 解構子 </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.Dispose">
+            <summary> FingerPrint 解構物件 </summary>
+        </member>
+        <member name="T:FingerPrint_API.FingerPrint.Frame">
+            <summary> 一個 Frame 的類別 </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.Frame.#ctor">
+            <summary> Frame 建構子 </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.Frame.Dispose">
+            <summary> Frame 解構物件 </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.Frame.Finalize">
+            <summary> Frame 解構子 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.Frame._data">
+            <summary> 指定點陣圖影像的屬性 (Attribute) </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.Frame.bitmap">
+            <summary> 用來處理像素資料所定義影像的物件
+            <para> 指定格式為每像素 8 bit；用於顯示灰度 0~255 </para></summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.Frame.nDataFrameNum">
+            <summary> 目前 Data Frame 的編號, 範圍 0~2 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.Frame.nSecDoneCount">
+            <summary> 已完成處理收到的 Sec 封包數目 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.Frame.nFPS">
+            <summary> 處理此 Frame 的時間 </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.Frame.BmpLockData(System.IntPtr@,System.Int32@)">
+            <summary> 將 Bitmap 鎖定在系統記憶體內。並回傳點陣圖影像目前的 Scan0 和 Stride </summary>
+            <param name="ptr">取得 Scan0(Address of the first line.) 的 ref</param>
+            <param name="nStride">取得 Stride 的 ref</param>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.Frame.BmpUnlockData">
+            <summary> 從系統記憶體解除鎖定這個 Bitmap </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.nSecDelay">
+            <summary> 每個 Sec 之間的間隔時間(us) </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.nszFrameBuffer">
+            <summary>Frame Buffer 的大小</summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.FrameBuffer">
+            <summary> 存放 Frame 用的 Buffer
+            <para>每當 Framenum 改變就合成一個 Frame 就放進這個 Buffer</para></summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.nFrameBufferCount">
+            <summary> 計算目前到第幾個 Frame，0~nszFrameBuffer </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.nPrevFrameNum">
+            <summary> 前一個 Frame 的編號, 範圍 0~2 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.OneFrameSW">
+            <summary> 計算 Seq 收每個封包之間的時間的碼錶 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.ncFpsAverageNum">
+            <summary> 以此 n 值算出平均每 n 個 frame 的平均 Fps, n=10代表10個frame才算一次平均Fps </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.nFpsCount">
+            <summary> 計算已處理的 fps 數目 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.fpsSum">
+            <summary> 計算 fps 平均值用 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.tempFps">
+            <summary> 暫存的 FPS 值, 累計至下一個數目就更換 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint._frameDoneCount">
+            <summary> 計算已處理的 frame 數目 </summary>
+        </member>
+        <member name="P:FingerPrint_API.FingerPrint.FrameDoneCount">
+            <summary> 計算已處理的 frame 數目(read only) </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint._frameLossCount">
+            <summary> 計算已掉失的 frame 數目 </summary>
+        </member>
+        <member name="P:FingerPrint_API.FingerPrint.FrameLossCount">
+            <summary> 計算已掉失的 frame 數目(read only) </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.ptrScan">
+            <summary> 取得或設定點陣圖中第一個像素資料的位址 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.BmpStride">
+            <summary> 取得或設定 Bitmap 物件的分散寬度 (也稱為掃描寬度) </summary>
+        </member>
+        <member name="T:FingerPrint_API.FingerPrint.FrameReceiveEventHandle">
+            <summary> 結果完成的委派事件，參數傳遞一個結果 </summary>
+            <param name="frame"> 一個 Frame 的結果，會帶有一個 bitmap </param>
+        </member>
+        <member name="E:FingerPrint_API.FingerPrint.FrameReceived">
+            <summary> 收到完整 Frame 時會對外發出的事件訊號
+            <para> 同時會帶有解完的 Bitmap </para> </summary>
+        </member>
+        <member name="T:FingerPrint_API.FingerPrint.LogReceivedEventHandle">
+            <summary> 結果完成的委派事件，參數傳遞兩個結果 </summary>
+            <param name="type">Log 的種類</param>
+            <param name="Log">Log 的文字</param>
+        </member>
+        <member name="E:FingerPrint_API.FingerPrint.LogReceived">
+            <summary> 產生 Log 後的對外發出的事件訊號 </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.Communication_LogReceived(LogMessage.Type,System.String)">
+            <summary> 傳遞下層 event 到上層, Communication.LogReceived </summary>
+            <param name="type"> 要顯示的訊息種類 </param>
+            <param name="Log"> 要被顯著標示的訊息字串 </param>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint._deviceACK">
+            <summary> 內部紀錄用的 deviceACK, 主要為處理 Seq ON 時收到資料為 I2C 時 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint._rDataLen">
+            <summary> 內部紀錄用的回傳 Data 長度, 主要為處理 Seq ON 時收到資料為 I2C 時 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint._rData">
+            <summary> 內部紀錄用的回傳 Data, 主要為處理 Seq ON 時收到資料為 I2C 時 </summary>
+        </member>
+        <member name="P:FingerPrint_API.FingerPrint.FileID">
+            <summary> 判斷目前要寫/讀的 File ID (0/1) </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint.ARE_NonSeqCommand">
+            <summary> 在 Seq Mode ON 的情況下(即f_bFullSpeed==true)收到非 Seq command 的封包的通知事件 </summary>
+        </member>
+        <member name="P:FingerPrint_API.FingerPrint.IsConnected">
+            <summary> 目前是否已經連結到一個裝置 </summary>
+        </member>
+        <member name="P:FingerPrint_API.FingerPrint.AutoConnect_Interval">
+            <summary> 斷線後自動重新連線的時間間隔, 單位 ms </summary>
+        </member>
+        <member name="P:FingerPrint_API.FingerPrint.AutoConnect">
+            <summary> 斷線後是否自動重新連線 </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.Disconnect">
+            <summary> 手動解除連線 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint._devDes">
+            <summary> 內部紀錄用的 DeviceDescription 欄位 </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_GetDeviceDescription(GeneralProtocol.BasicCommand.DeviceDescription@)">
+            <summary> 取得裝置資訊的完整字串 </summary>
+            <param name="devDes">裝置資訊的完整字串</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_ResetDevice">
+            <summary> send reset device command </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_StartCapture">
+            <summary> 開始截取 FP 的資料，先(1)打開ROIC開關，再(2)用Seq Read </summary>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_StopCapture">
+            <summary> 開始截取 FP 的資料，先(1)關閉 Seq Read (2)再關閉 ROIC Stream </summary>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_SetROICStream(System.Boolean)">
+            <summary> 設定 ROIC Stream 的狀態 </summary>
+            <param name="On">要設定的 ROIC Stream 的狀態, On = true, Off = false</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_GetROICStream(System.Boolean@)">
+            <summary> 讀取 ROIC Stream 的狀態 </summary>
+            <param name="On">為 out, 取值後直接改變 input 的值</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint._bSeqTransmit">
+            <summary> 一個Flag, 判斷是否啟動 Sequential Transmit 中
+            <para>Enable=true, Disable=false</para></summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint._ColorDepth">
+            <summary> 判斷目前要讀的 ColorDepth 格式(8 bit/10 bit) </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_SetDeviceSequentialTransmit(System.Boolean,FingerPrint_API.Parameter.PatternColorDepth,System.UInt16)">
+            <summary> 設定裝置啟動或關閉連續傳輸功能
+            <para> 成功合成一個 Frame 會觸發 FrameReceiveEventHandle </para></summary>
+            <param name="Enable"> 啟動=true，關閉=false </param>
+            <param name="CD"> 要讀取的位元深度 </param>
+            <param name="Delay"> 每個 Sec 之間的間隔時間(us) </param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_SetDeviceSequentialTransmit(System.Boolean)">
+            <summary> 設定裝置啟動或關閉連續傳輸功能
+            <para> 成功合成一個 Frame 會觸發 FrameReceiveEventHandle </para></summary>
+            <param name="Enable"> 啟動=true，關閉=false </param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_SetDeviceSequentialTransmitWithLineCnt(System.Boolean,FingerPrint_API.Parameter.PatternColorDepth,System.Byte,System.UInt16,System.Boolean)">
+            <summary> 設定裝置啟動或關閉連續傳輸功能(可修改每sec包含的行數, 預設 14 Line/sec)
+            <para> 成功合成一個 Frame 會觸發 FrameReceiveEventHandle </para></summary>
+            <param name="Enable"> 啟動=true，關閉=false </param>
+            <param name="CD"> 要讀取的位元深度 </param>
+            <param name="LineCnt"> 每個 Sec 包含的行數，LineCnt = [1~20] </param>
+            <param name="Delay"> 每個 Sec 之間的間隔時間(us) </param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_SetDeviceSequentialTransmitWithLineCnt(System.Boolean)">
+            <summary> 設定裝置啟動或關閉連續傳輸功能
+            <para> 成功合成一個 Frame 會觸發 FrameReceiveEventHandle </para></summary>
+            <param name="Enable"> 啟動=true，關閉=false </param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint._PWMFreq">
+            <summary> 內部紀錄 Freq 和 Duty 的欄位 </summary>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint._PWMDuty">
+            <summary> 內部紀錄 Freq 和 Duty 的欄位 </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_SetPWMPara(System.UInt16,System.UInt16)">
+            <summary> 向 FW 設定用戶輸入的 Freq 和 Duty </summary>
+            <param name="PWMFreq">用戶輸入的 Freq</param>
+            <param name="PWMDuty">用戶輸入的 Duty</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_GetPWMPara(System.UInt16@,System.UInt16@)">
+            <summary> 向 FW 取得目前的 Freq 和 Duty </summary>
+            <param name="PWMFreq">為 out, 取值後直接改變 input 的值</param>
+            <param name="PWMDuty">為 out, 取值後直接改變 input 的值</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint._PGAGain">
+            <summary> 內部紀錄 PGAGain 的欄位 </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_SetSensorPGAGain(System.Byte)">
+            <summary> 向 FW 設定用戶輸入的 PGAGain </summary>
+            <param name="PGAGain">用戶輸入的 PGAGain, 範圍: 0~31</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_GetSensorPGAGain(System.Byte@)">
+            <summary> 向 FW 取得目前的 PGAGain </summary>
+            <param name="PGAGain">為 out, 取值後直接改變 input 的值</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint._Cfb">
+            <summary> 內部紀錄 Cfb 的欄位 </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_SetSensorCfb(System.Byte)">
+            <summary> 向 FW 設定用戶輸入的 Cfb </summary>
+            <param name="Cfb">用戶輸入的 Cfb, 範圍: 0~31</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_GetSensorCfb(System.Byte@)">
+            <summary> 向 FW 取得目前的 Cfb </summary>
+            <param name="Cfb">為 out, 取值後直接改變 input 的值</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="F:FingerPrint_API.FingerPrint._Offset">
+            <summary> 內部紀錄 Offset 的欄位 </summary>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_SetSensorADCOffset(System.UInt16)">
+            <summary> 向 FW 設定用戶輸入的 Offset </summary>
+            <param name="Offset">用戶輸入的 Offset, 範圍: 0~1023</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_GetSensorADCOffset(System.UInt16@)">
+            <summary> 向 FW 取得目前的 Offset </summary>
+            <param name="Offset">為 out, 取值後直接改變 input 的值</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_EnterFirmwareUpgradeMode">
+            <summary> 進行更新韌體模式，一但進入，只能等待更新完成後才能執行其他動作 </summary>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.Set_GuiAssistant(System.Windows.Forms.Form,System.Windows.Forms.RichTextBox,System.Object,System.Windows.Forms.ToolStripMenuItem,System.Windows.Forms.ToolStripMenuItem,System.Windows.Forms.ToolStripMenuItem,System.Windows.Forms.MenuStrip)">
+            <summary> 設定 GUI 助手要協助處理的 GUI，同時會依據目前的環境參數更新這些 GUI </summary>
+            <param name="MainForm">外部 GUI 所在的表單，可以是 null</param>
+            <param name="LogWindow">用來紀錄 Log 的 RichTextBox，可以是 null</param>
+            <param name="ConnectStatus">用來顯示連線狀態的物件，需具有名為 "Text" 的成員<para>可以是 null</para></param>
+            <param name="Link_FilterVCP">用來選擇是否使用 VID &amp; PID 過濾出 VCP 的 ToolStripMenuItem，可以是 null</param>
+            <param name="Link_AutoConnect">用來選擇是否自動連線的 ToolStripMenuItem，可以是 null</param>
+            <param name="Link_Select">用來手動選擇連線對象或手動解除連線的 ToolStripMenuItem，可以是 null</param>
+            <param name="Link">選擇連線用的兩個 ToolStripMenuItem 所在的 MenuStrip，可以是 null</param>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_SetDebugLevel(FingerPrint_API.Parameter.DebugLevel)">
+            <summary> 設定目前的 Debug Level 來顯示記錄訊息 </summary>
+            <param name="dl"> 要設定的 Debug level，Normal~No Log=[0~5] </param>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_GetTestPattern(System.Drawing.Bitmap@)">
+            <summary> 從裝置讀取一張固定的圖像，並覆寫到傳入的圖像內 </summary>
+            <param name="Source"> 要覆寫的圖像，指定不同的格式會使用不同的讀取方式
+            <para> 32b ARGB 會以 SetPixel 填表方式將讀取到的 8 or 10 bit 灰階的高 8bit 填入 RGB </para>
+            <para> 24b RGB 會以 Pointer 填表方式將讀取到的 8 or 10 bit 灰階的高 8bit 填入 RGB </para>
+            <para> 16b Gray 會以 Pointer 填表方式將讀取到的 8 or 10 bit 灰階填入 16b gray (LSB對齊)</para>
+            <para> 8b Gray 會以 Pointer 填表方式將讀取到的 8 or 10 bit 灰階填入 8bit gray </para></param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_GetTestPattern(System.Drawing.Bitmap@,System.Byte)">
+            <summary> 從裝置讀取一張固定的圖像，並覆寫到傳入的圖像內 </summary>
+            <param name="Source"> 要覆寫的圖像，指定不同的格式會使用不同的讀取方式
+            <para> 32b ARGB 會以 SetPixel 填表方式將讀取到的 8 or 10 bit 灰階的高 8bit 填入 RGB </para>
+            <para> 24b RGB 會以 Pointer 填表方式將讀取到的 8 or 10 bit 灰階的高 8bit 填入 RGB </para>
+            <para> 16b Gray 會以 Pointer 填表方式將讀取到的 8 or 10 bit 灰階填入 16b gray (LSB對齊)</para>
+            <para> 8b Gray 會以 Pointer 填表方式將讀取到的 8 or 10 bit 灰階填入 8bit gray </para></param>
+            <param name="ColorDepth"> 要讀取的位元深度</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_I2CWrite(System.Byte,System.UInt16,System.UInt16,System.Byte[],System.Byte@)">
+            <summary> Using I2C Protocal to write data </summary>
+            <param name="DevAddr"> Device Address, 1Byte, vaild bit [6:0] </param>
+            <param name="MemAddr"> Memory Address, 2Byte </param>
+            <param name="WDataLen"> Write Data Length, range = [1~1024]([0x0001~0x0400]) </param>
+            <param name="WData"> Write Data, array[0](LSB) ~ array[n](MSB)
+            <para>e.g. write data: 0x12345678, a[0] = 0x78, a[1] = 0x56, a[2] = 0x34, a[3] = 0x12 </para></param>
+            <param name="DeviceACK"> Device ACKnowledge 
+            <para> 0x00 = Device Non Ack </para> 
+            <para> 0x01 = Device Return Ack and Write Complete </para>
+            <para> 0x81 = Device Return Ack but Write Fail </para></param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_I2CRead(System.Byte,System.UInt16,System.UInt16,System.Byte@,System.Byte[]@)">
+            <summary> Using I2C Protocal to read data </summary>
+            <param name="DevAddr"> Device Address, 1Byte, vaild bit [6:0] </param>
+            <param name="MemAddr"> Memory Address, 2Byte </param>
+            <param name="RDataLen"> Read Data Length, range = [1~1024]([0x0001~0x0400]) </param>
+            <param name="DeviceACK"> [out] Device ACKnowledge
+            <para> 0x00 = Return with zero RData </para>
+            <para> 0x01 = Device Return Ack and Read Complete </para>
+            <para> 0x81 = Device Return Ack but Read Fail </para></param>
+            <param name="RData"> [out] Read Data, array[0](LSB) ~ array[n](MSB) </param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_SetCalibrationData(FingerPrint_API.Parameter.FileID,System.UInt16,System.Byte[])">
+            <summary> Set Calibration Data (Calibration Image Upload, Host->SDRAM) </summary>
+            <param name="fileID">File ID of calibration data, 0 or 1</param>
+            <param name="idxLine">Line index of input picture</param>
+            <param name="pixelData">1600 pixel in 1 line, input an array with 1600 byte here</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_SetCalibrationData(FingerPrint_API.Parameter.FileID,System.Drawing.Bitmap)">
+            <summary> Set Calibration Data (Calibration Image Upload, Host->SDRAM) </summary>
+            <param name="fileID">File ID of calibration data, 0 or 1</param>
+            <param name="bitmap">input bitmap, size: 1600(W)*1500(H)</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_GetCalibrationData(FingerPrint_API.Parameter.FileID,System.UInt16,System.Byte[]@)">
+            <summary> Get Calibration Data (Calibration Image Download, SDRAM->Host)</summary>
+            <param name="fileID">File ID of calibration data, 0 or 1</param>
+            <param name="idxLine">Line index of input picture</param>
+            <param name="pixelData">1600 pixel in 1 line, output an array with 1600 byte here</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_GetCalibrationData(FingerPrint_API.Parameter.FileID,System.Drawing.Bitmap@)">
+            <summary> Get Calibration Data (Calibration Image Download, SDRAM->Host)</summary>
+            <param name="fileID">File ID of calibration data, 0 or 1</param>
+            <param name="bitmap">output bitmap, size: 1600(W)*1500(H)</param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_SaveCalibrationData(FingerPrint_API.Parameter.FileID,System.Byte@)">
+            <summary> Save Calibration Data (Calibration Image Save, SDRAM->Flash) </summary>
+            <param name="fileID">File ID of calibration data, 0 or 1</param>
+            <param name="status">0x00: Save Failed (Checksum Error)
+            <para> 0x01: Save Succeed </para>
+            <para> 0x02: Flash Erasing </para>
+            <para> 0x03: Flash Programming</para>
+            <para> 0x04: Verifying </para></param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+        <member name="M:FingerPrint_API.FingerPrint.FP_FetchCalibrationData(FingerPrint_API.Parameter.FileID,System.Byte@)">
+            <summary> Fetch Calibration Data (Calibration Image Reload From Flash, Flash->SDRAM) </summary>
+            <param name="fileID">File ID of calibration data, 0 or 1</param>
+            <param name="status">0x00: Reload From Flash Fail
+            <para> 0x01: Reload From Flash Succeed </para>
+            <para> 0x02: Flash Loading </para></param>
+            <returns>錯誤碼，詳情參考ErrorCode.cs</returns>
+        </member>
+    </members>
+</doc>
