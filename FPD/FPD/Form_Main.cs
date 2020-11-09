@@ -238,6 +238,57 @@ namespace FPD
                 form_roic.Activate();
             }
         }
-               
+
+        public Form_Main(string args)
+        {
+            string[] parameters = args.Split(',');
+            Viewer.SetPalette();
+            if (parameters[0] != null)
+            {
+                switch (parameters[0])
+                {
+                    case "IsConnected":
+                        break;
+                    case "AutoConnect_Interval":
+                        break;
+                    case "AutoConnect":
+                        break;
+                    case "Disconnect":
+                        break;
+                    case "FP_SetPWM":
+                        break;
+                    case "FP_GetPWM":
+                        break;
+                    case "FP_SetSensorPGAGain":
+                        break;
+                    case "FP_GetSensorPGAGain":
+                        break;
+                    case "FP_SetSensorCfb":
+                        break;
+                    case "FP_GetSensorCfb":
+                        break;
+                    case "FP_SetSensorADCOffset":
+                        break;
+                    case "FP_GetSensorADCOffset":
+                        break;
+                    case "FP_StartCapture":
+                        break;
+                    case "FP_StopCapture":
+                        break;
+                    case "FP_SetROICStream":
+                        break;
+                    case "FP_GetROICStream":
+                        break;
+                    case "FP_SetDeviceSequentialTransmitWithLineCnt":
+                        break;
+                    case "FP_GetDeviceDescription":
+                        break;
+                    case "FP_ResetDevice":
+                        break;
+                    case "FP_EnterFirmwareUpgradeMode":
+                        break;
+                }
+            }
+        }
     }
 }
