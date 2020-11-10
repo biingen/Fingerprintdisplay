@@ -1085,6 +1085,8 @@ namespace FPD
         private void Form_Display_Shown(object sender, EventArgs e)
         {
             callButtonEvent(btn_connect, "OnClick");
+            //callButtonEvent(btn_Start, "OnClick");
+            //callButtonEvent(btn_save, "OnClick");
         }
 
         private void Save_Image(object image)
@@ -1155,26 +1157,6 @@ namespace FPD
         private void btn_Decoding_Click(object sender, EventArgs e)
         {
             tb_Encoding.Text = Form_Main.Decrypt(Form_Main.tuple.Item2, tb_Encoding.Text);//將加密後的位元組陣列轉換為加密字串
-        }
-
-        private void btn_starttest_Click(object sender, EventArgs e)
-        {
-            int testitem = comboBox_Testitem.SelectedIndex;
-            int delaytime = Int16.Parse(textBox_Delaytime.Text);
-            int times = Int32.Parse(textBox_Times.Text);
-            
-            if (testitem == 0)      // background on/off
-            {
-                for (int i = 0; i < times; i++)
-                {
-                    rb_bl_on.Checked = true;
-                    Viewer.save_count = (int)nud_save_count.Value;
-                    Thread.Sleep(delaytime); //執行續休息兩秒
-                    rb_bl_off.Checked = true;
-                    Viewer.save_count = (int)nud_save_count.Value;
-                    Thread.Sleep(delaytime); //執行續休息兩秒
-                }
-            }
         }
     }
 }

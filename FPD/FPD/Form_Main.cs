@@ -19,6 +19,7 @@ namespace FPD
         public static Form_Communication form_communication;
         public static Form_Display form_display;
         public static Form_ROIC form_roic;
+        public static Form_Stress form_stress;
 
         public static bool Engineering_mode = false;
         private static SDP_Handler sdp_Handler;
@@ -239,9 +240,32 @@ namespace FPD
             }
         }
 
+        private void stressToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (form_stress == null)
+            {
+                form_stress = new Form_Stress();
+                form_stress.MdiParent = this;
+                form_stress.MaximizeBox = false;
+                form_stress.MinimizeBox = false;
+                form_stress.ControlBox = false;
+                form_stress.Text = "";
+                form_stress.Dock = DockStyle.Fill;
+                form_stress.WindowState = FormWindowState.Normal;
+                form_stress.Show();
+
+            }
+            else
+            {
+                form_stress.WindowState = FormWindowState.Normal;
+                form_stress.Activate();
+            }
+        }
+
         public Form_Main(string args)
         {
-            string[] parameters = args.Split(',');
+            InitializeComponent();
+            string[] parameters = args.Split('?');
             Viewer.SetPalette();
             if (parameters[0] != null)
             {
@@ -250,26 +274,50 @@ namespace FPD
                     case "IsConnected":
                         break;
                     case "AutoConnect_Interval":
+                        Viewer.fingerPrint.AutoConnect_Interval= Convert.ToUInt16(parameters[1]);
                         break;
-                    case "AutoConnect":
+                    case "AutoConnect":                        
                         break;
                     case "Disconnect":
+                        Viewer.fingerPrint.Disconnect();
                         break;
                     case "FP_SetPWM":
+                        Viewer.fingerPrint.FP_SetPWMPara((UInt16)Convert.ToUInt16(parameters[1]), (UInt16)Convert.ToUInt16(parameters[2]));
+                        System.Threading.Thread.Sleep(100);
+                        Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
                         break;
                     case "FP_GetPWM":
+                        Viewer.fingerPrint.FP_GetPWMPara(out uFreq, out uDuty);
                         break;
                     case "FP_SetSensorPGAGain":
+                        ushort pgagain = (ushort)Convert.ToInt16(parameters[1]);
+                        Viewer.fingerPrint.FP_SetSensorPGAGain((byte)pgagain);
+                        Thread.Sleep(100);
+                        byte o_pgagain;
+                        Viewer.fingerPrint.FP_GetSensorPGAGain(out o_pgagain);
                         break;
                     case "FP_GetSensorPGAGain":
+                        Viewer.fingerPrint.FP_GetSensorPGAGain(out o_pgagain);
                         break;
                     case "FP_SetSensorCfb":
+                        ushort cfb = (ushort)(Convert.ToDouble(parameters[1]) / 0.125);
+                        Viewer.fingerPrint.FP_SetSensorCfb((byte)cfb);
+                        Thread.Sleep(100);
+                        byte o_cfb;
+                        Viewer.fingerPrint.FP_GetSensorCfb(out o_cfb);
                         break;
                     case "FP_GetSensorCfb":
+                        Viewer.fingerPrint.FP_GetSensorCfb(out o_cfb);
                         break;
                     case "FP_SetSensorADCOffset":
+                        ushort vos = (ushort)Convert.ToDouble(parameters[1]);
+                        Viewer.fingerPrint.FP_SetSensorADCOffset(vos);
+                        Thread.Sleep(100);
+                        ushort o_vos;
+                        Viewer.fingerPrint.FP_GetSensorADCOffset(out o_vos);
                         break;
                     case "FP_GetSensorADCOffset":
+                        Viewer.fingerPrint.FP_GetSensorADCOffset(out o_vos);
                         break;
                     case "FP_StartCapture":
                         break;
@@ -284,9 +332,14 @@ namespace FPD
                     case "FP_GetDeviceDescription":
                         break;
                     case "FP_ResetDevice":
+                        Viewer.fingerPrint.FP_ResetDevice();
                         break;
                     case "FP_EnterFirmwareUpgradeMode":
                         break;
+                    case "FP_SaveCaptionData":
+                        break;
+
+
                 }
             }
         }

@@ -116,14 +116,6 @@
             this.tb_Encoding = new System.Windows.Forms.TextBox();
             this.btn_Decoding = new System.Windows.Forms.Button();
             this.tb_key = new System.Windows.Forms.TextBox();
-            this.comboBox_Testitem = new System.Windows.Forms.ComboBox();
-            this.label_Testitem = new System.Windows.Forms.Label();
-            this.label_Delaytime = new System.Windows.Forms.Label();
-            this.textBox_Delaytime = new System.Windows.Forms.TextBox();
-            this.label_Times = new System.Windows.Forms.Label();
-            this.textBox_Times = new System.Windows.Forms.TextBox();
-            this.btn_starttest = new System.Windows.Forms.Button();
-            this.label_teststatus = new System.Windows.Forms.Label();
             this.gb_DataBit.SuspendLayout();
             this.StatusStrip.SuspendLayout();
             this.gb_displayfunc.SuspendLayout();
@@ -1126,93 +1118,6 @@
             this.tb_key.TabIndex = 48;
             this.tb_key.Visible = false;
             // 
-            // comboBox_Testitem
-            // 
-            this.comboBox_Testitem.FormattingEnabled = true;
-            this.comboBox_Testitem.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19",
-            "20"});
-            this.comboBox_Testitem.Location = new System.Drawing.Point(65, 759);
-            this.comboBox_Testitem.Name = "comboBox_Testitem";
-            this.comboBox_Testitem.Size = new System.Drawing.Size(195, 20);
-            this.comboBox_Testitem.TabIndex = 49;
-            // 
-            // label_Testitem
-            // 
-            this.label_Testitem.Location = new System.Drawing.Point(8, 761);
-            this.label_Testitem.Name = "label_Testitem";
-            this.label_Testitem.Size = new System.Drawing.Size(55, 15);
-            this.label_Testitem.TabIndex = 50;
-            this.label_Testitem.Text = "Test Item : ";
-            // 
-            // label_Delaytime
-            // 
-            this.label_Delaytime.Location = new System.Drawing.Point(268, 762);
-            this.label_Delaytime.Name = "label_Delaytime";
-            this.label_Delaytime.Size = new System.Drawing.Size(65, 15);
-            this.label_Delaytime.TabIndex = 51;
-            this.label_Delaytime.Text = "Delay Time : ";
-            // 
-            // textBox_Delaytime
-            // 
-            this.textBox_Delaytime.Location = new System.Drawing.Point(339, 758);
-            this.textBox_Delaytime.Name = "textBox_Delaytime";
-            this.textBox_Delaytime.Size = new System.Drawing.Size(74, 22);
-            this.textBox_Delaytime.TabIndex = 52;
-            // 
-            // label_Times
-            // 
-            this.label_Times.Location = new System.Drawing.Point(419, 761);
-            this.label_Times.Name = "label_Times";
-            this.label_Times.Size = new System.Drawing.Size(41, 15);
-            this.label_Times.TabIndex = 53;
-            this.label_Times.Text = "Times : ";
-            // 
-            // textBox_Times
-            // 
-            this.textBox_Times.Location = new System.Drawing.Point(466, 758);
-            this.textBox_Times.Name = "textBox_Times";
-            this.textBox_Times.Size = new System.Drawing.Size(61, 22);
-            this.textBox_Times.TabIndex = 54;
-            // 
-            // btn_starttest
-            // 
-            this.btn_starttest.Location = new System.Drawing.Point(542, 758);
-            this.btn_starttest.Name = "btn_starttest";
-            this.btn_starttest.Size = new System.Drawing.Size(75, 22);
-            this.btn_starttest.TabIndex = 55;
-            this.btn_starttest.Text = "Start Test";
-            this.btn_starttest.UseVisualStyleBackColor = true;
-            this.btn_starttest.Click += new System.EventHandler(this.btn_starttest_Click);
-            // 
-            // label_teststatus
-            // 
-            this.label_teststatus.AutoSize = true;
-            this.label_teststatus.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_teststatus.Location = new System.Drawing.Point(628, 761);
-            this.label_teststatus.Name = "label_teststatus";
-            this.label_teststatus.Size = new System.Drawing.Size(72, 16);
-            this.label_teststatus.TabIndex = 56;
-            this.label_teststatus.Text = "00000001";
-            // 
             // Form_Display
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1220,14 +1125,6 @@
             this.ClientSize = new System.Drawing.Size(1416, 871);
             this.ContextMenuStrip = this.contextMenuStrip1;
             this.ControlBox = false;
-            this.Controls.Add(this.label_teststatus);
-            this.Controls.Add(this.btn_starttest);
-            this.Controls.Add(this.textBox_Times);
-            this.Controls.Add(this.label_Times);
-            this.Controls.Add(this.textBox_Delaytime);
-            this.Controls.Add(this.label_Delaytime);
-            this.Controls.Add(this.label_Testitem);
-            this.Controls.Add(this.comboBox_Testitem);
             this.Controls.Add(this.tb_key);
             this.Controls.Add(this.tb_Encoding);
             this.Controls.Add(this.btn_Decoding);
@@ -1399,13 +1296,5 @@
         private System.Windows.Forms.TextBox tb_Encoding;
         private System.Windows.Forms.Button btn_Decoding;
         private System.Windows.Forms.TextBox tb_key;
-        private System.Windows.Forms.ComboBox comboBox_Testitem;
-        private System.Windows.Forms.Label label_Testitem;
-        private System.Windows.Forms.Label label_Delaytime;
-        private System.Windows.Forms.TextBox textBox_Delaytime;
-        private System.Windows.Forms.Label label_Times;
-        private System.Windows.Forms.TextBox textBox_Times;
-        private System.Windows.Forms.Button btn_starttest;
-        private System.Windows.Forms.Label label_teststatus;
     }
 }
