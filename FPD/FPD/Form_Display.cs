@@ -27,6 +27,7 @@ namespace FPD
         GL_SampleDrawer Sample_draw;
         bool UI_Change_Flag = false;
         bool Stress_Change_Flag = false;
+        string Log_Information = "";
 
         public Form_Display()
         {
@@ -98,12 +99,18 @@ namespace FPD
                         case WM_DEVICECHANGE:
                             break;
                         case DBT_DEVICEARRIVAL:
-                            rt_log.AppendText("Device Arrival" + Environment.NewLine);
+                            if (Stress_Change_Flag)
+                                Log_Information = string.Concat(Log_Information, "Device Arrival" + Environment.NewLine);
+                            else
+                                rt_log.AppendText("Device Arrival" + Environment.NewLine);
                             if (Viewer.fingerPrint == null)
                                 callButtonEvent(btn_connect, "OnClick");
                             break;
                         case DBT_DEVICEREMOVECOMPLETE:
-                            rt_log.AppendText("Device Remove " + Environment.NewLine);
+                            if (Stress_Change_Flag)
+                                Log_Information = string.Concat(Log_Information, "Device Remove " + Environment.NewLine);
+                            else
+                                rt_log.AppendText("Device Remove " + Environment.NewLine);
                             if (Viewer.fingerPrint != null)
                             {
                                 GeneralProtocol.BasicCommand.DeviceDescription devDes = new GeneralProtocol.BasicCommand.DeviceDescription();
@@ -113,7 +120,10 @@ namespace FPD
                                     Viewer.fingerPrint.Dispose();
                                     Viewer.fingerPrint = null;
                                     GC.Collect();
-                                    rt_log.AppendText("FP Device Remove " + Environment.NewLine);
+                                    if (Stress_Change_Flag)
+                                        Log_Information = string.Concat(Log_Information, "FP Device Remove " + Environment.NewLine);
+                                    else
+                                        rt_log.AppendText("FP Device Remove " + Environment.NewLine);
                                     Connect_device_remove = true;
                                 }
                                 else
@@ -129,7 +139,8 @@ namespace FPD
                                     btn_Reset.Enabled = false;
                                     gb_ROIC_op.Enabled = false;
                                     gb_PWM.Enabled = false;
-                                    Viewer._Initial = false;
+                                    gb_Stress.Enabled = false;
+
                                     if (!btn_Start.Enabled && btn_interrupt.Enabled)
                                     {
                                         if (!Viewer.DisplayByGL)
@@ -155,9 +166,15 @@ namespace FPD
                                         }
                                         Viewer.nDataFrameNum = 9;       //in to Backup
                                         Viewer.StreamStart = false;
-                                        rt_log.Text += "Stop Stream...\n";
-                                        rt_log.Select(rt_log.Text.Length - 1, 0);
-                                        rt_log.ScrollToCaret();
+                                        if (Stress_Change_Flag)
+                                            Log_Information = string.Concat(Log_Information, "Stop Stream...\n");
+                                        else
+                                        {
+                                            rt_log.Text += "Stop Stream...\n";
+                                            rt_log.Select(rt_log.Text.Length - 1, 0);
+                                            rt_log.ScrollToCaret();
+                                        }
+
                                         if (Viewer.DisplayByGL)
                                         {
                                             gL_Drawer.Refresh();
@@ -239,12 +256,23 @@ namespace FPD
 
         public void LogUpdate(string log, bool line)
         {
-            if (line)
-                rt_log.Text += log + "\n";
+            if (Stress_Change_Flag)
+            {
+                if (line)
+                    Log_Information = string.Concat(Log_Information, log + "\n");
+                else
+                    Log_Information = string.Concat(Log_Information, log + "\t");
+            }
             else
-                rt_log.Text += log + "\t";
-            rt_log.Select(rt_log.Text.Length - 1, 0);
-            rt_log.ScrollToCaret();
+            {
+                if (line)
+                    rt_log.Text += log + "\n";
+                else
+                    rt_log.Text += log + "\t";
+                rt_log.Select(rt_log.Text.Length - 1, 0);
+                rt_log.ScrollToCaret();
+            }
+
         }
 
         public void LogUpdatewColor(string log, bool line, Color color)
@@ -598,7 +626,10 @@ namespace FPD
                 }
                 Viewer.nDataFrameNum = 9;       //in to Backup
                 Viewer.StreamStart = false;
-                rt_log.Text += "Stop Stream...\n";
+                if (Stress_Change_Flag)
+                    Log_Information = string.Concat(Log_Information, "Stop Stream...\n");
+                else
+                    rt_log.Text += "Stop Stream...\n";
                 btn_save.Enabled = false;
                 if (Viewer.DisplayByGL)
                 {
@@ -630,21 +661,31 @@ namespace FPD
                 GeneralProtocol.BasicCommand.DeviceDescription devDes = new GeneralProtocol.BasicCommand.DeviceDescription();
                 ErrorCode ret = Viewer.fingerPrint.FP_GetDeviceDescription(out devDes);
                 if (ret != ErrorCode.FP_STATUS_OK)
-                    this.rt_log.AppendText("[E] FP_GetDeviceDescription - ErrorCode = " + ret.ToString() + Environment.NewLine);
+                    if (Stress_Change_Flag)
+                        Log_Information = string.Concat(Log_Information, "[E] FP_GetDeviceDescription - ErrorCode = " + ret.ToString() + Environment.NewLine);
+                    else
+                        this.rt_log.AppendText("[E] FP_GetDeviceDescription - ErrorCode = " + ret.ToString() + Environment.NewLine);
                 else
                 {
-                    this.rt_log.AppendText(devDes.ToString() + Environment.NewLine);
+                    if (Stress_Change_Flag)
+                        Log_Information = string.Concat(Log_Information, devDes.ToString() + Environment.NewLine);
+                    else
+                        this.rt_log.AppendText(devDes.ToString() + Environment.NewLine);
                     btn_Reset.Enabled = true;
                     btn_Start.Enabled = true;
                     btn_interrupt.Enabled = true;
                     btn_interrupt.BackColor = Color.PaleVioletRed;
                     gb_ROIC_op.Enabled = true;
                     gb_PWM.Enabled = true;
+                    gb_Stress.Enabled = true;
 
                     ushort duty, freq;
                     ret = Viewer.fingerPrint.FP_GetPWMPara(out freq, out duty);
                     if (ret != ErrorCode.FP_STATUS_OK)
-                        this.rt_log.AppendText("[E] GET PWM - ErrorCode = " + ret.ToString() + Environment.NewLine);
+                        if (Stress_Change_Flag)
+                            Log_Information = string.Concat(Log_Information, "[E] GET PWM - ErrorCode = " + ret.ToString() + Environment.NewLine);
+                        else
+                            this.rt_log.AppendText("[E] GET PWM - ErrorCode = " + ret.ToString() + Environment.NewLine);
                     else
                     {
                         Viewer.PWMDuty_memory = duty;
@@ -679,7 +720,10 @@ namespace FPD
             else
             {
                 Viewer._Initial = false;
-                rt_log.Text += "Connect Failed  : \n";
+                if (Stress_Change_Flag)
+                    Log_Information = string.Concat(Log_Information, "Connect Failed  : \n");
+                else
+                    rt_log.Text += "Connect Failed  : \n";
                 rt_log.Select(rt_log.Text.Length - 1, 0);
                 rt_log.ScrollToCaret();
                 Viewer.fingerPrint.Dispose();
@@ -769,7 +813,10 @@ namespace FPD
                     System.Threading.Thread.Sleep(100);
                     if (ret != ErrorCode.FP_STATUS_OK)
                     {
-                        this.rt_log.AppendText("[E] Set PWM - ErrorCode = " + ret.ToString() + Environment.NewLine);
+                        if (Stress_Change_Flag)
+                            Log_Information = string.Concat(Log_Information, "[E] Set PWM - ErrorCode = " + ret.ToString() + Environment.NewLine);
+                        else
+                            this.rt_log.AppendText("[E] Set PWM - ErrorCode = " + ret.ToString() + Environment.NewLine);
                     }
                     else
                     {
@@ -820,7 +867,13 @@ namespace FPD
 
             }
             else
-                rt_log.AppendText("Get TestPattern Failed - ErrorCode = " + ret.ToString() + Environment.NewLine);
+            {
+                if (Stress_Change_Flag)
+                    Log_Information = string.Concat(Log_Information, "Get TestPattern Failed - ErrorCode = " + ret.ToString() + Environment.NewLine);
+                else
+                    rt_log.AppendText("Get TestPattern Failed - ErrorCode = " + ret.ToString() + Environment.NewLine);
+            }
+
 
         }
 
@@ -1124,7 +1177,10 @@ namespace FPD
             Viewer.fingerPrint.FP_GetSensorCfb(out o_cfb);
             if (o_cfb != cfb)
             {
-                rt_log.AppendText("Set Cfb Fail..." + Environment.NewLine);
+                if (Stress_Change_Flag)
+                    Log_Information = string.Concat(Log_Information, "Set Cfb Fail..." + Environment.NewLine);
+                else
+                    rt_log.AppendText("Set Cfb Fail..." + Environment.NewLine);
                 num_cfb.Value = o_cfb * num_cfb.Increment;
             }
         }
@@ -1139,7 +1195,10 @@ namespace FPD
             Viewer.fingerPrint.FP_GetSensorPGAGain(out o_pgagain);
             if (o_pgagain != pgagain)
             {
-                rt_log.AppendText("Set Gain Fail..." + Environment.NewLine);
+                if (Stress_Change_Flag)
+                    Log_Information = string.Concat(Log_Information, "Set Cfb Fail..." + Environment.NewLine);
+                else
+                    rt_log.AppendText("Set Cfb Fail..." + Environment.NewLine);
                 num_pgagain_A.Value = o_pgagain / 16 + 1;
                 num_pgagain_B.Value = o_pgagain % 16 + 1;
             }
@@ -1154,7 +1213,10 @@ namespace FPD
             Viewer.fingerPrint.FP_GetSensorADCOffset(out o_vos);
             if (o_vos != vos)
             {
-                rt_log.AppendText("Set Vos Fail..." + Environment.NewLine);
+                if (Stress_Change_Flag)
+                    Log_Information = string.Concat(Log_Information, "Set Vos Fail..." + Environment.NewLine);
+                else
+                    rt_log.AppendText("Set Vos Fail..." + Environment.NewLine);
                 num_vos.Value = o_vos;
             }
         }
@@ -1172,14 +1234,14 @@ namespace FPD
 
         private void btn_test_Click(object sender, EventArgs e)
         {
-            int testitem = comboBox_Testitem.SelectedIndex;
-            Int32.TryParse(textBox_value1.Text, out int value1);
-            Int32.TryParse(textBox_value2.Text, out int value2);
-            Int32.TryParse(textBox_pervalue.Text, out int pervalue);
-            Int32.TryParse(textBox_delay.Text, out int delay);
-            UInt32.TryParse(textBox_Loop.Text, out uint loop);
+            int testitem = cbo_testitem.SelectedIndex;
+            Int32.TryParse(num_value1.Text, out int value1);
+            Int32.TryParse(num_value2.Text, out int value2);
+            Int32.TryParse(num_pervalue.Text, out int pervalue);
+            Int32.TryParse(num_delay.Text, out int delay);
+            UInt32.TryParse(num_loop.Text, out uint loop);
 
-            if (Stress_Change_Flag == false && Viewer._Initial)
+            if (Stress_Change_Flag == false)
             {
                 Stress_Change_Flag = true;
                 btn_test.Text = "Stop";
@@ -1193,6 +1255,15 @@ namespace FPD
                         break;
                     case 2:
                         Set_PWM_Backlight_value(value1, value2, delay, loop);
+                        break;
+                    case 3:
+                        Set_ROIC_gain_value(value1, value2, pervalue, delay, loop);
+                        break;
+                    case 4:
+                        Set_ROIC_cfb_value(value1, value2, pervalue, delay, loop);
+                        break;
+                    case 5:
+                        Set_ROIC_vos_value(value1, value2, pervalue, delay, loop);
                         break;
                 }
             }
@@ -1324,5 +1395,150 @@ namespace FPD
                     break;
             }
         }
+
+        private void Set_ROIC_gain_value(int start, int end, int per, int delay, uint loop)
+        {
+            for (int test_times = 0; test_times < loop; test_times++)
+            {
+                if (start != end && Stress_Change_Flag)
+                {
+                    if (start < end)
+                    {
+                        for (int test_value = start; test_value < end; test_value = test_value + per)
+                        {
+                            ushort pgagain = (ushort)(Convert.ToInt16(test_value));
+                            Viewer.fingerPrint.FP_SetSensorPGAGain((byte)pgagain);
+                            Thread.Sleep(100);
+                            byte o_pgagain;
+                            Viewer.fingerPrint.FP_GetSensorPGAGain(out o_pgagain);
+                            Viewer.save_count = 1;
+                            System.Threading.Thread.Sleep(delay);
+                        }
+                    }
+                    else
+                    {
+                        for (int test_value = end; test_value > start; test_value = test_value - per)
+                        {
+                            ushort pgagain = (ushort)(Convert.ToInt16(test_value));
+                            Viewer.fingerPrint.FP_SetSensorPGAGain((byte)pgagain);
+                            Thread.Sleep(100);
+                            byte o_pgagain;
+                            Viewer.fingerPrint.FP_GetSensorPGAGain(out o_pgagain);
+                            Viewer.save_count = 1;
+                            System.Threading.Thread.Sleep(delay);
+                        }
+                    }
+                }
+                else if (Stress_Change_Flag)
+                {
+                    ushort pgagain = (ushort)(Convert.ToInt16(start));
+                    Viewer.fingerPrint.FP_SetSensorPGAGain((byte)pgagain);
+                    Thread.Sleep(100);
+                    byte o_pgagain;
+                    Viewer.fingerPrint.FP_GetSensorPGAGain(out o_pgagain);
+                    Viewer.save_count = 1;
+                    System.Threading.Thread.Sleep(delay);
+                }
+                else
+                    break;
+            }
+        }
+
+        private void Set_ROIC_cfb_value(int start, int end, int per, int delay, uint loop)
+        {
+            for (int test_times = 0; test_times < loop; test_times++)
+            {
+                if (start != end && Stress_Change_Flag)
+                {
+                    if (start < end)
+                    {
+                        for (int test_value = start; test_value < end; test_value = test_value + per)
+                        {
+                            ushort cfb = (ushort)(Convert.ToDouble(test_value));
+                            Viewer.fingerPrint.FP_SetSensorCfb((byte)cfb);
+                            Thread.Sleep(100);
+                            byte o_cfb;
+                            Viewer.fingerPrint.FP_GetSensorCfb(out o_cfb);
+                            Viewer.save_count = 1;
+                            System.Threading.Thread.Sleep(delay);
+                        }
+                    }
+                    else
+                    {
+                        for (int test_value = end; test_value > start; test_value = test_value - per)
+                        {
+                            ushort cfb = (ushort)(Convert.ToDouble(test_value));
+                            Viewer.fingerPrint.FP_SetSensorCfb((byte)cfb);
+                            Thread.Sleep(100);
+                            byte o_cfb;
+                            Viewer.fingerPrint.FP_GetSensorCfb(out o_cfb);
+                            Viewer.save_count = 1;
+                            System.Threading.Thread.Sleep(delay);
+                        }
+                    }
+                }
+                else if (Stress_Change_Flag)
+                {
+                    ushort cfb = (ushort)(Convert.ToDouble(start));
+                    Viewer.fingerPrint.FP_SetSensorCfb((byte)cfb);
+                    Thread.Sleep(100);
+                    byte o_cfb;
+                    Viewer.fingerPrint.FP_GetSensorCfb(out o_cfb);
+                    Viewer.save_count = 1;
+                    System.Threading.Thread.Sleep(delay);
+                }
+                else
+                    break;
+            }
+        }
+
+        private void Set_ROIC_vos_value(int start, int end, int per, int delay, uint loop)
+        {
+            for (int test_times = 0; test_times < loop; test_times++)
+            {
+                if (start != end && Stress_Change_Flag)
+                {
+                    if (start < end)
+                    {
+                        for (int test_value = start; test_value < end; test_value = test_value + per)
+                        {
+                            ushort vos = (ushort)(Convert.ToDouble(test_times));
+                            Viewer.fingerPrint.FP_SetSensorADCOffset(vos);
+                            Thread.Sleep(100);
+                            ushort o_vos;
+                            Viewer.fingerPrint.FP_GetSensorADCOffset(out o_vos);
+                            Viewer.save_count = 1;
+                            System.Threading.Thread.Sleep(delay);
+                        }
+                    }
+                    else
+                    {
+                        for (int test_value = end; test_value > start; test_value = test_value - per)
+                        {
+                            ushort vos = (ushort)(Convert.ToDouble(test_times));
+                            Viewer.fingerPrint.FP_SetSensorADCOffset(vos);
+                            Thread.Sleep(100);
+                            ushort o_vos;
+                            Viewer.fingerPrint.FP_GetSensorADCOffset(out o_vos);
+                            Viewer.save_count = 1;
+                            System.Threading.Thread.Sleep(delay);
+                        }
+                    }
+                }
+                else if (Stress_Change_Flag)
+                {
+                    ushort vos = (ushort)(Convert.ToDouble(start));
+                    Viewer.fingerPrint.FP_SetSensorADCOffset(vos);
+                    Thread.Sleep(100);
+                    ushort o_vos;
+                    Viewer.fingerPrint.FP_GetSensorADCOffset(out o_vos);
+                    Viewer.save_count = 1;
+                    System.Threading.Thread.Sleep(delay);
+                }
+                else
+                    break;
+            }
+        }
+
     }
 }

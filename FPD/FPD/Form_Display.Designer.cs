@@ -116,20 +116,21 @@
             this.tb_Encoding = new System.Windows.Forms.TextBox();
             this.btn_Decoding = new System.Windows.Forms.Button();
             this.tb_key = new System.Windows.Forms.TextBox();
-            this.textBox_pervalue = new System.Windows.Forms.TextBox();
+            this.num_pervalue = new System.Windows.Forms.TextBox();
             this.per_label = new System.Windows.Forms.Label();
-            this.textBox_value2 = new System.Windows.Forms.TextBox();
+            this.num_value2 = new System.Windows.Forms.TextBox();
             this.label_value2 = new System.Windows.Forms.Label();
-            this.textBox_value1 = new System.Windows.Forms.TextBox();
+            this.num_value1 = new System.Windows.Forms.TextBox();
             this.label_value1 = new System.Windows.Forms.Label();
-            this.btn_add = new System.Windows.Forms.Button();
+            this.btn_savelog = new System.Windows.Forms.Button();
             this.btn_test = new System.Windows.Forms.Button();
-            this.textBox_Loop = new System.Windows.Forms.TextBox();
+            this.num_loop = new System.Windows.Forms.TextBox();
             this.label_Times = new System.Windows.Forms.Label();
-            this.textBox_delay = new System.Windows.Forms.TextBox();
+            this.num_delay = new System.Windows.Forms.TextBox();
             this.label_delay = new System.Windows.Forms.Label();
             this.label_testitem = new System.Windows.Forms.Label();
-            this.comboBox_Testitem = new System.Windows.Forms.ComboBox();
+            this.cbo_testitem = new System.Windows.Forms.ComboBox();
+            this.gb_Stress = new System.Windows.Forms.GroupBox();
             this.gb_DataBit.SuspendLayout();
             this.StatusStrip.SuspendLayout();
             this.gb_displayfunc.SuspendLayout();
@@ -148,6 +149,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_vos)).BeginInit();
             this.gb_ROIC_op.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_pgagain_A)).BeginInit();
+            this.gb_Stress.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_interrupt
@@ -1132,64 +1134,64 @@
             this.tb_key.TabIndex = 48;
             this.tb_key.Visible = false;
             // 
-            // textBox_pervalue
+            // num_pervalue
             // 
-            this.textBox_pervalue.Location = new System.Drawing.Point(1294, 764);
-            this.textBox_pervalue.Name = "textBox_pervalue";
-            this.textBox_pervalue.Size = new System.Drawing.Size(74, 22);
-            this.textBox_pervalue.TabIndex = 85;
+            this.num_pervalue.Location = new System.Drawing.Point(326, 12);
+            this.num_pervalue.Name = "num_pervalue";
+            this.num_pervalue.Size = new System.Drawing.Size(74, 22);
+            this.num_pervalue.TabIndex = 85;
             // 
             // per_label
             // 
-            this.per_label.Location = new System.Drawing.Point(1237, 767);
+            this.per_label.Location = new System.Drawing.Point(269, 15);
             this.per_label.Name = "per_label";
             this.per_label.Size = new System.Drawing.Size(55, 15);
             this.per_label.TabIndex = 84;
             this.per_label.Text = "Per-Value:";
             // 
-            // textBox_value2
+            // num_value2
             // 
-            this.textBox_value2.Location = new System.Drawing.Point(1035, 824);
-            this.textBox_value2.Name = "textBox_value2";
-            this.textBox_value2.Size = new System.Drawing.Size(74, 22);
-            this.textBox_value2.TabIndex = 83;
+            this.num_value2.Location = new System.Drawing.Point(67, 61);
+            this.num_value2.Name = "num_value2";
+            this.num_value2.Size = new System.Drawing.Size(74, 22);
+            this.num_value2.TabIndex = 83;
             // 
             // label_value2
             // 
-            this.label_value2.Location = new System.Drawing.Point(978, 827);
+            this.label_value2.Location = new System.Drawing.Point(10, 64);
             this.label_value2.Name = "label_value2";
             this.label_value2.Size = new System.Drawing.Size(55, 15);
             this.label_value2.TabIndex = 82;
             this.label_value2.Text = "Value2:";
             // 
-            // textBox_value1
+            // num_value1
             // 
-            this.textBox_value1.Location = new System.Drawing.Point(1035, 792);
-            this.textBox_value1.Name = "textBox_value1";
-            this.textBox_value1.Size = new System.Drawing.Size(74, 22);
-            this.textBox_value1.TabIndex = 81;
+            this.num_value1.Location = new System.Drawing.Point(67, 35);
+            this.num_value1.Name = "num_value1";
+            this.num_value1.Size = new System.Drawing.Size(74, 22);
+            this.num_value1.TabIndex = 81;
             // 
             // label_value1
             // 
-            this.label_value1.Location = new System.Drawing.Point(978, 795);
+            this.label_value1.Location = new System.Drawing.Point(10, 38);
             this.label_value1.Name = "label_value1";
             this.label_value1.Size = new System.Drawing.Size(55, 15);
             this.label_value1.TabIndex = 80;
             this.label_value1.Text = "Value1:";
             // 
-            // btn_add
+            // btn_savelog
             // 
-            this.btn_add.Location = new System.Drawing.Point(1140, 793);
-            this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(92, 22);
-            this.btn_add.TabIndex = 79;
-            this.btn_add.Text = "Add";
-            this.btn_add.UseVisualStyleBackColor = true;
-            this.btn_add.Visible = false;
+            this.btn_savelog.Location = new System.Drawing.Point(172, 36);
+            this.btn_savelog.Name = "btn_savelog";
+            this.btn_savelog.Size = new System.Drawing.Size(92, 22);
+            this.btn_savelog.TabIndex = 79;
+            this.btn_savelog.Text = "Save Log";
+            this.btn_savelog.UseVisualStyleBackColor = true;
+            this.btn_savelog.Visible = false;
             // 
             // btn_test
             // 
-            this.btn_test.Location = new System.Drawing.Point(1140, 824);
+            this.btn_test.Location = new System.Drawing.Point(172, 61);
             this.btn_test.Name = "btn_test";
             this.btn_test.Size = new System.Drawing.Size(92, 22);
             this.btn_test.TabIndex = 78;
@@ -1197,31 +1199,31 @@
             this.btn_test.UseVisualStyleBackColor = true;
             this.btn_test.Click += new System.EventHandler(this.btn_test_Click);
             // 
-            // textBox_Loop
+            // num_loop
             // 
-            this.textBox_Loop.Location = new System.Drawing.Point(1294, 824);
-            this.textBox_Loop.Name = "textBox_Loop";
-            this.textBox_Loop.Size = new System.Drawing.Size(74, 22);
-            this.textBox_Loop.TabIndex = 77;
+            this.num_loop.Location = new System.Drawing.Point(326, 61);
+            this.num_loop.Name = "num_loop";
+            this.num_loop.Size = new System.Drawing.Size(74, 22);
+            this.num_loop.TabIndex = 77;
             // 
             // label_Times
             // 
-            this.label_Times.Location = new System.Drawing.Point(1237, 827);
+            this.label_Times.Location = new System.Drawing.Point(269, 64);
             this.label_Times.Name = "label_Times";
             this.label_Times.Size = new System.Drawing.Size(41, 15);
             this.label_Times.TabIndex = 76;
             this.label_Times.Text = "Loop : ";
             // 
-            // textBox_delay
+            // num_delay
             // 
-            this.textBox_delay.Location = new System.Drawing.Point(1294, 793);
-            this.textBox_delay.Name = "textBox_delay";
-            this.textBox_delay.Size = new System.Drawing.Size(74, 22);
-            this.textBox_delay.TabIndex = 75;
+            this.num_delay.Location = new System.Drawing.Point(326, 36);
+            this.num_delay.Name = "num_delay";
+            this.num_delay.Size = new System.Drawing.Size(74, 22);
+            this.num_delay.TabIndex = 75;
             // 
             // label_delay
             // 
-            this.label_delay.Location = new System.Drawing.Point(1237, 796);
+            this.label_delay.Location = new System.Drawing.Point(269, 39);
             this.label_delay.Name = "label_delay";
             this.label_delay.Size = new System.Drawing.Size(55, 15);
             this.label_delay.TabIndex = 74;
@@ -1229,22 +1231,22 @@
             // 
             // label_testitem
             // 
-            this.label_testitem.Location = new System.Drawing.Point(978, 765);
+            this.label_testitem.Location = new System.Drawing.Point(10, 13);
             this.label_testitem.Name = "label_testitem";
             this.label_testitem.Size = new System.Drawing.Size(55, 15);
             this.label_testitem.TabIndex = 73;
             this.label_testitem.Text = "Test Item : ";
             // 
-            // comboBox_Testitem
+            // cbo_testitem
             // 
-            this.comboBox_Testitem.FormattingEnabled = true;
-            this.comboBox_Testitem.Items.AddRange(new object[] {
+            this.cbo_testitem.FormattingEnabled = true;
+            this.cbo_testitem.Items.AddRange(new object[] {
             "FP_SetPWM_Frequency (1000-8000)",
             "FP_SetPWM_Duty (0-1023)",
             "FP_SetPWM_Backlight (0-1)",
-            "FP_SetSensorPGAGain",
-            "FP_SetSensorCfb",
-            "FP_SetSensorADCOffset",
+            "FP_SetSensorPGAGain (0-31)",
+            "FP_SetSensorCfb (0-31)",
+            "FP_SetSensorADCOffset (0-1023)",
             "Device_IsConnected",
             "Device_AutoConnect_Interval",
             "Device_AutoConnect",
@@ -1258,10 +1260,34 @@
             "FP_ResetDevice",
             "FP_EnterFirmwareUpgradeMode",
             "FP_SaveCaptionData"});
-            this.comboBox_Testitem.Location = new System.Drawing.Point(1035, 763);
-            this.comboBox_Testitem.Name = "comboBox_Testitem";
-            this.comboBox_Testitem.Size = new System.Drawing.Size(197, 20);
-            this.comboBox_Testitem.TabIndex = 72;
+            this.cbo_testitem.Location = new System.Drawing.Point(67, 11);
+            this.cbo_testitem.Name = "cbo_testitem";
+            this.cbo_testitem.Size = new System.Drawing.Size(197, 20);
+            this.cbo_testitem.TabIndex = 72;
+            // 
+            // gb_Stress
+            // 
+            this.gb_Stress.Controls.Add(this.cbo_testitem);
+            this.gb_Stress.Controls.Add(this.label_testitem);
+            this.gb_Stress.Controls.Add(this.num_pervalue);
+            this.gb_Stress.Controls.Add(this.label_delay);
+            this.gb_Stress.Controls.Add(this.per_label);
+            this.gb_Stress.Controls.Add(this.num_delay);
+            this.gb_Stress.Controls.Add(this.num_value2);
+            this.gb_Stress.Controls.Add(this.label_Times);
+            this.gb_Stress.Controls.Add(this.label_value2);
+            this.gb_Stress.Controls.Add(this.num_loop);
+            this.gb_Stress.Controls.Add(this.num_value1);
+            this.gb_Stress.Controls.Add(this.btn_test);
+            this.gb_Stress.Controls.Add(this.label_value1);
+            this.gb_Stress.Controls.Add(this.btn_savelog);
+            this.gb_Stress.Enabled = false;
+            this.gb_Stress.Location = new System.Drawing.Point(977, 757);
+            this.gb_Stress.Name = "gb_Stress";
+            this.gb_Stress.Size = new System.Drawing.Size(407, 87);
+            this.gb_Stress.TabIndex = 47;
+            this.gb_Stress.TabStop = false;
+            this.gb_Stress.Text = "Stress";
             // 
             // Form_Display
             // 
@@ -1270,20 +1296,7 @@
             this.ClientSize = new System.Drawing.Size(1416, 871);
             this.ContextMenuStrip = this.contextMenuStrip1;
             this.ControlBox = false;
-            this.Controls.Add(this.textBox_pervalue);
-            this.Controls.Add(this.per_label);
-            this.Controls.Add(this.textBox_value2);
-            this.Controls.Add(this.label_value2);
-            this.Controls.Add(this.textBox_value1);
-            this.Controls.Add(this.label_value1);
-            this.Controls.Add(this.btn_add);
-            this.Controls.Add(this.btn_test);
-            this.Controls.Add(this.textBox_Loop);
-            this.Controls.Add(this.label_Times);
-            this.Controls.Add(this.textBox_delay);
-            this.Controls.Add(this.label_delay);
-            this.Controls.Add(this.label_testitem);
-            this.Controls.Add(this.comboBox_Testitem);
+            this.Controls.Add(this.gb_Stress);
             this.Controls.Add(this.tb_key);
             this.Controls.Add(this.tb_Encoding);
             this.Controls.Add(this.btn_Decoding);
@@ -1361,6 +1374,8 @@
             this.gb_ROIC_op.ResumeLayout(false);
             this.gb_ROIC_op.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_pgagain_A)).EndInit();
+            this.gb_Stress.ResumeLayout(false);
+            this.gb_Stress.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1455,19 +1470,20 @@
         private System.Windows.Forms.TextBox tb_Encoding;
         private System.Windows.Forms.Button btn_Decoding;
         private System.Windows.Forms.TextBox tb_key;
-        private System.Windows.Forms.TextBox textBox_pervalue;
+        private System.Windows.Forms.TextBox num_pervalue;
         private System.Windows.Forms.Label per_label;
-        private System.Windows.Forms.TextBox textBox_value2;
+        private System.Windows.Forms.TextBox num_value2;
         private System.Windows.Forms.Label label_value2;
-        private System.Windows.Forms.TextBox textBox_value1;
+        private System.Windows.Forms.TextBox num_value1;
         private System.Windows.Forms.Label label_value1;
-        private System.Windows.Forms.Button btn_add;
+        private System.Windows.Forms.Button btn_savelog;
         private System.Windows.Forms.Button btn_test;
-        private System.Windows.Forms.TextBox textBox_Loop;
+        private System.Windows.Forms.TextBox num_loop;
         private System.Windows.Forms.Label label_Times;
-        private System.Windows.Forms.TextBox textBox_delay;
+        private System.Windows.Forms.TextBox num_delay;
         private System.Windows.Forms.Label label_delay;
         private System.Windows.Forms.Label label_testitem;
-        private System.Windows.Forms.ComboBox comboBox_Testitem;
+        private System.Windows.Forms.ComboBox cbo_testitem;
+        private System.Windows.Forms.GroupBox gb_Stress;
     }
 }
