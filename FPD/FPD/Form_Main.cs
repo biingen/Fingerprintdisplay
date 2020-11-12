@@ -19,7 +19,6 @@ namespace FPD
         public static Form_Communication form_communication;
         public static Form_Display form_display;
         public static Form_ROIC form_roic;
-        public static Form_Stress form_stress;
 
         public static bool Engineering_mode = false;
         private static SDP_Handler sdp_Handler;
@@ -237,28 +236,6 @@ namespace FPD
             {
                 form_roic.WindowState = FormWindowState.Normal;
                 form_roic.Activate();
-            }
-        }
-
-        private void stressToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (form_stress == null)
-            {
-                form_stress = new Form_Stress();
-                form_stress.MdiParent = this;
-                form_stress.MaximizeBox = false;
-                form_stress.MinimizeBox = false;
-                form_stress.ControlBox = false;
-                form_stress.Text = "";
-                form_stress.Dock = DockStyle.Fill;
-                form_stress.WindowState = FormWindowState.Normal;
-                form_stress.Show();
-
-            }
-            else
-            {
-                form_stress.WindowState = FormWindowState.Normal;
-                form_stress.Activate();
             }
         }
 

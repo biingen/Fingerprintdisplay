@@ -33,7 +33,6 @@
             this.displayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.communicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rOICToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.stressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,8 +42,7 @@
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.displayToolStripMenuItem,
             this.communicationToolStripMenuItem,
-            this.rOICToolStripMenuItem,
-            this.stressToolStripMenuItem});
+            this.rOICToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
             this.MenuStrip.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
@@ -75,13 +73,6 @@
             this.rOICToolStripMenuItem.Visible = false;
             this.rOICToolStripMenuItem.Click += new System.EventHandler(this.rOICToolStripMenuItem_Click);
             // 
-            // stressToolStripMenuItem
-            // 
-            this.stressToolStripMenuItem.Name = "stressToolStripMenuItem";
-            this.stressToolStripMenuItem.Size = new System.Drawing.Size(51, 22);
-            this.stressToolStripMenuItem.Text = "Stress";
-            this.stressToolStripMenuItem.Click += new System.EventHandler(this.stressToolStripMenuItem_Click);
-            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -106,7 +97,6 @@
         private System.Windows.Forms.ToolStripMenuItem communicationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem displayToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rOICToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem stressToolStripMenuItem;
     }
 }
 

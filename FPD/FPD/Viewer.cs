@@ -84,6 +84,7 @@ namespace FPD
         
 
         public static int PWMDuty_memory;
+        public static int PWMFrequency_memory;
         public static bool _Device = false;
         public static bool _FLUDevice = false;
         public static bool _FormInitial = false;

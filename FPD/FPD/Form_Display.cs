@@ -26,6 +26,8 @@ namespace FPD
         GL_Drawer gL_Drawer;
         GL_SampleDrawer Sample_draw;
         bool UI_Change_Flag = false;
+        bool Stress_Change_Flag = false;
+
         public Form_Display()
         {
             InitializeComponent();
@@ -44,7 +46,7 @@ namespace FPD
         {
             tb_zoominratio.Text = (1 / Viewer.ZoomIn_Ratio).ToString();
             Sample_draw.Refresh();
-            if(gL_Drawer != null)
+            if (gL_Drawer != null)
             {
                 if (!Viewer.StreamStart)
                     gL_Drawer.Refresh();
@@ -66,8 +68,8 @@ namespace FPD
             Sample_draw.Refresh();
             if (gL_Drawer != null)
             {
-                if(!Viewer.StreamStart)
-                        gL_Drawer.Refresh();
+                if (!Viewer.StreamStart)
+                    gL_Drawer.Refresh();
             }
         }
         private void gl_draw_MouseUp(object sender, MouseEventArgs e)
@@ -97,7 +99,7 @@ namespace FPD
                             break;
                         case DBT_DEVICEARRIVAL:
                             rt_log.AppendText("Device Arrival" + Environment.NewLine);
-                            if(Viewer.fingerPrint == null)
+                            if (Viewer.fingerPrint == null)
                                 callButtonEvent(btn_connect, "OnClick");
                             break;
                         case DBT_DEVICEREMOVECOMPLETE:
@@ -106,7 +108,7 @@ namespace FPD
                             {
                                 GeneralProtocol.BasicCommand.DeviceDescription devDes = new GeneralProtocol.BasicCommand.DeviceDescription();
                                 ErrorCode ret = Viewer.fingerPrint.FP_GetDeviceDescription(out devDes);
-                                if(ret != ErrorCode.FP_STATUS_OK)
+                                if (ret != ErrorCode.FP_STATUS_OK)
                                 {
                                     Viewer.fingerPrint.Dispose();
                                     Viewer.fingerPrint = null;
@@ -378,7 +380,7 @@ namespace FPD
                     default:
                         break;
                 }
-                if(Form_Main.Engineering_mode)
+                if (Form_Main.Engineering_mode)
                     Viewer.Draw_graphic.DrawString("FPS : " + ((float)1000 / Viewer.frameTime).ToString("f4"), font, penBrush, drawpoint);
                 Viewer.Draw_graphic.Flush();
 #if DEBUG
@@ -393,7 +395,7 @@ namespace FPD
         public void ChangeImage()
         {
             gL_Drawer.Refresh();
-            if(!Viewer.Sec_screen_static || Viewer.frameCount == 0)
+            if (!Viewer.Sec_screen_static || Viewer.frameCount == 0)
                 Sample_draw.Refresh();
         }
 
@@ -425,7 +427,7 @@ namespace FPD
             // 印出至 RichTextBox
             if (Log != "")
                 Invoke(UpdateLogwColor, new Object[] { Log, true, tans_color });
-            
+
         }
 
         private void Communication_PackageReceived(FingerPrint.Frame frame)
@@ -501,7 +503,7 @@ namespace FPD
             GC.Collect();
         }
 
-       
+
 
         public void CheckBmp(object Checkmap)
         {
@@ -525,47 +527,51 @@ namespace FPD
             btn_Start.Enabled = false;
             gb_displayfunc.Enabled = false;
             ErrorCode ret;
-            if (cb_Display_Manul_setting.Checked)
+
+            if (Viewer._Initial)
             {
-                ret = Viewer.fingerPrint.FP_SetROICStream(true);
-                if (cb_lineorsec.Checked)
-                    ret = Viewer.fingerPrint.FP_SetDeviceSequentialTransmitWithLineCnt(true, Parameter.PatternColorDepth._8bit, Convert.ToByte(nud_linepersec.Value), Convert.ToUInt16(nud_delay.Value), false);
-                else
-                    ret = Viewer.fingerPrint.FP_SetDeviceSequentialTransmit(true, Parameter.PatternColorDepth._8bit, Convert.ToUInt16(nud_delay.Value));
-            }
-            else
-                ret = Viewer.fingerPrint.FP_StartCapture();
-
-            if (ret == ErrorCode.FP_STATUS_OK)
-            {
-                Viewer.frameCount = 0;
-
-                btn_interrupt.BackColor = SystemColors.Control;
-                btn_Start.BackColor = Color.LawnGreen;
-                btn_save.Enabled = true;
-
-                if (!Viewer.DisplayByGL)
+                if (cb_Display_Manul_setting.Checked)
                 {
-                    Viewer.tShowImage = new Thread(ShowImage);
-                    Viewer.tShowImage.Start();
+                    ret = Viewer.fingerPrint.FP_SetROICStream(true);
+                    if (cb_lineorsec.Checked)
+                        ret = Viewer.fingerPrint.FP_SetDeviceSequentialTransmitWithLineCnt(true, Parameter.PatternColorDepth._8bit, Convert.ToByte(nud_linepersec.Value), Convert.ToUInt16(nud_delay.Value), false);
+                    else
+                        ret = Viewer.fingerPrint.FP_SetDeviceSequentialTransmit(true, Parameter.PatternColorDepth._8bit, Convert.ToUInt16(nud_delay.Value));
                 }
-            }
-            else
-            {
-                LogUpdate("[E] StartCapture - ErrorCode = " + ret.ToString(), true);
+                else
+                    ret = Viewer.fingerPrint.FP_StartCapture();
+
+                if (ret == ErrorCode.FP_STATUS_OK)
+                {
+                    Viewer.frameCount = 0;
+
+                    btn_interrupt.BackColor = SystemColors.Control;
+                    btn_Start.BackColor = Color.LawnGreen;
+                    btn_save.Enabled = true;
+
+                    if (!Viewer.DisplayByGL)
+                    {
+                        Viewer.tShowImage = new Thread(ShowImage);
+                        Viewer.tShowImage.Start();
+                    }
+                }
+                else
+                {
+                    LogUpdate("[E] StartCapture - ErrorCode = " + ret.ToString(), true);
 #if DEBUG
-                Viewer.fingerPrint.FP_SetDeviceSequentialTransmitWithLineCnt(true, Parameter.PatternColorDepth._8bit, (byte)nud_linepersec.Value, (ushort)nud_delay.Value, false);
+                    Viewer.fingerPrint.FP_SetDeviceSequentialTransmitWithLineCnt(true, Parameter.PatternColorDepth._8bit, (byte)nud_linepersec.Value, (ushort)nud_delay.Value, false);
 #else
                 btn_Start.Enabled = true;
 #endif
 
+                }
             }
         }
 
         private void Btn_interrupt_Click(object sender, EventArgs e)
         {
             ErrorCode ret = Viewer.fingerPrint.FP_StopCapture();
-            if(ret == ErrorCode.FP_STATUS_OK)
+            if (ret == ErrorCode.FP_STATUS_OK)
             {
                 if (!Viewer.DisplayByGL)
                     Viewer.tShowImage.Abort();
@@ -581,7 +587,7 @@ namespace FPD
                 switch (Viewer.nDataFrameNum)
                 {
                     case 0:
-                        Viewer.bmp_backup = (Bitmap)Viewer.bmp0.Clone();                    
+                        Viewer.bmp_backup = (Bitmap)Viewer.bmp0.Clone();
                         break;
                     case 1:
                         Viewer.bmp_backup = (Bitmap)Viewer.bmp1.Clone();
@@ -642,6 +648,7 @@ namespace FPD
                     else
                     {
                         Viewer.PWMDuty_memory = duty;
+                        Viewer.PWMFrequency_memory = freq;
                         tb_PWM_Duty.Text = Convert.ToString(duty);
                         tb_PWM_Freq.Text = Convert.ToString(freq);
                         cb_DebugLog_Level.SelectedIndex = (int)Viewer.debuglevel;
@@ -690,7 +697,7 @@ namespace FPD
             }
 
         }
-               
+
         private void nud_linepersec_ValueChanged(object sender, EventArgs e)
         {
         }
@@ -712,7 +719,7 @@ namespace FPD
                 nud_linepersec.Enabled = false;
             }
         }
-                
+
         private void tbar_PWM_Scroll(object sender, EventArgs e)
         {
             tb_PWM_Duty.Text = Convert.ToString(tbar_PWM_Duty.Value);
@@ -756,7 +763,7 @@ namespace FPD
                 }
                 else
                 {
-                    ErrorCode ret =  Viewer.fingerPrint.FP_SetPWMPara((UInt16)Freq, (UInt16)Duty);
+                    ErrorCode ret = Viewer.fingerPrint.FP_SetPWMPara((UInt16)Freq, (UInt16)Duty);
                     tbar_PWM_Duty.Value = Duty;
                     tb_PWM_Duty.BackColor = Color.PaleVioletRed;
                     System.Threading.Thread.Sleep(100);
@@ -777,6 +784,7 @@ namespace FPD
                         if (uDuty > 0)
                         {
                             Viewer.PWMDuty_memory = uDuty;
+                            Viewer.PWMFrequency_memory = uFreq;
                             tb_PWM_Duty.BackColor = Color.LimeGreen;
                             rb_bl_on.Checked = true;
                         }
@@ -785,7 +793,7 @@ namespace FPD
                             tb_PWM_Duty.BackColor = Color.LightGray;
                             rb_bl_off.Checked = true;
                         }
-                        if(8000> uFreq && uFreq > 1000)
+                        if (8000 > uFreq && uFreq > 1000)
                         {
                             tb_PWM_Freq.BackColor = Color.LimeGreen;
                         }
@@ -863,7 +871,10 @@ namespace FPD
 
         private void btn_save_Click(object sender, EventArgs e)
         {
-            Viewer.save_count = (int)nud_save_count.Value;
+            if (Viewer._Initial)
+            {
+                Viewer.save_count = (int)nud_save_count.Value;
+            }
         }
 
         private void btn_changed_savepath_Click(object sender, EventArgs e)
@@ -874,7 +885,7 @@ namespace FPD
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    Viewer.PathofExe = fbd.SelectedPath + "\\";                    
+                    Viewer.PathofExe = fbd.SelectedPath + "\\";
                 }
             }
             lb_save_path.Text = "Save Path : " + Viewer.PathofExe;
@@ -912,7 +923,7 @@ namespace FPD
         {
             if (((RadioButton)sender).Checked)
             {
-                Viewer.Sec_screen_static = (((RadioButton)sender).Text == "Static Sample Picture");                
+                Viewer.Sec_screen_static = (((RadioButton)sender).Text == "Static Sample Picture");
             }
             Sample_draw.Refresh();
         }
@@ -972,7 +983,7 @@ namespace FPD
 
         private void Rotate_chenge(object sender, EventArgs e)
         {
-            if(((RadioButton)sender).Checked == true)
+            if (((RadioButton)sender).Checked == true)
             {
                 switch (((RadioButton)sender).Text)
                 {
@@ -1053,17 +1064,17 @@ namespace FPD
 
         private void Form_Display_Click(object sender, EventArgs e)
         {
-            if(((MouseEventArgs)e).Button == MouseButtons.Right)
-            {   
+            if (((MouseEventArgs)e).Button == MouseButtons.Right)
+            {
                 this.contextMenuStrip1.Show(MousePosition);
             }
         }
 
         private void RK_tb_code_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if(e.KeyChar == 13)
+            if (e.KeyChar == 13)
             {
-                if(RK_tb_code.Text == "1510192" || RK_tb_code.Text == "ACSBA0")
+                if (RK_tb_code.Text == "1510192" || RK_tb_code.Text == "ACSBA0")
                 {
                     Form_Main.Engineering_mode = true;
                     this.Engineering_Item(Form_Main.Engineering_mode);
@@ -1076,7 +1087,7 @@ namespace FPD
 
         private void Form_Display_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(!btn_Start.Enabled && btn_interrupt.Enabled)
+            if (!btn_Start.Enabled && btn_interrupt.Enabled)
             {
                 callButtonEvent(btn_interrupt, "OnClick");
             }
@@ -1085,16 +1096,16 @@ namespace FPD
         private void Form_Display_Shown(object sender, EventArgs e)
         {
             callButtonEvent(btn_connect, "OnClick");
-            //callButtonEvent(btn_Start, "OnClick");
-            //callButtonEvent(btn_save, "OnClick");
+            callButtonEvent(btn_Start, "OnClick");
+            callButtonEvent(btn_save, "OnClick");
         }
 
         private void Save_Image(object image)
         {
             Viewer.UpadateLogInvoke UpdateLog = LogUpdate;
-            string save_path = "Saved_Image_" + DateTime.Now.ToString("ddMMyy_HHmmss_fff") + ".bmp";            
+            string save_path = "Saved_Image_" + DateTime.Now.ToString("ddMMyy_HHmmss_fff") + ".bmp";
             Viewer.sSavePath = new FileStream(Viewer.PathofExe + save_path, FileMode.Create);
-            lock(image)
+            lock (image)
             {
                 ((Bitmap)image).Save(Viewer.sSavePath, ImageFormat.Bmp);
             }
@@ -1106,18 +1117,18 @@ namespace FPD
 
         private void num_cfb_ValueChanged(object sender, EventArgs e)
         {
-            ushort cfb = (ushort)(Convert.ToDouble( num_cfb.Value ) / 0.125);
+            ushort cfb = (ushort)(Convert.ToDouble(num_cfb.Value) / 0.125);
             Viewer.fingerPrint.FP_SetSensorCfb((byte)cfb);
             Thread.Sleep(100);
             byte o_cfb;
             Viewer.fingerPrint.FP_GetSensorCfb(out o_cfb);
-            if(o_cfb != cfb)
+            if (o_cfb != cfb)
             {
                 rt_log.AppendText("Set Cfb Fail..." + Environment.NewLine);
                 num_cfb.Value = o_cfb * num_cfb.Increment;
             }
         }
-        
+
 
         private void num_pgagain_ValueChanged(object sender, EventArgs e)
         {
@@ -1157,6 +1168,161 @@ namespace FPD
         private void btn_Decoding_Click(object sender, EventArgs e)
         {
             tb_Encoding.Text = Form_Main.Decrypt(Form_Main.tuple.Item2, tb_Encoding.Text);//將加密後的位元組陣列轉換為加密字串
+        }
+
+        private void btn_test_Click(object sender, EventArgs e)
+        {
+            int testitem = comboBox_Testitem.SelectedIndex;
+            Int32.TryParse(textBox_value1.Text, out int value1);
+            Int32.TryParse(textBox_value2.Text, out int value2);
+            Int32.TryParse(textBox_pervalue.Text, out int pervalue);
+            Int32.TryParse(textBox_delay.Text, out int delay);
+            UInt32.TryParse(textBox_Loop.Text, out uint loop);
+
+            if (Stress_Change_Flag == false && Viewer._Initial)
+            {
+                Stress_Change_Flag = true;
+                btn_test.Text = "Stop";
+                switch (testitem)
+                {
+                    case 0:
+                        Set_PWM_Frequency_value(value1, value2, pervalue, delay, loop);
+                        break;
+                    case 1:
+                        Set_PWM_Duty_value(value1, value2, pervalue, delay, loop);
+                        break;
+                    case 2:
+                        Set_PWM_Backlight_value(value1, value2, delay, loop);
+                        break;
+                }
+            }
+            else
+            {
+                btn_test.Text = "Test";
+                Stress_Change_Flag = false;
+            }
+        }
+
+        private void Set_PWM_Frequency_value(int start, int end, int per, int delay, uint loop)
+        {
+            for (int test_times = 0; test_times < loop; test_times++)
+            {
+                if (start != end && Stress_Change_Flag)
+                {
+                    if (start < end)
+                    {
+                        for (int test_value = start; test_value < end; test_value = test_value + per)
+                        {
+                            Viewer.fingerPrint.FP_SetPWMPara((UInt16)Convert.ToUInt16(test_value), (UInt16)Viewer.PWMDuty_memory);
+                            System.Threading.Thread.Sleep(100);
+                            Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
+                            Viewer.save_count = 1;
+                            System.Threading.Thread.Sleep(delay);
+                        }
+                    }
+                    else
+                    {
+                        for (int test_value = end; test_value > start; test_value = test_value - per)
+                        {
+                            Viewer.fingerPrint.FP_SetPWMPara((UInt16)Convert.ToUInt16(test_value), (UInt16)Viewer.PWMDuty_memory);
+                            System.Threading.Thread.Sleep(100);
+                            Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
+                            Viewer.save_count = 1;
+                            System.Threading.Thread.Sleep(delay);
+                        }
+                    }
+                }
+                else if (Stress_Change_Flag)
+                {
+                    Viewer.fingerPrint.FP_SetPWMPara((UInt16)Convert.ToUInt16(start), (UInt16)Viewer.PWMDuty_memory);
+                    System.Threading.Thread.Sleep(100);
+                    Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
+                    Viewer.save_count = 1;
+                    System.Threading.Thread.Sleep(delay);
+                }
+                else
+                    break;
+            }
+        }
+
+        private void Set_PWM_Duty_value(int start, int end, int per, int delay, uint loop)
+        {
+            for (int test_times = 0; test_times < loop; test_times++)
+            {
+                if (start != end && Stress_Change_Flag)
+                {
+                    if (start < end)
+                    {
+                        for (int test_value = start; test_value < end; test_value = test_value + per)
+                        {
+                            Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Convert.ToUInt16(test_value));
+                            System.Threading.Thread.Sleep(100);
+                            Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
+                            Viewer.save_count = 1;
+                            System.Threading.Thread.Sleep(delay);
+                        }
+                    }
+                    else
+                    {
+                        for (int test_value = end; test_value > start; test_value = test_value - per)
+                        {
+                            Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Convert.ToUInt16(test_value));
+                            System.Threading.Thread.Sleep(100);
+                            Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
+                            Viewer.save_count = 1;
+                            System.Threading.Thread.Sleep(delay);
+                        }
+                    }
+                }
+                else if (Stress_Change_Flag)
+                {
+                    Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Convert.ToUInt16(start));
+                    System.Threading.Thread.Sleep(100);
+                    Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
+                    Viewer.save_count = 1;
+                    System.Threading.Thread.Sleep(delay);
+                }
+                else
+                    break;
+            }
+        }
+
+        private void Set_PWM_Backlight_value(int start, int end, int delay, uint loop)
+        {
+            for (int test_times = 0; test_times < loop; test_times++)
+            {
+                if (start != end && Stress_Change_Flag)
+                {
+                    if (start < end)
+                    {
+                        Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Convert.ToUInt16(0));
+                        System.Threading.Thread.Sleep(100);
+                        Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
+                        Viewer.save_count = 1;
+                        System.Threading.Thread.Sleep(delay);
+                        Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Viewer.PWMDuty_memory);
+                        System.Threading.Thread.Sleep(100);
+                        Viewer.fingerPrint.FP_GetPWMPara(out uFreq, out uDuty);
+                        Viewer.save_count = 1;
+                        System.Threading.Thread.Sleep(delay);
+                    }
+                    else
+                    {
+                        Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Viewer.PWMDuty_memory);
+                        System.Threading.Thread.Sleep(100);
+                        Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
+                        Viewer.save_count = 1;
+                        System.Threading.Thread.Sleep(delay);
+                        Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Convert.ToUInt16(0));
+                        System.Threading.Thread.Sleep(100);
+                        Viewer.fingerPrint.FP_GetPWMPara(out uFreq, out uDuty);
+                        Viewer.save_count = 1;
+                        System.Threading.Thread.Sleep(delay);
+                    }
+                }
+                else
+                    break;
+            }
         }
     }
 }
