@@ -1151,18 +1151,20 @@ namespace FPD
             callButtonEvent(btn_connect, "OnClick");
             callButtonEvent(btn_Start, "OnClick");
             callButtonEvent(btn_save, "OnClick");
+            Viewer.APP_Start_times++;
         }
 
         private void Save_Image(object image)
         {
             Viewer.UpadateLogInvoke UpdateLog = LogUpdate;
-            string save_path = "Saved_Image_" + DateTime.Now.ToString("ddMMyy_HHmmss_fff") + ".bmp";
+            string save_path = "Saved_Image_" + Viewer.APP_Start_times + "_" + Viewer.PIC_Success_times + "_" + DateTime.Now.ToString("ddMMyy_HHmmss_fff") + ".bmp";
             Viewer.sSavePath = new FileStream(Viewer.PathofExe + save_path, FileMode.Create);
             lock (image)
             {
                 ((Bitmap)image).Save(Viewer.sSavePath, ImageFormat.Bmp);
             }
             Viewer.sSavePath.Close();
+            Viewer.PIC_Success_times++;
             SSL_Save_Status.Text = "File Save at " + Viewer.PathofExe + save_path;
             Invoke(UpdateLog, new Object[] { "File Save at " + Viewer.PathofExe + save_path, true });
             GC.Collect();
@@ -1540,5 +1542,10 @@ namespace FPD
             }
         }
 
+        private void btn_savelog_Click(object sender, EventArgs e)
+        {
+            Viewer.APP_Start_times = 0;
+            Viewer.PIC_Success_times = 0;
+        }
     }
 }

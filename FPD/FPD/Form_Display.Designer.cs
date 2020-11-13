@@ -1188,6 +1188,7 @@
             this.btn_savelog.Text = "Save Log";
             this.btn_savelog.UseVisualStyleBackColor = true;
             this.btn_savelog.Visible = false;
+            this.btn_savelog.Click += new System.EventHandler(this.btn_savelog_Click);
             // 
             // btn_test
             // 
