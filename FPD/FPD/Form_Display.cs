@@ -1281,6 +1281,9 @@ namespace FPD
                 case 5:
                     Set_ROIC_vos_value(value1, value2, pervalue, delay, loop);
                     break;
+                case 6:
+                    Set_Save_caption_data(value1);
+                    break;
             }
         }
 
@@ -1603,6 +1606,14 @@ namespace FPD
                 }
                 else
                     break;
+            }
+        }
+
+        private void Set_Save_caption_data(int start)
+        {
+            if (Stress_Change_Flag)
+            {
+                Viewer.save_count = start;
             }
         }
 
