@@ -1237,42 +1237,50 @@ namespace FPD
         private void btn_test_Click(object sender, EventArgs e)
         {
             int testitem = cbo_testitem.SelectedIndex;
+
+            if (Stress_Change_Flag == false)
+            {
+                Stress_Change_Flag = true;
+                btn_test.Text = "Stop";
+                Viewer.tStressTest = new Thread(new ParameterizedThreadStart(Stress_Test));
+                Viewer.tStressTest.Start(testitem);
+            }
+            else
+            {
+                Stress_Change_Flag = false;
+                btn_test.Text = "Test";
+                GC.Collect();
+            }
+        }
+
+        private void Stress_Test(object Test)
+        {
             Int32.TryParse(num_value1.Text, out int value1);
             Int32.TryParse(num_value2.Text, out int value2);
             Int32.TryParse(num_pervalue.Text, out int pervalue);
             Int32.TryParse(num_delay.Text, out int delay);
             UInt32.TryParse(num_loop.Text, out uint loop);
 
-            if (Stress_Change_Flag == false)
+            switch (Test)
             {
-                Stress_Change_Flag = true;
-                btn_test.Text = "Stop";
-                switch (testitem)
-                {
-                    case 0:
-                        Set_PWM_Frequency_value(value1, value2, pervalue, delay, loop);
-                        break;
-                    case 1:
-                        Set_PWM_Duty_value(value1, value2, pervalue, delay, loop);
-                        break;
-                    case 2:
-                        Set_PWM_Backlight_value(value1, value2, delay, loop);
-                        break;
-                    case 3:
-                        Set_ROIC_gain_value(value1, value2, pervalue, delay, loop);
-                        break;
-                    case 4:
-                        Set_ROIC_cfb_value(value1, value2, pervalue, delay, loop);
-                        break;
-                    case 5:
-                        Set_ROIC_vos_value(value1, value2, pervalue, delay, loop);
-                        break;
-                }
-            }
-            else
-            {
-                btn_test.Text = "Test";
-                Stress_Change_Flag = false;
+                case 0:
+                    Set_PWM_Frequency_value(value1, value2, pervalue, delay, loop);
+                    break;
+                case 1:
+                    Set_PWM_Duty_value(value1, value2, pervalue, delay, loop);
+                    break;
+                case 2:
+                    Set_PWM_Backlight_value(value1, value2, delay, loop);
+                    break;
+                case 3:
+                    Set_ROIC_gain_value(value1, value2, pervalue, delay, loop);
+                    break;
+                case 4:
+                    Set_ROIC_cfb_value(value1, value2, pervalue, delay, loop);
+                    break;
+                case 5:
+                    Set_ROIC_vos_value(value1, value2, pervalue, delay, loop);
+                    break;
             }
         }
 
@@ -1286,22 +1294,28 @@ namespace FPD
                     {
                         for (int test_value = start; test_value < end; test_value = test_value + per)
                         {
-                            Viewer.fingerPrint.FP_SetPWMPara((UInt16)Convert.ToUInt16(test_value), (UInt16)Viewer.PWMDuty_memory);
-                            System.Threading.Thread.Sleep(100);
-                            Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
-                            Viewer.save_count = 1;
-                            System.Threading.Thread.Sleep(delay);
+                            if (Stress_Change_Flag)
+                            {
+                                Viewer.fingerPrint.FP_SetPWMPara((UInt16)Convert.ToUInt16(test_value), (UInt16)Viewer.PWMDuty_memory);
+                                System.Threading.Thread.Sleep(100);
+                                Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
+                                Viewer.save_count = 1;
+                                System.Threading.Thread.Sleep(delay);
+                            }
                         }
                     }
                     else
                     {
                         for (int test_value = end; test_value > start; test_value = test_value - per)
                         {
-                            Viewer.fingerPrint.FP_SetPWMPara((UInt16)Convert.ToUInt16(test_value), (UInt16)Viewer.PWMDuty_memory);
-                            System.Threading.Thread.Sleep(100);
-                            Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
-                            Viewer.save_count = 1;
-                            System.Threading.Thread.Sleep(delay);
+                            if (Stress_Change_Flag)
+                            {
+                                Viewer.fingerPrint.FP_SetPWMPara((UInt16)Convert.ToUInt16(test_value), (UInt16)Viewer.PWMDuty_memory);
+                                System.Threading.Thread.Sleep(100);
+                                Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
+                                Viewer.save_count = 1;
+                                System.Threading.Thread.Sleep(delay);
+                            }
                         }
                     }
                 }
@@ -1328,22 +1342,32 @@ namespace FPD
                     {
                         for (int test_value = start; test_value < end; test_value = test_value + per)
                         {
-                            Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Convert.ToUInt16(test_value));
-                            System.Threading.Thread.Sleep(100);
-                            Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
-                            Viewer.save_count = 1;
-                            System.Threading.Thread.Sleep(delay);
+                            if (Stress_Change_Flag)
+                            {
+                                Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Convert.ToUInt16(test_value));
+                                System.Threading.Thread.Sleep(100);
+                                Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
+                                Viewer.save_count = 1;
+                                System.Threading.Thread.Sleep(delay);
+                            }
+                            else
+                                break;
                         }
                     }
                     else
                     {
                         for (int test_value = end; test_value > start; test_value = test_value - per)
                         {
-                            Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Convert.ToUInt16(test_value));
-                            System.Threading.Thread.Sleep(100);
-                            Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
-                            Viewer.save_count = 1;
-                            System.Threading.Thread.Sleep(delay);
+                            if (Stress_Change_Flag)
+                            {
+                                Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Convert.ToUInt16(test_value));
+                                System.Threading.Thread.Sleep(100);
+                                Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
+                                Viewer.save_count = 1;
+                                System.Threading.Thread.Sleep(delay);
+                            }
+                            else
+                                break;
                         }
                     }
                 }
@@ -1368,29 +1392,39 @@ namespace FPD
                 {
                     if (start < end)
                     {
-                        Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Convert.ToUInt16(0));
-                        System.Threading.Thread.Sleep(100);
-                        Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
-                        Viewer.save_count = 1;
-                        System.Threading.Thread.Sleep(delay);
-                        Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Viewer.PWMDuty_memory);
-                        System.Threading.Thread.Sleep(100);
-                        Viewer.fingerPrint.FP_GetPWMPara(out uFreq, out uDuty);
-                        Viewer.save_count = 1;
-                        System.Threading.Thread.Sleep(delay);
+                        if (Stress_Change_Flag)
+                        {
+                            Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Convert.ToUInt16(0));
+                            System.Threading.Thread.Sleep(100);
+                            Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
+                            Viewer.save_count = 1;
+                            System.Threading.Thread.Sleep(delay);
+                            Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Viewer.PWMDuty_memory);
+                            System.Threading.Thread.Sleep(100);
+                            Viewer.fingerPrint.FP_GetPWMPara(out uFreq, out uDuty);
+                            Viewer.save_count = 1;
+                            System.Threading.Thread.Sleep(delay);
+                        }
+                        else
+                            break;
                     }
                     else
                     {
-                        Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Viewer.PWMDuty_memory);
-                        System.Threading.Thread.Sleep(100);
-                        Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
-                        Viewer.save_count = 1;
-                        System.Threading.Thread.Sleep(delay);
-                        Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Convert.ToUInt16(0));
-                        System.Threading.Thread.Sleep(100);
-                        Viewer.fingerPrint.FP_GetPWMPara(out uFreq, out uDuty);
-                        Viewer.save_count = 1;
-                        System.Threading.Thread.Sleep(delay);
+                        if (Stress_Change_Flag)
+                        {
+                            Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Viewer.PWMDuty_memory);
+                            System.Threading.Thread.Sleep(100);
+                            Viewer.fingerPrint.FP_GetPWMPara(out ushort uFreq, out ushort uDuty);
+                            Viewer.save_count = 1;
+                            System.Threading.Thread.Sleep(delay);
+                            Viewer.fingerPrint.FP_SetPWMPara((UInt16)Viewer.PWMFrequency_memory, (UInt16)Convert.ToUInt16(0));
+                            System.Threading.Thread.Sleep(100);
+                            Viewer.fingerPrint.FP_GetPWMPara(out uFreq, out uDuty);
+                            Viewer.save_count = 1;
+                            System.Threading.Thread.Sleep(delay);
+                        }
+                        else
+                            break;
                     }
                 }
                 else
@@ -1408,26 +1442,36 @@ namespace FPD
                     {
                         for (int test_value = start; test_value < end; test_value = test_value + per)
                         {
-                            ushort pgagain = (ushort)(Convert.ToInt16(test_value));
-                            Viewer.fingerPrint.FP_SetSensorPGAGain((byte)pgagain);
-                            Thread.Sleep(100);
-                            byte o_pgagain;
-                            Viewer.fingerPrint.FP_GetSensorPGAGain(out o_pgagain);
-                            Viewer.save_count = 1;
-                            System.Threading.Thread.Sleep(delay);
+                            if (Stress_Change_Flag)
+                            {
+                                ushort pgagain = (ushort)(Convert.ToInt16(test_value));
+                                Viewer.fingerPrint.FP_SetSensorPGAGain((byte)pgagain);
+                                Thread.Sleep(100);
+                                byte o_pgagain;
+                                Viewer.fingerPrint.FP_GetSensorPGAGain(out o_pgagain);
+                                Viewer.save_count = 1;
+                                System.Threading.Thread.Sleep(delay);
+                            }
+                            else
+                                break;
                         }
                     }
                     else
                     {
                         for (int test_value = end; test_value > start; test_value = test_value - per)
                         {
-                            ushort pgagain = (ushort)(Convert.ToInt16(test_value));
-                            Viewer.fingerPrint.FP_SetSensorPGAGain((byte)pgagain);
-                            Thread.Sleep(100);
-                            byte o_pgagain;
-                            Viewer.fingerPrint.FP_GetSensorPGAGain(out o_pgagain);
-                            Viewer.save_count = 1;
-                            System.Threading.Thread.Sleep(delay);
+                            if (Stress_Change_Flag)
+                            {
+                                ushort pgagain = (ushort)(Convert.ToInt16(test_value));
+                                Viewer.fingerPrint.FP_SetSensorPGAGain((byte)pgagain);
+                                Thread.Sleep(100);
+                                byte o_pgagain;
+                                Viewer.fingerPrint.FP_GetSensorPGAGain(out o_pgagain);
+                                Viewer.save_count = 1;
+                                System.Threading.Thread.Sleep(delay);
+                            }
+                            else
+                                break;
                         }
                     }
                 }
@@ -1456,26 +1500,36 @@ namespace FPD
                     {
                         for (int test_value = start; test_value < end; test_value = test_value + per)
                         {
-                            ushort cfb = (ushort)(Convert.ToDouble(test_value));
-                            Viewer.fingerPrint.FP_SetSensorCfb((byte)cfb);
-                            Thread.Sleep(100);
-                            byte o_cfb;
-                            Viewer.fingerPrint.FP_GetSensorCfb(out o_cfb);
-                            Viewer.save_count = 1;
-                            System.Threading.Thread.Sleep(delay);
+                            if (Stress_Change_Flag)
+                            {
+                                ushort cfb = (ushort)(Convert.ToDouble(test_value));
+                                Viewer.fingerPrint.FP_SetSensorCfb((byte)cfb);
+                                Thread.Sleep(100);
+                                byte o_cfb;
+                                Viewer.fingerPrint.FP_GetSensorCfb(out o_cfb);
+                                Viewer.save_count = 1;
+                                System.Threading.Thread.Sleep(delay);
+                            }
+                            else
+                                break;
                         }
                     }
                     else
                     {
                         for (int test_value = end; test_value > start; test_value = test_value - per)
                         {
-                            ushort cfb = (ushort)(Convert.ToDouble(test_value));
-                            Viewer.fingerPrint.FP_SetSensorCfb((byte)cfb);
-                            Thread.Sleep(100);
-                            byte o_cfb;
-                            Viewer.fingerPrint.FP_GetSensorCfb(out o_cfb);
-                            Viewer.save_count = 1;
-                            System.Threading.Thread.Sleep(delay);
+                            if (Stress_Change_Flag)
+                            {
+                                ushort cfb = (ushort)(Convert.ToDouble(test_value));
+                                Viewer.fingerPrint.FP_SetSensorCfb((byte)cfb);
+                                Thread.Sleep(100);
+                                byte o_cfb;
+                                Viewer.fingerPrint.FP_GetSensorCfb(out o_cfb);
+                                Viewer.save_count = 1;
+                                System.Threading.Thread.Sleep(delay);
+                            }
+                            else
+                                break;
                         }
                     }
                 }
@@ -1504,26 +1558,36 @@ namespace FPD
                     {
                         for (int test_value = start; test_value < end; test_value = test_value + per)
                         {
-                            ushort vos = (ushort)(Convert.ToDouble(test_times));
-                            Viewer.fingerPrint.FP_SetSensorADCOffset(vos);
-                            Thread.Sleep(100);
-                            ushort o_vos;
-                            Viewer.fingerPrint.FP_GetSensorADCOffset(out o_vos);
-                            Viewer.save_count = 1;
-                            System.Threading.Thread.Sleep(delay);
+                            if (Stress_Change_Flag)
+                            {
+                                ushort vos = (ushort)(Convert.ToDouble(test_times));
+                                Viewer.fingerPrint.FP_SetSensorADCOffset(vos);
+                                Thread.Sleep(100);
+                                ushort o_vos;
+                                Viewer.fingerPrint.FP_GetSensorADCOffset(out o_vos);
+                                Viewer.save_count = 1;
+                                System.Threading.Thread.Sleep(delay);
+                            }
+                            else
+                                break;
                         }
                     }
                     else
                     {
                         for (int test_value = end; test_value > start; test_value = test_value - per)
                         {
-                            ushort vos = (ushort)(Convert.ToDouble(test_times));
-                            Viewer.fingerPrint.FP_SetSensorADCOffset(vos);
-                            Thread.Sleep(100);
-                            ushort o_vos;
-                            Viewer.fingerPrint.FP_GetSensorADCOffset(out o_vos);
-                            Viewer.save_count = 1;
-                            System.Threading.Thread.Sleep(delay);
+                            if (Stress_Change_Flag)
+                            {
+                                ushort vos = (ushort)(Convert.ToDouble(test_times));
+                                Viewer.fingerPrint.FP_SetSensorADCOffset(vos);
+                                Thread.Sleep(100);
+                                ushort o_vos;
+                                Viewer.fingerPrint.FP_GetSensorADCOffset(out o_vos);
+                                Viewer.save_count = 1;
+                                System.Threading.Thread.Sleep(delay);
+                            }
+                            else
+                                break;
                         }
                     }
                 }

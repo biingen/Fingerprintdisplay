@@ -146,6 +146,7 @@ namespace FPD
         public static System.Threading.Thread tInitial;
         public static System.Threading.Thread tSaveImage;
         public static System.Threading.Thread tCompatible;
+        public static System.Threading.Thread tStressTest;
 
         public static System.Drawing.Imaging.ColorPalette tempPalette;
 

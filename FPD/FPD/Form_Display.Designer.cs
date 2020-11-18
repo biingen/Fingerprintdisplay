@@ -1136,14 +1136,14 @@
             // 
             // num_pervalue
             // 
-            this.num_pervalue.Location = new System.Drawing.Point(326, 12);
+            this.num_pervalue.Location = new System.Drawing.Point(308, 12);
             this.num_pervalue.Name = "num_pervalue";
             this.num_pervalue.Size = new System.Drawing.Size(74, 22);
             this.num_pervalue.TabIndex = 85;
             // 
             // per_label
             // 
-            this.per_label.Location = new System.Drawing.Point(269, 15);
+            this.per_label.Location = new System.Drawing.Point(251, 15);
             this.per_label.Name = "per_label";
             this.per_label.Size = new System.Drawing.Size(55, 15);
             this.per_label.TabIndex = 84;
@@ -1181,9 +1181,9 @@
             // 
             // btn_savelog
             // 
-            this.btn_savelog.Location = new System.Drawing.Point(172, 36);
+            this.btn_savelog.Location = new System.Drawing.Point(152, 35);
             this.btn_savelog.Name = "btn_savelog";
-            this.btn_savelog.Size = new System.Drawing.Size(92, 22);
+            this.btn_savelog.Size = new System.Drawing.Size(88, 22);
             this.btn_savelog.TabIndex = 79;
             this.btn_savelog.Text = "Save Log";
             this.btn_savelog.UseVisualStyleBackColor = true;
@@ -1192,9 +1192,9 @@
             // 
             // btn_test
             // 
-            this.btn_test.Location = new System.Drawing.Point(172, 61);
+            this.btn_test.Location = new System.Drawing.Point(152, 61);
             this.btn_test.Name = "btn_test";
-            this.btn_test.Size = new System.Drawing.Size(92, 22);
+            this.btn_test.Size = new System.Drawing.Size(88, 22);
             this.btn_test.TabIndex = 78;
             this.btn_test.Text = "Test";
             this.btn_test.UseVisualStyleBackColor = true;
@@ -1202,14 +1202,14 @@
             // 
             // num_loop
             // 
-            this.num_loop.Location = new System.Drawing.Point(326, 61);
+            this.num_loop.Location = new System.Drawing.Point(308, 61);
             this.num_loop.Name = "num_loop";
             this.num_loop.Size = new System.Drawing.Size(74, 22);
             this.num_loop.TabIndex = 77;
             // 
             // label_Times
             // 
-            this.label_Times.Location = new System.Drawing.Point(269, 64);
+            this.label_Times.Location = new System.Drawing.Point(251, 64);
             this.label_Times.Name = "label_Times";
             this.label_Times.Size = new System.Drawing.Size(41, 15);
             this.label_Times.TabIndex = 76;
@@ -1217,14 +1217,14 @@
             // 
             // num_delay
             // 
-            this.num_delay.Location = new System.Drawing.Point(326, 36);
+            this.num_delay.Location = new System.Drawing.Point(308, 36);
             this.num_delay.Name = "num_delay";
             this.num_delay.Size = new System.Drawing.Size(74, 22);
             this.num_delay.TabIndex = 75;
             // 
             // label_delay
             // 
-            this.label_delay.Location = new System.Drawing.Point(269, 39);
+            this.label_delay.Location = new System.Drawing.Point(251, 39);
             this.label_delay.Name = "label_delay";
             this.label_delay.Size = new System.Drawing.Size(55, 15);
             this.label_delay.TabIndex = 74;
@@ -1263,7 +1263,7 @@
             "FP_SaveCaptionData"});
             this.cbo_testitem.Location = new System.Drawing.Point(67, 11);
             this.cbo_testitem.Name = "cbo_testitem";
-            this.cbo_testitem.Size = new System.Drawing.Size(197, 20);
+            this.cbo_testitem.Size = new System.Drawing.Size(173, 20);
             this.cbo_testitem.TabIndex = 72;
             // 
             // gb_Stress
@@ -1285,7 +1285,7 @@
             this.gb_Stress.Enabled = false;
             this.gb_Stress.Location = new System.Drawing.Point(977, 757);
             this.gb_Stress.Name = "gb_Stress";
-            this.gb_Stress.Size = new System.Drawing.Size(407, 87);
+            this.gb_Stress.Size = new System.Drawing.Size(393, 87);
             this.gb_Stress.TabIndex = 47;
             this.gb_Stress.TabStop = false;
             this.gb_Stress.Text = "Stress";
