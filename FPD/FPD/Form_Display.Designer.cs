@@ -1248,7 +1248,8 @@
             "FP_SetSensorPGAGain (0-31)",
             "FP_SetSensorCfb (0-31)",
             "FP_SetSensorADCOffset (0-1023)",
-            "FP_SaveCaptionData",
+            "FP_SaveCaptionData (Any value)",
+            "FP_ResetDevice (Any value)"/*,
             "Device_IsConnected",
             "Device_AutoConnect_Interval",
             "Device_AutoConnect",
@@ -1260,7 +1261,7 @@
             "FP_SetDeviceSequentialTransmitWithLineCnt",
             "FP_GetDeviceDescription",
             "FP_ResetDevice",
-            "FP_EnterFirmwareUpgradeMode"});
+            "FP_EnterFirmwareUpgradeMode"*/});
             this.cbo_testitem.Location = new System.Drawing.Point(67, 11);
             this.cbo_testitem.Name = "cbo_testitem";
             this.cbo_testitem.Size = new System.Drawing.Size(173, 20);

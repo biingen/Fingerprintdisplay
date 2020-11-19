@@ -315,8 +315,6 @@ namespace FPD
                         break;
                     case "FP_SaveCaptionData":
                         break;
-
-
                 }
             }
         }

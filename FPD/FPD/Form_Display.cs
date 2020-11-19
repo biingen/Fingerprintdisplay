@@ -1249,6 +1249,8 @@ namespace FPD
             {
                 Stress_Change_Flag = false;
                 btn_test.Text = "Test";
+                Viewer.APP_Start_times = 0;
+                Viewer.PIC_Success_times = 0;
                 GC.Collect();
             }
         }
@@ -1283,6 +1285,9 @@ namespace FPD
                     break;
                 case 6:
                     Set_Save_caption_data(value1);
+                    break;
+                case 7:
+                    Set_Reset_device(delay, loop);
                     break;
             }
         }
@@ -1614,6 +1619,18 @@ namespace FPD
             if (Stress_Change_Flag)
             {
                 Viewer.save_count = start;
+            }
+        }
+
+        private void Set_Reset_device(int delay, uint loop)
+        {
+            for (int test_times = 0; test_times < loop; test_times++)
+            {
+                if (Stress_Change_Flag)
+                {
+                    Viewer.fingerPrint.FP_ResetDevice();
+                    System.Threading.Thread.Sleep(delay);
+                }
             }
         }
 
