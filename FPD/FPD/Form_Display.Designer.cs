@@ -155,10 +155,10 @@
             // btn_interrupt
             // 
             this.btn_interrupt.Enabled = false;
-            this.btn_interrupt.Location = new System.Drawing.Point(977, 156);
+            this.btn_interrupt.Location = new System.Drawing.Point(924, 158);
             this.btn_interrupt.Margin = new System.Windows.Forms.Padding(2);
             this.btn_interrupt.Name = "btn_interrupt";
-            this.btn_interrupt.Size = new System.Drawing.Size(84, 22);
+            this.btn_interrupt.Size = new System.Drawing.Size(60, 22);
             this.btn_interrupt.TabIndex = 12;
             this.btn_interrupt.Text = "Interrupt";
             this.btn_interrupt.UseVisualStyleBackColor = true;
@@ -180,7 +180,7 @@
             // 
             this.gb_DataBit.Controls.Add(this.rb_10bit);
             this.gb_DataBit.Controls.Add(this.rb_8bit);
-            this.gb_DataBit.Location = new System.Drawing.Point(1277, 194);
+            this.gb_DataBit.Location = new System.Drawing.Point(1324, 556);
             this.gb_DataBit.Margin = new System.Windows.Forms.Padding(2);
             this.gb_DataBit.Name = "gb_DataBit";
             this.gb_DataBit.Padding = new System.Windows.Forms.Padding(2);
@@ -217,7 +217,7 @@
             this.btn_connect.Location = new System.Drawing.Point(816, 115);
             this.btn_connect.Margin = new System.Windows.Forms.Padding(2);
             this.btn_connect.Name = "btn_connect";
-            this.btn_connect.Size = new System.Drawing.Size(76, 65);
+            this.btn_connect.Size = new System.Drawing.Size(55, 65);
             this.btn_connect.TabIndex = 13;
             this.btn_connect.Text = "Connect";
             this.btn_connect.UseVisualStyleBackColor = true;
@@ -226,10 +226,10 @@
             // btn_Start
             // 
             this.btn_Start.Enabled = false;
-            this.btn_Start.Location = new System.Drawing.Point(977, 130);
+            this.btn_Start.Location = new System.Drawing.Point(924, 132);
             this.btn_Start.Margin = new System.Windows.Forms.Padding(2);
             this.btn_Start.Name = "btn_Start";
-            this.btn_Start.Size = new System.Drawing.Size(84, 22);
+            this.btn_Start.Size = new System.Drawing.Size(60, 22);
             this.btn_Start.TabIndex = 14;
             this.btn_Start.Text = "Start";
             this.btn_Start.UseVisualStyleBackColor = true;
@@ -288,7 +288,7 @@
             // 
             this.gb_displayfunc.Controls.Add(this.rb_display_opengl);
             this.gb_displayfunc.Controls.Add(this.rb_display_default);
-            this.gb_displayfunc.Location = new System.Drawing.Point(1090, 117);
+            this.gb_displayfunc.Location = new System.Drawing.Point(981, 783);
             this.gb_displayfunc.Margin = new System.Windows.Forms.Padding(2);
             this.gb_displayfunc.Name = "gb_displayfunc";
             this.gb_displayfunc.Padding = new System.Windows.Forms.Padding(2);
@@ -333,7 +333,7 @@
             this.gb_Seq_option.Controls.Add(this.nud_linepersec);
             this.gb_Seq_option.Controls.Add(this.lb_LinePerSec);
             this.gb_Seq_option.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.gb_Seq_option.Location = new System.Drawing.Point(1277, 259);
+            this.gb_Seq_option.Location = new System.Drawing.Point(1324, 643);
             this.gb_Seq_option.Margin = new System.Windows.Forms.Padding(2);
             this.gb_Seq_option.Name = "gb_Seq_option";
             this.gb_Seq_option.Padding = new System.Windows.Forms.Padding(2);
@@ -434,7 +434,7 @@
             this.gb_PWM.Controls.Add(this.lb_PWM_Freq);
             this.gb_PWM.Controls.Add(this.tbar_PWM_Duty);
             this.gb_PWM.Enabled = false;
-            this.gb_PWM.Location = new System.Drawing.Point(814, 184);
+            this.gb_PWM.Location = new System.Drawing.Point(817, 196);
             this.gb_PWM.Margin = new System.Windows.Forms.Padding(2);
             this.gb_PWM.Name = "gb_PWM";
             this.gb_PWM.Padding = new System.Windows.Forms.Padding(2);
@@ -575,7 +575,7 @@
             // 
             // btn_GetTest
             // 
-            this.btn_GetTest.Location = new System.Drawing.Point(1204, 117);
+            this.btn_GetTest.Location = new System.Drawing.Point(1095, 783);
             this.btn_GetTest.Name = "btn_GetTest";
             this.btn_GetTest.Size = new System.Drawing.Size(85, 22);
             this.btn_GetTest.TabIndex = 18;
@@ -587,10 +587,10 @@
             // btn_Reset
             // 
             this.btn_Reset.Enabled = false;
-            this.btn_Reset.Location = new System.Drawing.Point(898, 115);
+            this.btn_Reset.Location = new System.Drawing.Point(875, 115);
             this.btn_Reset.Margin = new System.Windows.Forms.Padding(2);
             this.btn_Reset.Name = "btn_Reset";
-            this.btn_Reset.Size = new System.Drawing.Size(75, 65);
+            this.btn_Reset.Size = new System.Drawing.Size(45, 65);
             this.btn_Reset.TabIndex = 13;
             this.btn_Reset.Text = "Reset";
             this.btn_Reset.UseVisualStyleBackColor = true;
@@ -599,7 +599,7 @@
             // lb_seq_read
             // 
             this.lb_seq_read.AutoSize = true;
-            this.lb_seq_read.Location = new System.Drawing.Point(979, 113);
+            this.lb_seq_read.Location = new System.Drawing.Point(926, 115);
             this.lb_seq_read.Name = "lb_seq_read";
             this.lb_seq_read.Size = new System.Drawing.Size(58, 12);
             this.lb_seq_read.TabIndex = 20;
@@ -634,7 +634,7 @@
             // tb_zoominratio
             // 
             this.tb_zoominratio.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.tb_zoominratio.Location = new System.Drawing.Point(1234, 531);
+            this.tb_zoominratio.Location = new System.Drawing.Point(1235, 447);
             this.tb_zoominratio.Name = "tb_zoominratio";
             this.tb_zoominratio.ReadOnly = true;
             this.tb_zoominratio.Size = new System.Drawing.Size(39, 26);
@@ -646,7 +646,7 @@
             // 
             this.lb_zoomratio.AutoSize = true;
             this.lb_zoomratio.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.lb_zoomratio.Location = new System.Drawing.Point(1222, 514);
+            this.lb_zoomratio.Location = new System.Drawing.Point(1223, 430);
             this.lb_zoomratio.Name = "lb_zoomratio";
             this.lb_zoomratio.Size = new System.Drawing.Size(73, 14);
             this.lb_zoomratio.TabIndex = 27;
@@ -662,7 +662,7 @@
             "Warning",
             "Error",
             "No Log"});
-            this.cb_DebugLog_Level.Location = new System.Drawing.Point(1204, 160);
+            this.cb_DebugLog_Level.Location = new System.Drawing.Point(1095, 826);
             this.cb_DebugLog_Level.Name = "cb_DebugLog_Level";
             this.cb_DebugLog_Level.Size = new System.Drawing.Size(139, 20);
             this.cb_DebugLog_Level.TabIndex = 28;
@@ -671,7 +671,7 @@
             // lb_debugloglevel
             // 
             this.lb_debugloglevel.AutoSize = true;
-            this.lb_debugloglevel.Location = new System.Drawing.Point(1203, 142);
+            this.lb_debugloglevel.Location = new System.Drawing.Point(1094, 808);
             this.lb_debugloglevel.Name = "lb_debugloglevel";
             this.lb_debugloglevel.Size = new System.Drawing.Size(93, 12);
             this.lb_debugloglevel.TabIndex = 29;
@@ -681,7 +681,7 @@
             // 
             this.btn_zommout.BackgroundImage = global::FPD.Properties.Resources.Zoom_out;
             this.btn_zommout.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btn_zommout.Location = new System.Drawing.Point(1271, 462);
+            this.btn_zommout.Location = new System.Drawing.Point(1272, 378);
             this.btn_zommout.Name = "btn_zommout";
             this.btn_zommout.Size = new System.Drawing.Size(40, 40);
             this.btn_zommout.TabIndex = 22;
@@ -692,7 +692,7 @@
             // 
             this.btn_zoomin.BackgroundImage = global::FPD.Properties.Resources.Zoom_in;
             this.btn_zoomin.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btn_zoomin.Location = new System.Drawing.Point(1225, 462);
+            this.btn_zoomin.Location = new System.Drawing.Point(1226, 378);
             this.btn_zoomin.Name = "btn_zoomin";
             this.btn_zoomin.Size = new System.Drawing.Size(40, 40);
             this.btn_zoomin.TabIndex = 22;
@@ -745,7 +745,7 @@
             this.gb_rotate.Controls.Add(this.rb_rotate_180);
             this.gb_rotate.Controls.Add(this.rb_rotate_90);
             this.gb_rotate.Controls.Add(this.rb_rotate_0);
-            this.gb_rotate.Location = new System.Drawing.Point(1225, 563);
+            this.gb_rotate.Location = new System.Drawing.Point(1226, 479);
             this.gb_rotate.Name = "gb_rotate";
             this.gb_rotate.Size = new System.Drawing.Size(113, 72);
             this.gb_rotate.TabIndex = 36;
@@ -835,7 +835,7 @@
             // 
             // tb_pinfo_x
             // 
-            this.tb_pinfo_x.Location = new System.Drawing.Point(1258, 657);
+            this.tb_pinfo_x.Location = new System.Drawing.Point(1259, 573);
             this.tb_pinfo_x.Name = "tb_pinfo_x";
             this.tb_pinfo_x.Size = new System.Drawing.Size(60, 22);
             this.tb_pinfo_x.TabIndex = 32;
@@ -844,7 +844,7 @@
             // 
             // tb_pinfo_y
             // 
-            this.tb_pinfo_y.Location = new System.Drawing.Point(1258, 685);
+            this.tb_pinfo_y.Location = new System.Drawing.Point(1259, 601);
             this.tb_pinfo_y.Name = "tb_pinfo_y";
             this.tb_pinfo_y.Size = new System.Drawing.Size(60, 22);
             this.tb_pinfo_y.TabIndex = 33;
@@ -854,7 +854,7 @@
             // lb_pixel_info
             // 
             this.lb_pixel_info.AutoSize = true;
-            this.lb_pixel_info.Location = new System.Drawing.Point(1227, 638);
+            this.lb_pixel_info.Location = new System.Drawing.Point(1228, 554);
             this.lb_pixel_info.Name = "lb_pixel_info";
             this.lb_pixel_info.Size = new System.Drawing.Size(89, 12);
             this.lb_pixel_info.TabIndex = 31;
@@ -863,7 +863,7 @@
             // lb_pinfo_x
             // 
             this.lb_pinfo_x.AutoSize = true;
-            this.lb_pinfo_x.Location = new System.Drawing.Point(1230, 660);
+            this.lb_pinfo_x.Location = new System.Drawing.Point(1231, 576);
             this.lb_pinfo_x.Name = "lb_pinfo_x";
             this.lb_pinfo_x.Size = new System.Drawing.Size(22, 12);
             this.lb_pinfo_x.TabIndex = 33;
@@ -872,7 +872,7 @@
             // lb_pinfo_y
             // 
             this.lb_pinfo_y.AutoSize = true;
-            this.lb_pinfo_y.Location = new System.Drawing.Point(1230, 688);
+            this.lb_pinfo_y.Location = new System.Drawing.Point(1231, 604);
             this.lb_pinfo_y.Name = "lb_pinfo_y";
             this.lb_pinfo_y.Size = new System.Drawing.Size(22, 12);
             this.lb_pinfo_y.TabIndex = 33;
@@ -880,7 +880,7 @@
             // 
             // btn_getpixelinfo
             // 
-            this.btn_getpixelinfo.Location = new System.Drawing.Point(1229, 735);
+            this.btn_getpixelinfo.Location = new System.Drawing.Point(1230, 651);
             this.btn_getpixelinfo.Name = "btn_getpixelinfo";
             this.btn_getpixelinfo.Size = new System.Drawing.Size(92, 23);
             this.btn_getpixelinfo.TabIndex = 34;
@@ -891,7 +891,7 @@
             // cb_pixel_cursor
             // 
             this.cb_pixel_cursor.AutoSize = true;
-            this.cb_pixel_cursor.Location = new System.Drawing.Point(1229, 713);
+            this.cb_pixel_cursor.Location = new System.Drawing.Point(1230, 629);
             this.cb_pixel_cursor.Name = "cb_pixel_cursor";
             this.cb_pixel_cursor.Size = new System.Drawing.Size(56, 16);
             this.cb_pixel_cursor.TabIndex = 35;
@@ -1087,7 +1087,7 @@
             // cb_ROI
             // 
             this.cb_ROI.AutoSize = true;
-            this.cb_ROI.Location = new System.Drawing.Point(1291, 713);
+            this.cb_ROI.Location = new System.Drawing.Point(1292, 629);
             this.cb_ROI.Name = "cb_ROI";
             this.cb_ROI.Size = new System.Drawing.Size(44, 16);
             this.cb_ROI.TabIndex = 35;
@@ -1098,7 +1098,7 @@
             // 
             // btn_Encoding
             // 
-            this.btn_Encoding.Location = new System.Drawing.Point(1301, 411);
+            this.btn_Encoding.Location = new System.Drawing.Point(1321, 801);
             this.btn_Encoding.Name = "btn_Encoding";
             this.btn_Encoding.Size = new System.Drawing.Size(69, 23);
             this.btn_Encoding.TabIndex = 47;
@@ -1109,7 +1109,7 @@
             // 
             // tb_Encoding
             // 
-            this.tb_Encoding.Location = new System.Drawing.Point(1223, 434);
+            this.tb_Encoding.Location = new System.Drawing.Point(1243, 824);
             this.tb_Encoding.Name = "tb_Encoding";
             this.tb_Encoding.Size = new System.Drawing.Size(147, 22);
             this.tb_Encoding.TabIndex = 48;
@@ -1117,7 +1117,7 @@
             // 
             // btn_Decoding
             // 
-            this.btn_Decoding.Location = new System.Drawing.Point(1223, 411);
+            this.btn_Decoding.Location = new System.Drawing.Point(1243, 801);
             this.btn_Decoding.Name = "btn_Decoding";
             this.btn_Decoding.Size = new System.Drawing.Size(69, 23);
             this.btn_Decoding.TabIndex = 47;
@@ -1128,7 +1128,7 @@
             // 
             // tb_key
             // 
-            this.tb_key.Location = new System.Drawing.Point(1317, 462);
+            this.tb_key.Location = new System.Drawing.Point(1318, 378);
             this.tb_key.Name = "tb_key";
             this.tb_key.Size = new System.Drawing.Size(53, 22);
             this.tb_key.TabIndex = 48;
@@ -1272,7 +1272,7 @@
             this.gb_Stress.Controls.Add(this.label_value1);
             this.gb_Stress.Controls.Add(this.btn_savelog);
             this.gb_Stress.Enabled = false;
-            this.gb_Stress.Location = new System.Drawing.Point(977, 757);
+            this.gb_Stress.Location = new System.Drawing.Point(989, 113);
             this.gb_Stress.Name = "gb_Stress";
             this.gb_Stress.Size = new System.Drawing.Size(393, 87);
             this.gb_Stress.TabIndex = 47;
@@ -1286,41 +1286,41 @@
             this.ClientSize = new System.Drawing.Size(1416, 871);
             this.ContextMenuStrip = this.contextMenuStrip1;
             this.ControlBox = false;
+            this.Controls.Add(this.btn_zommout);
+            this.Controls.Add(this.btn_zoomin);
+            this.Controls.Add(this.tb_zoominratio);
+            this.Controls.Add(this.btn_GetTest);
+            this.Controls.Add(this.tb_pinfo_x);
             this.Controls.Add(this.gb_Stress);
+            this.Controls.Add(this.tb_pinfo_y);
+            this.Controls.Add(this.gb_displayfunc);
+            this.Controls.Add(this.lb_zoomratio);
+            this.Controls.Add(this.cb_DebugLog_Level);
             this.Controls.Add(this.tb_key);
+            this.Controls.Add(this.lb_debugloglevel);
+            this.Controls.Add(this.lb_pixel_info);
             this.Controls.Add(this.tb_Encoding);
+            this.Controls.Add(this.lb_pinfo_x);
             this.Controls.Add(this.btn_Decoding);
+            this.Controls.Add(this.lb_pinfo_y);
             this.Controls.Add(this.btn_Encoding);
+            this.Controls.Add(this.gb_rotate);
             this.Controls.Add(this.gb_ROIC_op);
+            this.Controls.Add(this.btn_getpixelinfo);
             this.Controls.Add(this.nud_save_count);
+            this.Controls.Add(this.cb_pixel_cursor);
             this.Controls.Add(this.lb_savecount);
             this.Controls.Add(this.cb_ROI);
-            this.Controls.Add(this.cb_pixel_cursor);
-            this.Controls.Add(this.btn_getpixelinfo);
-            this.Controls.Add(this.gb_rotate);
-            this.Controls.Add(this.lb_pinfo_y);
-            this.Controls.Add(this.lb_debugloglevel);
-            this.Controls.Add(this.lb_pinfo_x);
-            this.Controls.Add(this.cb_DebugLog_Level);
-            this.Controls.Add(this.lb_pixel_info);
-            this.Controls.Add(this.lb_zoomratio);
-            this.Controls.Add(this.tb_pinfo_y);
-            this.Controls.Add(this.tb_pinfo_x);
-            this.Controls.Add(this.tb_zoominratio);
             this.Controls.Add(this.tb_pixelinfo);
             this.Controls.Add(this.lb_save_path);
             this.Controls.Add(this.btn_changed_savepath);
             this.Controls.Add(this.btn_save);
-            this.Controls.Add(this.btn_zommout);
-            this.Controls.Add(this.btn_zoomin);
             this.Controls.Add(this.Sample_panel);
             this.Controls.Add(this.gb_PWM);
             this.Controls.Add(this.lb_seq_read);
-            this.Controls.Add(this.btn_GetTest);
             this.Controls.Add(this.StatusStrip);
             this.Controls.Add(this.btn_interrupt);
             this.Controls.Add(this.gb_Seq_option);
-            this.Controls.Add(this.gb_displayfunc);
             this.Controls.Add(this.gb_sec_screen);
             this.Controls.Add(this.gb_DataBit);
             this.Controls.Add(this.rt_log);

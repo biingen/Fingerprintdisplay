@@ -34,12 +34,14 @@ namespace FPD
             if (line)
             {
                 rt_log.Text += log + "\n";
-                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
             }
             else
             {
                 rt_log.Text += log + "\t";
-                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
             }
             rt_log.Select(rt_log.Text.Length - 1, 0);
             rt_log.ScrollToCaret();
@@ -467,7 +469,8 @@ namespace FPD
         public void InitialDvice(bool Update)
         {
             rt_log.Text += "Connecting Finger Print Device...\n";
-            File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+            //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+            Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
 
             //foreach (string CP in Viewer.fingerPrint.FilterVCP_GetVCPbyVidPid())
             //    if (Viewer.fingerPrint.ManualConnect(CP))
@@ -480,7 +483,8 @@ namespace FPD
             if (!Viewer.fingerPrint.IsConnected)
             {
                 rt_log.Text += "Connecting Finger Print Device Failed...\n";
-                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
                 Viewer._Initial = false;
             }
             else
@@ -488,13 +492,15 @@ namespace FPD
                 if (Update)
                 {
                     rt_log.Text += "Loading...\n";
-                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                    //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                    Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
                     Viewer.fingerPrint.FP_EnterFirmwareUpgradeMode();
                 }
                 else
                 {
                     rt_log.Text += "Updated Success!!!\n";
-                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                    //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                    Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
                 }
             }
         }
@@ -788,7 +794,8 @@ namespace FPD
                     Viewer.fingerPrint.Dispose();
                     Viewer.fingerPrint = new FingerPrint_API.FingerPrint();
                     rt_log.Text += "Verificating...\n";
-                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                    //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                    Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
                     while (!Viewer._Initial && try_count < 3)
                     {
                         try_count++;
