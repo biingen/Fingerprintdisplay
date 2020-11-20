@@ -96,9 +96,15 @@ namespace FPD
                 rt_log.SelectionColor = Color.Black;
 
             if (line)
+            {
                 rt_log.Text += log + "\n";
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+            }
             else
+            {
                 rt_log.Text += log + " ";
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+            }
 
             rt_log.Select(rt_log.Text.Length - 1, 0);
             rt_log.ScrollToCaret();
@@ -275,6 +281,7 @@ namespace FPD
             else
             {
                 rt_log.AppendText("Value over Byte, Write Failed...");
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
             }
             
         }
@@ -342,6 +349,7 @@ namespace FPD
             else
             {
                 rt_log.AppendText("Resd len should not be 0");
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
             }
         }
 
@@ -374,6 +382,7 @@ namespace FPD
             else
             {
                 rt_log.AppendText("Write len should not be 0");
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
             }
         }
 
@@ -674,6 +683,7 @@ namespace FPD
                 catch (Exception ex)
                 {
                     rt_log.AppendText("Addr. Value Transformate Error, Write Abort" + Environment.NewLine);
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
                 }
             }
         }

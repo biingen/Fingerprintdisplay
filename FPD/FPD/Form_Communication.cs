@@ -32,9 +32,15 @@ namespace FPD
         public void LogUpdate(string log, bool line)
         {
             if (line)
+            {
                 rt_log.Text += log + "\n";
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+            }
             else
+            {
                 rt_log.Text += log + "\t";
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+            }
             rt_log.Select(rt_log.Text.Length - 1, 0);
             rt_log.ScrollToCaret();
         }
@@ -461,17 +467,20 @@ namespace FPD
         public void InitialDvice(bool Update)
         {
             rt_log.Text += "Connecting Finger Print Device...\n";
+            File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
 
             //foreach (string CP in Viewer.fingerPrint.FilterVCP_GetVCPbyVidPid())
             //    if (Viewer.fingerPrint.ManualConnect(CP))
             //    {
             //        rt_log.Text += "Connecting Finger Print Device Success...\n";
+            //        File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
             //        Viewer._Initial = true;
             //        break;
             //    }
             if (!Viewer.fingerPrint.IsConnected)
             {
                 rt_log.Text += "Connecting Finger Print Device Failed...\n";
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
                 Viewer._Initial = false;
             }
             else
@@ -479,11 +488,13 @@ namespace FPD
                 if (Update)
                 {
                     rt_log.Text += "Loading...\n";
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
                     Viewer.fingerPrint.FP_EnterFirmwareUpgradeMode();
                 }
                 else
                 {
                     rt_log.Text += "Updated Success!!!\n";
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
                 }
             }
         }
@@ -777,6 +788,7 @@ namespace FPD
                     Viewer.fingerPrint.Dispose();
                     Viewer.fingerPrint = new FingerPrint_API.FingerPrint();
                     rt_log.Text += "Verificating...\n";
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
                     while (!Viewer._Initial && try_count < 3)
                     {
                         try_count++;

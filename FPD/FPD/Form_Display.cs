@@ -28,19 +28,19 @@ namespace FPD
         bool UI_Change_Flag = false;
         bool Stress_Change_Flag = false;
         string Log_Information = "";
-
+        
         public Form_Display()
         {
             InitializeComponent();
-
             Viewer.SetPalette();
             this.rb_display_opengl.Checked = Viewer.DisplayByGL;
             lb_save_path.Text = "Save Path : " + Viewer.PathofExe;
+            Viewer.PathofLogfileName = Viewer.PathofExe + "Saved_Log_" + DateTime.Now.ToString("ddMMyy_HHmmss_fff") + ".txt";
+            StreamWriter sw = new StreamWriter(Viewer.PathofLogfileName);
             tb_zoominratio.Text = (1 / Viewer.ZoomIn_Ratio).ToString();
             rb_sec_static.Checked = Viewer.Sec_screen_static;
             rb_sec_dynamic.Checked = !Viewer.Sec_screen_static;
             Engineering_Item(Form_Main.Engineering_mode);
-
         }
 
         private void Sample_draw_MouseWheel(object sender, MouseEventArgs e)
@@ -99,18 +99,16 @@ namespace FPD
                         case WM_DEVICECHANGE:
                             break;
                         case DBT_DEVICEARRIVAL:
-                            if (Stress_Change_Flag)
-                                Log_Information = string.Concat(Log_Information, "Device Arrival" + Environment.NewLine);
-                            else
-                                rt_log.AppendText("Device Arrival" + Environment.NewLine);
+                            rt_log.AppendText("Device Arrival" + Environment.NewLine);
+                            File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+
                             if (Viewer.fingerPrint == null)
                                 callButtonEvent(btn_connect, "OnClick");
                             break;
                         case DBT_DEVICEREMOVECOMPLETE:
-                            if (Stress_Change_Flag)
-                                Log_Information = string.Concat(Log_Information, "Device Remove " + Environment.NewLine);
-                            else
-                                rt_log.AppendText("Device Remove " + Environment.NewLine);
+                            rt_log.AppendText("Device Remove " + Environment.NewLine);
+                            File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+
                             if (Viewer.fingerPrint != null)
                             {
                                 GeneralProtocol.BasicCommand.DeviceDescription devDes = new GeneralProtocol.BasicCommand.DeviceDescription();
@@ -120,10 +118,8 @@ namespace FPD
                                     Viewer.fingerPrint.Dispose();
                                     Viewer.fingerPrint = null;
                                     GC.Collect();
-                                    if (Stress_Change_Flag)
-                                        Log_Information = string.Concat(Log_Information, "FP Device Remove " + Environment.NewLine);
-                                    else
-                                        rt_log.AppendText("FP Device Remove " + Environment.NewLine);
+                                    rt_log.AppendText("FP Device Remove " + Environment.NewLine);
+                                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
                                     Connect_device_remove = true;
                                 }
                                 else
@@ -166,14 +162,10 @@ namespace FPD
                                         }
                                         Viewer.nDataFrameNum = 9;       //in to Backup
                                         Viewer.StreamStart = false;
-                                        if (Stress_Change_Flag)
-                                            Log_Information = string.Concat(Log_Information, "Stop Stream...\n");
-                                        else
-                                        {
-                                            rt_log.Text += "Stop Stream...\n";
-                                            rt_log.Select(rt_log.Text.Length - 1, 0);
-                                            rt_log.ScrollToCaret();
-                                        }
+                                        rt_log.Text += "Stop Stream...\n";
+                                        File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                                        rt_log.Select(rt_log.Text.Length - 1, 0);
+                                        rt_log.ScrollToCaret();
 
                                         if (Viewer.DisplayByGL)
                                         {
@@ -205,6 +197,7 @@ namespace FPD
             //if (!Viewer.fingerPrint.Communication.IsConnected)
             //{
             //    this.rt_log.Text += "Connecting...\n";
+            //    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
 
             //    foreach (string CP in Viewer.fingerPrint.Communication.USB_VCP.GetVCPbyVidPid())
             //        if (Viewer.fingerPrint.Communication.ManulConnect(CP))
@@ -256,32 +249,33 @@ namespace FPD
 
         public void LogUpdate(string log, bool line)
         {
-            if (Stress_Change_Flag)
+            if (line)
             {
-                if (line)
-                    Log_Information = string.Concat(Log_Information, log + "\n");
-                else
-                    Log_Information = string.Concat(Log_Information, log + "\t");
+                rt_log.Text += log + "\n";
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
             }
             else
             {
-                if (line)
-                    rt_log.Text += log + "\n";
-                else
-                    rt_log.Text += log + "\t";
-                rt_log.Select(rt_log.Text.Length - 1, 0);
-                rt_log.ScrollToCaret();
+                rt_log.Text += log + "\t";
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
             }
-
+            rt_log.Select(rt_log.Text.Length - 1, 0);
+            rt_log.ScrollToCaret();
         }
 
         public void LogUpdatewColor(string log, bool line, Color color)
         {
             rt_log.SelectionColor = color;
             if (line)
+            {
                 rt_log.Text += log + "\n";
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+            }
             else
+            {
                 rt_log.Text += log + "\t";
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+            }
             rt_log.Select(rt_log.Text.Length - 1, 0);
             rt_log.ScrollToCaret();
         }
@@ -626,10 +620,8 @@ namespace FPD
                 }
                 Viewer.nDataFrameNum = 9;       //in to Backup
                 Viewer.StreamStart = false;
-                if (Stress_Change_Flag)
-                    Log_Information = string.Concat(Log_Information, "Stop Stream...\n");
-                else
-                    rt_log.Text += "Stop Stream...\n";
+                rt_log.Text += "Stop Stream...\n";
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
                 btn_save.Enabled = false;
                 if (Viewer.DisplayByGL)
                 {
@@ -661,16 +653,14 @@ namespace FPD
                 GeneralProtocol.BasicCommand.DeviceDescription devDes = new GeneralProtocol.BasicCommand.DeviceDescription();
                 ErrorCode ret = Viewer.fingerPrint.FP_GetDeviceDescription(out devDes);
                 if (ret != ErrorCode.FP_STATUS_OK)
-                    if (Stress_Change_Flag)
-                        Log_Information = string.Concat(Log_Information, "[E] FP_GetDeviceDescription - ErrorCode = " + ret.ToString() + Environment.NewLine);
-                    else
-                        this.rt_log.AppendText("[E] FP_GetDeviceDescription - ErrorCode = " + ret.ToString() + Environment.NewLine);
+                {
+                    this.rt_log.AppendText("[E] FP_GetDeviceDescription - ErrorCode = " + ret.ToString() + Environment.NewLine);
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
                 else
                 {
-                    if (Stress_Change_Flag)
-                        Log_Information = string.Concat(Log_Information, devDes.ToString() + Environment.NewLine);
-                    else
-                        this.rt_log.AppendText(devDes.ToString() + Environment.NewLine);
+                    this.rt_log.AppendText(devDes.ToString() + Environment.NewLine);
+                    //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
                     btn_Reset.Enabled = true;
                     btn_Start.Enabled = true;
                     btn_interrupt.Enabled = true;
@@ -682,10 +672,10 @@ namespace FPD
                     ushort duty, freq;
                     ret = Viewer.fingerPrint.FP_GetPWMPara(out freq, out duty);
                     if (ret != ErrorCode.FP_STATUS_OK)
-                        if (Stress_Change_Flag)
-                            Log_Information = string.Concat(Log_Information, "[E] GET PWM - ErrorCode = " + ret.ToString() + Environment.NewLine);
-                        else
-                            this.rt_log.AppendText("[E] GET PWM - ErrorCode = " + ret.ToString() + Environment.NewLine);
+                    {
+                        this.rt_log.AppendText("[E] GET PWM - ErrorCode = " + ret.ToString() + Environment.NewLine);
+                        File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                    }
                     else
                     {
                         Viewer.PWMDuty_memory = duty;
@@ -720,10 +710,8 @@ namespace FPD
             else
             {
                 Viewer._Initial = false;
-                if (Stress_Change_Flag)
-                    Log_Information = string.Concat(Log_Information, "Connect Failed  : \n");
-                else
-                    rt_log.Text += "Connect Failed  : \n";
+                rt_log.Text += "Connect Failed  : \n";
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
                 rt_log.Select(rt_log.Text.Length - 1, 0);
                 rt_log.ScrollToCaret();
                 Viewer.fingerPrint.Dispose();
@@ -813,10 +801,8 @@ namespace FPD
                     System.Threading.Thread.Sleep(100);
                     if (ret != ErrorCode.FP_STATUS_OK)
                     {
-                        if (Stress_Change_Flag)
-                            Log_Information = string.Concat(Log_Information, "[E] Set PWM - ErrorCode = " + ret.ToString() + Environment.NewLine);
-                        else
-                            this.rt_log.AppendText("[E] Set PWM - ErrorCode = " + ret.ToString() + Environment.NewLine);
+                        this.rt_log.AppendText("[E] GET PWM - ErrorCode = " + ret.ToString() + Environment.NewLine);
+                        File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
                     }
                     else
                     {
@@ -868,13 +854,9 @@ namespace FPD
             }
             else
             {
-                if (Stress_Change_Flag)
-                    Log_Information = string.Concat(Log_Information, "Get TestPattern Failed - ErrorCode = " + ret.ToString() + Environment.NewLine);
-                else
-                    rt_log.AppendText("Get TestPattern Failed - ErrorCode = " + ret.ToString() + Environment.NewLine);
+                rt_log.AppendText("Get TestPattern Failed - ErrorCode = " + ret.ToString() + Environment.NewLine);
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
             }
-
-
         }
 
         private void btn_Reset_Click(object sender, EventArgs e)
@@ -1179,10 +1161,8 @@ namespace FPD
             Viewer.fingerPrint.FP_GetSensorCfb(out o_cfb);
             if (o_cfb != cfb)
             {
-                if (Stress_Change_Flag)
-                    Log_Information = string.Concat(Log_Information, "Set Cfb Fail..." + Environment.NewLine);
-                else
-                    rt_log.AppendText("Set Cfb Fail..." + Environment.NewLine);
+                rt_log.AppendText("Set Cfb Fail..." + Environment.NewLine);
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
                 num_cfb.Value = o_cfb * num_cfb.Increment;
             }
         }
@@ -1197,10 +1177,8 @@ namespace FPD
             Viewer.fingerPrint.FP_GetSensorPGAGain(out o_pgagain);
             if (o_pgagain != pgagain)
             {
-                if (Stress_Change_Flag)
-                    Log_Information = string.Concat(Log_Information, "Set Cfb Fail..." + Environment.NewLine);
-                else
-                    rt_log.AppendText("Set Cfb Fail..." + Environment.NewLine);
+                rt_log.AppendText("Set Cfb Fail..." + Environment.NewLine);
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
                 num_pgagain_A.Value = o_pgagain / 16 + 1;
                 num_pgagain_B.Value = o_pgagain % 16 + 1;
             }
@@ -1215,10 +1193,8 @@ namespace FPD
             Viewer.fingerPrint.FP_GetSensorADCOffset(out o_vos);
             if (o_vos != vos)
             {
-                if (Stress_Change_Flag)
-                    Log_Information = string.Concat(Log_Information, "Set Vos Fail..." + Environment.NewLine);
-                else
-                    rt_log.AppendText("Set Vos Fail..." + Environment.NewLine);
+                rt_log.AppendText("Set Vos Fail..." + Environment.NewLine);
+                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
                 num_vos.Value = o_vos;
             }
         }
@@ -1628,6 +1604,8 @@ namespace FPD
             {
                 if (Stress_Change_Flag)
                 {
+                    Viewer.fingerPrint.FP_ResetDevice();
+                    System.Threading.Thread.Sleep(delay);
                     Viewer.fingerPrint.FP_ResetDevice();
                     System.Threading.Thread.Sleep(delay);
                 }

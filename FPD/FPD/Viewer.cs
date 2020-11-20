@@ -56,6 +56,8 @@ namespace FPD
         public static Parameter.DebugLevel debuglevel = Parameter.DebugLevel.NORMAL;
         public static System.IO.Stream sSavePath;
         public static string PathofExe;
+        public static string PathofLogfileName;
+        public static Queue<string> LogQueueContent = new Queue<string> { };
         public static FingerPrint fingerPrint;
         public static Graphics Draw_graphic;
         public static Stopwatch tictoc = new Stopwatch();

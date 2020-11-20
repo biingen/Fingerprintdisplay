@@ -1242,26 +1242,14 @@
             // 
             this.cbo_testitem.FormattingEnabled = true;
             this.cbo_testitem.Items.AddRange(new object[] {
-            "FP_SetPWM_Frequency (1000-8000)",
-            "FP_SetPWM_Duty (0-1023)",
-            "FP_SetPWM_Backlight (0-1)",
-            "FP_SetSensorPGAGain (0-31)",
-            "FP_SetSensorCfb (0-31)",
-            "FP_SetSensorADCOffset (0-1023)",
+            "FP_SetPWM_Frequency (1000-8001)",
+            "FP_SetPWM_Duty (0-1024)",
+            "FP_SetPWM_Backlight (0-2)",
+            "FP_SetSensorPGAGain (0-32)",
+            "FP_SetSensorCfb (0-32)",
+            "FP_SetSensorADCOffset (0-1024)",
             "FP_SaveCaptionData (Any value)",
-            "FP_ResetDevice (Any value)"/*,
-            "Device_IsConnected",
-            "Device_AutoConnect_Interval",
-            "Device_AutoConnect",
-            "Device_Disconnect",
-            "FP_StartCapture",
-            "FP_StopCapture",
-            "FP_SetROICStream",
-            "FP_GetROICStream",
-            "FP_SetDeviceSequentialTransmitWithLineCnt",
-            "FP_GetDeviceDescription",
-            "FP_ResetDevice",
-            "FP_EnterFirmwareUpgradeMode"*/});
+            "FP_ResetDevice (Any value)"});
             this.cbo_testitem.Location = new System.Drawing.Point(67, 11);
             this.cbo_testitem.Name = "cbo_testitem";
             this.cbo_testitem.Size = new System.Drawing.Size(173, 20);
