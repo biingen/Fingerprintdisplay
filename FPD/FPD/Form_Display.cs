@@ -27,7 +27,6 @@ namespace FPD
         GL_SampleDrawer Sample_draw;
         bool UI_Change_Flag = false;
         bool Stress_Change_Flag = false;
-        string Log_Information = "";
         
         public Form_Display()
         {
@@ -35,8 +34,7 @@ namespace FPD
             Viewer.SetPalette();
             this.rb_display_opengl.Checked = Viewer.DisplayByGL;
             lb_save_path.Text = "Save Path : " + Viewer.PathofExe;
-            Viewer.PathofLogfileName = Viewer.PathofExe + "Saved_Log_" + DateTime.Now.ToString("ddMMyy_HHmmss_fff") + ".txt";
-            StreamWriter sw = new StreamWriter(Viewer.PathofLogfileName);
+            Viewer.PathofLogfileName = Viewer.PathofExe + "Saved_Log_" + DateTime.Now.ToString("ddMMyy_HHmmss_fff") + "_" + Viewer.APP_Start_times + ".txt";
             tb_zoominratio.Text = (1 / Viewer.ZoomIn_Ratio).ToString();
             rb_sec_static.Checked = Viewer.Sec_screen_static;
             rb_sec_dynamic.Checked = !Viewer.Sec_screen_static;
@@ -100,16 +98,22 @@ namespace FPD
                             break;
                         case DBT_DEVICEARRIVAL:
                             rt_log.AppendText("Device Arrival" + Environment.NewLine);
-                            //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                            Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                            try
+                            {
+                                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                            }
+                            catch (Exception) { }
 
                             if (Viewer.fingerPrint == null)
                                 callButtonEvent(btn_connect, "OnClick");
                             break;
                         case DBT_DEVICEREMOVECOMPLETE:
                             rt_log.AppendText("Device Remove " + Environment.NewLine);
-                            //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                            Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                            try
+                            {
+                                File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                            }
+                            catch (Exception) { }
 
                             if (Viewer.fingerPrint != null)
                             {
@@ -121,8 +125,11 @@ namespace FPD
                                     Viewer.fingerPrint = null;
                                     GC.Collect();
                                     rt_log.AppendText("FP Device Remove " + Environment.NewLine);
-                                    //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                                    Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                                    try
+                                    {
+                                        File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                                    }
+                                    catch (Exception) { }
                                     Connect_device_remove = true;
                                 }
                                 else
@@ -166,8 +173,11 @@ namespace FPD
                                         Viewer.nDataFrameNum = 9;       //in to Backup
                                         Viewer.StreamStart = false;
                                         rt_log.Text += "Stop Stream...\n";
-                                        //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                                        Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                                        try
+                                        {
+                                            File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                                        }
+                                        catch (Exception) { }
                                         rt_log.Select(rt_log.Text.Length - 1, 0);
                                         rt_log.ScrollToCaret();
 
@@ -256,14 +266,20 @@ namespace FPD
             if (line)
             {
                 rt_log.Text += log + "\n";
-                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                try
+                {
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
+                catch (Exception) { }
             }
             else
             {
                 rt_log.Text += log + "\t";
-                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                try
+                {
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
+                catch (Exception) { }
             }
             rt_log.Select(rt_log.Text.Length - 1, 0);
             rt_log.ScrollToCaret();
@@ -275,14 +291,20 @@ namespace FPD
             if (line)
             {
                 rt_log.Text += log + "\n";
-                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                try
+                {
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
+                catch (Exception) { }
             }
             else
             {
                 rt_log.Text += log + "\t";
-                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                try
+                {
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
+                catch (Exception) { }
             }
             rt_log.Select(rt_log.Text.Length - 1, 0);
             rt_log.ScrollToCaret();
@@ -629,8 +651,11 @@ namespace FPD
                 Viewer.nDataFrameNum = 9;       //in to Backup
                 Viewer.StreamStart = false;
                 rt_log.Text += "Stop Stream...\n";
-                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                try
+                {
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
+                catch (Exception) { }
                 btn_save.Enabled = false;
                 if (Viewer.DisplayByGL)
                 {
@@ -664,14 +689,20 @@ namespace FPD
                 if (ret != ErrorCode.FP_STATUS_OK)
                 {
                     this.rt_log.AppendText("[E] FP_GetDeviceDescription - ErrorCode = " + ret.ToString() + Environment.NewLine);
-                    //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                    Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                    try
+                    {
+                        File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                    }
+                    catch (Exception) { }
                 }
                 else
                 {
                     this.rt_log.AppendText(devDes.ToString() + Environment.NewLine);
-                    //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                    Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                    try
+                    {
+                        File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                    }
+                    catch (Exception) { }
                     btn_Reset.Enabled = true;
                     btn_Start.Enabled = true;
                     btn_interrupt.Enabled = true;
@@ -685,8 +716,11 @@ namespace FPD
                     if (ret != ErrorCode.FP_STATUS_OK)
                     {
                         this.rt_log.AppendText("[E] GET PWM - ErrorCode = " + ret.ToString() + Environment.NewLine);
-                        //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                        Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                        try
+                        {
+                            File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                        }
+                        catch (Exception) { }
                     }
                     else
                     {
@@ -723,8 +757,11 @@ namespace FPD
             {
                 Viewer._Initial = false;
                 rt_log.Text += "Connect Failed  : \n";
-                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                try
+                {
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
+                catch (Exception) { }
                 rt_log.Select(rt_log.Text.Length - 1, 0);
                 rt_log.ScrollToCaret();
                 Viewer.fingerPrint.Dispose();
@@ -815,8 +852,11 @@ namespace FPD
                     if (ret != ErrorCode.FP_STATUS_OK)
                     {
                         this.rt_log.AppendText("[E] GET PWM - ErrorCode = " + ret.ToString() + Environment.NewLine);
-                        //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                        Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                        try
+                        {
+                            File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                        }
+                        catch (Exception) { }
                     }
                     else
                     {
@@ -869,8 +909,11 @@ namespace FPD
             else
             {
                 rt_log.AppendText("Get TestPattern Failed - ErrorCode = " + ret.ToString() + Environment.NewLine);
-                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                try
+                {
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
+                catch (Exception) { }
             }
         }
 
@@ -1154,7 +1197,7 @@ namespace FPD
         private void Save_Image(object image)
         {
             Viewer.UpadateLogInvoke UpdateLog = LogUpdate;
-            string save_path = "Saved_Image_" + Viewer.APP_Start_times + "_" + Viewer.PIC_Success_times + "_" + DateTime.Now.ToString("ddMMyy_HHmmss_fff") + ".bmp";
+            string save_path = "Saved_Image_" + DateTime.Now.ToString("ddMMyy_HHmmss_fff") + "_" + Viewer.APP_Start_times + "_" + Viewer.PIC_Success_times + ".bmp";
             Viewer.sSavePath = new FileStream(Viewer.PathofExe + save_path, FileMode.Create);
             lock (image)
             {
@@ -1177,8 +1220,11 @@ namespace FPD
             if (o_cfb != cfb)
             {
                 rt_log.AppendText("Set Cfb Fail..." + Environment.NewLine);
-                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                try
+                {
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
+                catch (Exception) { }
                 num_cfb.Value = o_cfb * num_cfb.Increment;
             }
         }
@@ -1194,8 +1240,11 @@ namespace FPD
             if (o_pgagain != pgagain)
             {
                 rt_log.AppendText("Set Cfb Fail..." + Environment.NewLine);
-                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                try
+                {
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
+                catch (Exception) { }
                 num_pgagain_A.Value = o_pgagain / 16 + 1;
                 num_pgagain_B.Value = o_pgagain % 16 + 1;
             }
@@ -1211,8 +1260,11 @@ namespace FPD
             if (o_vos != vos)
             {
                 rt_log.AppendText("Set Vos Fail..." + Environment.NewLine);
-                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                try
+                {
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
+                catch (Exception) { }
                 num_vos.Value = o_vos;
             }
         }

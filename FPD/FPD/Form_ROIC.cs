@@ -98,14 +98,20 @@ namespace FPD
             if (line)
             {
                 rt_log.Text += log + "\n";
-                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                try
+                {
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
+                catch (Exception) { }
             }
             else
             {
                 rt_log.Text += log + " ";
-                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                try
+                {
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
+                catch (Exception) { }
             }
 
             rt_log.Select(rt_log.Text.Length - 1, 0);
@@ -283,8 +289,11 @@ namespace FPD
             else
             {
                 rt_log.AppendText("Value over Byte, Write Failed...");
-                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                try
+                {
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
+                catch (Exception) { }
             }
             
         }
@@ -352,8 +361,11 @@ namespace FPD
             else
             {
                 rt_log.AppendText("Resd len should not be 0");
-                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                try
+                {
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
+                catch (Exception) { }
             }
         }
 
@@ -386,8 +398,11 @@ namespace FPD
             else
             {
                 rt_log.AppendText("Write len should not be 0");
-                //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                try
+                {
+                    File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                }
+                catch (Exception) { }
             }
         }
 
@@ -688,8 +703,11 @@ namespace FPD
                 catch (Exception ex)
                 {
                     rt_log.AppendText("Addr. Value Transformate Error, Write Abort" + Environment.NewLine);
-                    //File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
-                    Viewer.LogQueueContent.Enqueue(rt_log.Lines.ToString());
+                    try
+                    {
+                        File.WriteAllLines(Viewer.PathofLogfileName, rt_log.Lines, Encoding.Default);
+                    }
+                    catch (Exception) { }
                 }
             }
         }
