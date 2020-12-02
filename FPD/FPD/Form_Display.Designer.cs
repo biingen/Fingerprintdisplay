@@ -122,7 +122,7 @@
             this.label_value2 = new System.Windows.Forms.Label();
             this.num_value1 = new System.Windows.Forms.TextBox();
             this.label_value1 = new System.Windows.Forms.Label();
-            this.btn_savelog = new System.Windows.Forms.Button();
+            this.btn_restart = new System.Windows.Forms.Button();
             this.btn_test = new System.Windows.Forms.Button();
             this.num_loop = new System.Windows.Forms.TextBox();
             this.label_Times = new System.Windows.Forms.Label();
@@ -810,6 +810,7 @@
             // RK_tb_copyright
             // 
             this.RK_tb_copyright.BackColor = System.Drawing.SystemColors.Window;
+            this.RK_tb_copyright.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
             this.RK_tb_copyright.Name = "RK_tb_copyright";
             this.RK_tb_copyright.ReadOnly = true;
             this.RK_tb_copyright.Size = new System.Drawing.Size(220, 23);
@@ -1179,16 +1180,15 @@
             this.label_value1.TabIndex = 80;
             this.label_value1.Text = "Value1:";
             // 
-            // btn_savelog
+            // btn_restart
             // 
-            this.btn_savelog.Location = new System.Drawing.Point(152, 35);
-            this.btn_savelog.Name = "btn_savelog";
-            this.btn_savelog.Size = new System.Drawing.Size(88, 22);
-            this.btn_savelog.TabIndex = 79;
-            this.btn_savelog.Text = "Save Log";
-            this.btn_savelog.UseVisualStyleBackColor = true;
-            this.btn_savelog.Visible = false;
-            this.btn_savelog.Click += new System.EventHandler(this.btn_savelog_Click);
+            this.btn_restart.Location = new System.Drawing.Point(1288, 91);
+            this.btn_restart.Name = "btn_restart";
+            this.btn_restart.Size = new System.Drawing.Size(88, 22);
+            this.btn_restart.TabIndex = 79;
+            this.btn_restart.Text = "Restart";
+            this.btn_restart.UseVisualStyleBackColor = true;
+            this.btn_restart.Click += new System.EventHandler(this.btn_restart_Click);
             // 
             // btn_test
             // 
@@ -1270,7 +1270,6 @@
             this.gb_Stress.Controls.Add(this.num_value1);
             this.gb_Stress.Controls.Add(this.btn_test);
             this.gb_Stress.Controls.Add(this.label_value1);
-            this.gb_Stress.Controls.Add(this.btn_savelog);
             this.gb_Stress.Enabled = false;
             this.gb_Stress.Location = new System.Drawing.Point(989, 113);
             this.gb_Stress.Name = "gb_Stress";
@@ -1298,6 +1297,7 @@
             this.Controls.Add(this.cb_DebugLog_Level);
             this.Controls.Add(this.tb_key);
             this.Controls.Add(this.lb_debugloglevel);
+            this.Controls.Add(this.btn_restart);
             this.Controls.Add(this.lb_pixel_info);
             this.Controls.Add(this.tb_Encoding);
             this.Controls.Add(this.lb_pinfo_x);
@@ -1466,7 +1466,7 @@
         private System.Windows.Forms.Label label_value2;
         private System.Windows.Forms.TextBox num_value1;
         private System.Windows.Forms.Label label_value1;
-        private System.Windows.Forms.Button btn_savelog;
+        private System.Windows.Forms.Button btn_restart;
         private System.Windows.Forms.Button btn_test;
         private System.Windows.Forms.TextBox num_loop;
         private System.Windows.Forms.Label label_Times;

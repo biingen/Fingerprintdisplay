@@ -83,7 +83,7 @@ namespace FPD
         public static double Temp_ROI_x = 0;
         public static double Temp_ROI_y = 0;
 
-        public static double APP_Start_times;
+        public static double APP_Startup_times;
         public static double PIC_Success_times;
         public static int PWMDuty_memory;
         public static int PWMFrequency_memory;

@@ -34,7 +34,10 @@ namespace FPD
             Viewer.SetPalette();
             this.rb_display_opengl.Checked = Viewer.DisplayByGL;
             lb_save_path.Text = "Save Path : " + Viewer.PathofExe;
-            Viewer.PathofLogfileName = Viewer.PathofExe + "Saved_Log_" + DateTime.Now.ToString("ddMMyy_HHmmss_fff") + "_" + Viewer.APP_Start_times + ".txt";
+            Viewer.APP_Startup_times = FPD.Properties.Settings.Default.AppstartupSetting;
+            Viewer.PIC_Success_times = FPD.Properties.Settings.Default.PicsuccessSetting;
+            Viewer.APP_Startup_times++;
+            Viewer.PathofLogfileName = Viewer.PathofExe + "Saved_Log_" + DateTime.Now.ToString("ddMMyy_HHmmss_fff") + "_AppStartup_" + Viewer.APP_Startup_times + "_PicSuccess_" + Viewer.PIC_Success_times + ".txt";
             tb_zoominratio.Text = (1 / Viewer.ZoomIn_Ratio).ToString();
             rb_sec_static.Checked = Viewer.Sec_screen_static;
             rb_sec_dynamic.Checked = !Viewer.Sec_screen_static;
@@ -767,6 +770,7 @@ namespace FPD
                 Viewer.fingerPrint.Dispose();
                 Viewer.fingerPrint = null;
                 btn_connect.Enabled = true;
+                btn_restart.Enabled = true;
             }
         }
 
@@ -1184,6 +1188,9 @@ namespace FPD
             {
                 callButtonEvent(btn_interrupt, "OnClick");
             }
+            FPD.Properties.Settings.Default.AppstartupSetting = Viewer.APP_Startup_times;
+            FPD.Properties.Settings.Default.PicsuccessSetting = Viewer.PIC_Success_times;
+            FPD.Properties.Settings.Default.Save();
         }
 
         private void Form_Display_Shown(object sender, EventArgs e)
@@ -1191,20 +1198,19 @@ namespace FPD
             callButtonEvent(btn_connect, "OnClick");
             callButtonEvent(btn_Start, "OnClick");
             callButtonEvent(btn_save, "OnClick");
-            Viewer.APP_Start_times++;
         }
 
         private void Save_Image(object image)
         {
             Viewer.UpadateLogInvoke UpdateLog = LogUpdate;
-            string save_path = "Saved_Image_" + DateTime.Now.ToString("ddMMyy_HHmmss_fff") + "_" + Viewer.APP_Start_times + "_" + Viewer.PIC_Success_times + ".bmp";
+            Viewer.PIC_Success_times++;
+            string save_path = "Saved_Image_" + DateTime.Now.ToString("ddMMyy_HHmmss_fff") + "_AppStartup_" + Viewer.APP_Startup_times + "_PicSuccess_" + Viewer.PIC_Success_times + ".bmp";
             Viewer.sSavePath = new FileStream(Viewer.PathofExe + save_path, FileMode.Create);
             lock (image)
             {
                 ((Bitmap)image).Save(Viewer.sSavePath, ImageFormat.Bmp);
             }
             Viewer.sSavePath.Close();
-            Viewer.PIC_Success_times++;
             SSL_Save_Status.Text = "File Save at " + Viewer.PathofExe + save_path;
             Invoke(UpdateLog, new Object[] { "File Save at " + Viewer.PathofExe + save_path, true });
             GC.Collect();
@@ -1295,7 +1301,7 @@ namespace FPD
             {
                 Stress_Change_Flag = false;
                 btn_test.Text = "Test";
-                Viewer.APP_Start_times = 0;
+                Viewer.APP_Startup_times = 0;
                 Viewer.PIC_Success_times = 0;
                 GC.Collect();
             }
@@ -1682,9 +1688,9 @@ namespace FPD
             }
         }
 
-        private void btn_savelog_Click(object sender, EventArgs e)
+        private void btn_restart_Click(object sender, EventArgs e)
         {
-            Viewer.APP_Start_times = 0;
+            Viewer.APP_Startup_times = 0;
             Viewer.PIC_Success_times = 0;
         }
     }
